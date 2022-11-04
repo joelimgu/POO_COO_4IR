@@ -2,7 +2,6 @@ package org.example.model.communication.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
-import org.example.MyHttpHandler;
 import org.example.model.communication.server.handlers.GetPseudo;
 
 import java.io.IOException;
@@ -11,9 +10,11 @@ import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
-public class Server {
+public class HTTPServer {
 
-    public Server(int port) throws IOException {
+    int port = 0;
+    public HTTPServer(int port) throws IOException {
+        this.port = port;
         HttpServer server = HttpServer.create(new InetSocketAddress("localhost", port), 1000);
 
         server.createContext("/get_pseudo", new GetPseudo());

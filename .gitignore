@@ -6,3 +6,7 @@ build
 
 # IDEs
 .idea
+
+# Env File
+.env
+.clavardage
