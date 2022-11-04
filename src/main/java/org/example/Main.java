@@ -10,35 +10,27 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import org.example.model.conversation.Conversation;
-import org.example.model.conversation.History;
-import org.example.model.conversation.Message;
-import org.example.model.conversation.User;
-import org.example.services.SessionService;
-import org.example.services.StorageService;
 
 import static java.lang.Thread.sleep;
 
 public class Main {
     public static void main(String[] args) throws IOException, ParseException, InterruptedException {
-////        new HTTPServer(8001);
-//        Dotenv dotenv = Dotenv.configure().load();
-//        // TODO: make it work on windows too ( / vs \ )
-//        // Get the directory where data will be stored, either configured on the .env or tmp by default
-//        String dataDirectory = dotenv.get("SAVES_DIR", System.getProperty("java.io.tmpdir")) + "/.clavardage";
-//
-//        StorageService storage = StorageService.StorageService(dataDirectory);
-//        ArrayList<Message> ms = new ArrayList<>();
-//        ms.add(new Message(new User("Louis"), "coucou"));
-//        ArrayList<History> hs = new ArrayList<>();
-//        hs.add(new History(new Date(), ms));
-//        hs.add(new History("05-2021", ms));
-//        Conversation c = new Conversation(new User("Joel"), hs);
-//        storage.save(c);
+
+//        new HTTPServer(8001);
+        Dotenv dotenv = Dotenv.configure().load();
+
+        // Get the directory where data will be stored, either configured on the .env or tmp by default
+        String dataDirectory = dotenv.get("SAVES_DIR", System.getProperty("java.io.tmpdir")) + "/.clavardage/";
+        DateFormat DFormat
+                = new SimpleDateFormat("MM-yyyy");
+        String d = "15-12-2022";
+        Date n = new Date();
+        String s = DFormat.format(n);
+        sleep(1000);
+        System.out.println(new Date());
+        System.out.println( DFormat.parse(s));
     }
 }
