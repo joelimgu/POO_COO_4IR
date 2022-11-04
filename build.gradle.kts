@@ -19,6 +19,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
     implementation("com.google.code.gson:gson:2.10")
     implementation("io.github.cdimascio:dotenv-java:2.2.4")
+    implementation("org.jetbrains:annotations-java5:16.0.2")
 }
 
 tasks.getByName<Test>("test") {
