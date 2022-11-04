@@ -1,7 +1,5 @@
 package org.example.model.communication;
 
-import org.example.model.Student;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
