@@ -6,11 +6,13 @@ import org.example.model.conversation.Conversation;
 import org.example.model.conversation.History;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * This class is a singleton, only one instance should exist at any time
@@ -52,6 +54,44 @@ public class StorageService {
                 System.out.println("cant write to file");
             }
         }
+    }
+
+    public ArrayList<Conversation> retrieveAll() {
+        File directoryPath = new File(this.storagePath);
+        System.out.println(Arrays.toString(directoryPath.list()));
+        System.out.println(directoryPath.mkdir());
+        File conversations = new File(this.storagePath + "/conversations");
+        conversations.mkdir();
+        System.out.println(Arrays.toString(conversations.list()));
+        String[] existentConversationList =  conversations.list();
+        if (existentConversationList == null) {
+            return new ArrayList<>();
+        }
+
+        ArrayList<Conversation> retrievedConversations = new ArrayList<>();
+        for (String uuid: existentConversationList) {
+            File historiesPath = new File(conversations + "/" + uuid);
+            String[] histories = historiesPath.list();
+            System.out.println("Reading history: " + uuid + " | " + Arrays.toString(histories));
+            if (histories == null) {
+                return new ArrayList<>();
+            }
+            List<History> h2 = Arrays.stream(histories).map((h) -> {
+                File f = new File(historiesPath + "/" + h);
+                Gson g = new Gson();
+
+                try {
+                    return g.fromJson(new FileReader(f), History.class);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException("unable to read a history file: " + f, e);
+                }
+            })
+            .sorted()
+            .toList();
+
+            // TODO get user from 1st message construct conversation DONE!
+        }
+        return new ArrayList<>();
     }
 
     public String getPath() {

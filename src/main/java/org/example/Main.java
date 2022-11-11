@@ -40,5 +40,6 @@ public class Main {
         hs.add(new History("05-2021", ms));
         Conversation c = new Conversation(new User("Joel"), hs);
         storage.save(c);
+        storage.retrieveAll();
     }
 }

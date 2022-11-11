@@ -6,10 +6,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-public class History {
+public class History implements Comparable<History> {
 
     private static final DateFormat DFormat = new SimpleDateFormat("MM-yyyy");
     private Date date = new Date();
@@ -39,5 +40,19 @@ public class History {
 
     public String getFormattedDate() {
         return DFormat.format(this.date);
+    }
+
+    @Override
+    public String toString() {
+        return "History{" +
+                "date=" + date +
+                ", messages=" + messages +
+                '}';
+    }
+
+
+    @Override
+    public int compareTo(@NotNull History history) {
+        return this.date.compareTo(history.date);
     }
 }
