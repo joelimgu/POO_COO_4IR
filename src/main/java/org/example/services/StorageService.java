@@ -41,7 +41,7 @@ public class StorageService {
         System.out.println(directoryPath.mkdir()); // create the .clavardage dir if it does not exist
         File conversations = new File(this.storagePath + "/conversations");
         conversations.mkdir();
-        String historyPath = this.storagePath + "/conversations" + "/" + conversation.getUser().getUuid().toString();
+        String historyPath = this.storagePath + "/conversations" + "/" + conversation.getUser1().getUuid().toString();
         File userHistory = new File(historyPath);
         userHistory.mkdir();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -89,7 +89,8 @@ public class StorageService {
             .sorted()
             .toList();
 
-            // TODO get user from 1st message construct conversation DONE!
+            // TODO get user from 1st message construct conversation ans and SessionService and DONE!
+
         }
         return new ArrayList<>();
     }

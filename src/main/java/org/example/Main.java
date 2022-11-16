@@ -24,7 +24,7 @@ import org.example.services.StorageService;
 import static java.lang.Thread.sleep;
 
 public class Main {
-    public static void main(String[] args) throws IOException, ParseException, InterruptedException {
+    public static void main(String[] args) throws IOException, ParseException {
 
 //        new HTTPServer(8001);
         Dotenv dotenv = Dotenv.configure().load();
