@@ -3,6 +3,7 @@ package org.example.model.communication.server;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 import org.example.model.communication.server.handlers.GetPseudo;
+import org.example.model.communication.server.handlers.getUserHandler;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -18,6 +19,7 @@ public class HTTPServer {
         HttpServer server = HttpServer.create(new InetSocketAddress("localhost", port), 1000);
 
         server.createContext("/get_pseudo", new GetPseudo());
+        server.createContext("/get_user", new getUserHandler());
 
         ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
         server.setExecutor(threadPoolExecutor);

@@ -16,6 +16,8 @@ public class Message {
         this.sender = sender;
     }
 
+
+
     public Message(@NotNull User sender, @NotNull String text) {
         this.text = text;
         this.sender = sender;
