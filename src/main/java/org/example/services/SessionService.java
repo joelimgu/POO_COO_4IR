@@ -1,17 +1,27 @@
 package org.example.services;
 
 import org.example.model.conversation.User;
-import org.jetbrains.annotations.NotNull;
 
 public class SessionService {
     private static SessionService m_instance ;
     private User m_localUser;
     public synchronized static SessionService SessionService (){
         if (SessionService.m_instance== null){
-            SessionService.m_instance = new SessionService();
-            System.out.printf("nouvelle instance");
+            try {
+                SessionService.m_instance = new SessionService();
+            } catch (InstantiationException e) {
+                throw new RuntimeException("Tried to instantiate a service twice", e);
+            }
+            System.out.print("nouvelle instance");
         }
         return SessionService.m_instance;
+    }
+
+    public SessionService() throws InstantiationException {
+        if (SessionService.m_instance != null) {
+            throw new InstantiationException("Cannot create new instances of a Service");
+        }
+
     }
 
     public synchronized  SessionService getM_instance()

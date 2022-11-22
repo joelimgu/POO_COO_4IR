@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.example.model.communication.server.HTTPServer;
-import org.example.model.conversation.User;
 import org.example.services.SessionService;
 
 import java.io.IOException;
@@ -17,10 +16,10 @@ public class getUserHandler implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         SessionService s = SessionService.SessionService();
+        System.out.printf("HTTP SessionService: " + s.toString());
 
         if ("GET".equals(httpExchange.getRequestMethod())){
             //todo : search for code of non existing object and how to send the return code
-            System.out.printf(s.getM_localUser().getPseudo());
             if (s.getM_localUser() == null)
             {
                 sendResponse(httpExchange,"test");
