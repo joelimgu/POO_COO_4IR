@@ -21,6 +21,7 @@ public class HTTPRequest {
 
         // the response:
         System.out.println(response.body());
+//        System.out.printf(response.statusCode());
     }
 
     }

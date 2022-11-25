@@ -5,12 +5,9 @@ import org.jetbrains.annotations.NotNull;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-public class History implements Comparable<History> {
+public class History implements Comparable<History>, Iterable<Message> {
 
     private static final DateFormat DFormat = new SimpleDateFormat("MM-yyyy");
     private Date date = new Date();
@@ -54,5 +51,11 @@ public class History implements Comparable<History> {
     @Override
     public int compareTo(@NotNull History history) {
         return this.date.compareTo(history.date);
+    }
+
+    @NotNull
+    @Override
+    public Iterator<Message> iterator() {
+        return this.messages.iterator();
     }
 }

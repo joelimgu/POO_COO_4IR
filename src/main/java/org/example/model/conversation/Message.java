@@ -9,16 +9,16 @@ public class Message {
     private String text;
 
     private User sender;
+    private User receiver;
 
-    public Message(@NotNull User sender, @NotNull String text, @NotNull Date sendTime) {
+    public Message(@NotNull User sender, @NotNull User receiver, @NotNull String text, @NotNull Date sendTime) {
         this.sendTime = sendTime;
         this.text = text;
         this.sender = sender;
+        this.receiver = receiver;
     }
 
-
-
-    public Message(@NotNull User sender, @NotNull String text) {
+    public Message(@NotNull User sender, @NotNull User receiver, @NotNull String text) {
         this.text = text;
         this.sender = sender;
     }
@@ -41,5 +41,13 @@ public class Message {
 
     public void setSender(User sender) {
         this.sender = sender;
+    }
+
+    public User getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
     }
 }
