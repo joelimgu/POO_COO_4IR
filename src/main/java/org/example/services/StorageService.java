@@ -1,21 +1,14 @@
 package org.example.services;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.example.model.conversation.Conversation;
 import org.example.model.conversation.History;
 import org.example.model.conversation.Message;
 import org.example.model.conversation.User;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
+
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * This class is a singleton, only one instance should exist at any time
@@ -30,24 +23,31 @@ public class StorageService {
         this.storagePath = path;
         this.dbConnexion = DriverManager.getConnection("jdbc:sqlite:clavardage.db");
         Statement statement = this.dbConnexion.createStatement();
-        statement.setQueryTimeout(30);  // set timeout to 30 sec.
+        statement.setQueryTimeout(5);  // set timeout to 5 sec.
         statement.executeUpdate("create table if not exists users (\n" +
-                "   uuid varchar(36),\n" +
-                "   pseudo varchar(31),\n" +
-                "   last_seen date,\n" +
+                "   uuid varchar(36) not null,\n" +
+                "   pseudo varchar(31) not null,\n" +
+                "   last_seen date not null default CURRENT_TIMESTAMP,\n" +
                 "   primary key(uuid)\n" +
                 ");"
         );
-        statement.executeUpdate("create table messages (\n" +
-                "    uuid varchar(36),\n" +
-                "    sender sender_id,\n" +
-                "    receiver receiver_id,\n" +
-                "    text varchar(2000),\n" +
-                "    send_at date,\n" +
-                "    foreign key (sender) references users(uuid),\n" +
-                "    foreign key (receiver) references users(uuid)\n" +
+        statement.executeUpdate("create table if not exists messages (\n" +
+                "    uuid varchar(36) not null,\n" +
+                "    sender sender_id not null,\n" +
+                "    receiver receiver_id not null,\n" +
+                "    text varchar(2000) not null,\n" +
+                "    send_at date not null default CURRENT_TIMESTAMP,\n" +
+                "    foreign key (sender) references users(uuid) on delete cascade,\n" +
+                "    foreign key (receiver) references users(uuid) on delete cascade\n" +
+                "    primary key(uuid)\n" +
                 ");"
         );
+//        PreparedStatement s = this.dbConnexion.prepareStatement(
+//                "select * from messages where sender=?"
+//        );
+//        s.setString(1,"Joel");
+//        String m = s.executeQuery().getString("uuid");
+//        System.out.println("Query=" + m);
     }
 
     /**
@@ -68,9 +68,44 @@ public class StorageService {
         return StorageService.instance;
     }
 
-    public void save(@NotNull Conversation conversation) throws IOException {
-
+    public void save(@NotNull Conversation conversation) throws SQLException {
+        for (History h: conversation.getHistories()) {
+            for (Message m: h) {
+                this.save(m);
+            }
+        }
     }
+
+    public void save(@NotNull Message m) throws SQLException {
+        System.out.println(m);
+        this.save(m.getSender());
+        this.save(m.getReceiver());
+        PreparedStatement p = this.dbConnexion.prepareStatement("insert into main.messages " +
+                "(uuid, sender, receiver, text, send_at)\n" +
+                "values (?, ?, ?, ?, ?)" +
+                "where not exists (select * from main.messages where uuid=...;"); // todo
+        p.setString(1, m.getUuid().toString());
+        p.setString(2, m.getSender().getUuid().toString());
+        p.setString(3, m.getReceiver().getUuid().toString());
+        p.setString(4, m.getText());
+        p.setString(5, m.getSendTime().toString());
+        p.executeUpdate();
+    }
+
+    public void save(@NotNull User u) throws SQLException {
+        PreparedStatement p = this.dbConnexion.prepareStatement(
+                "insert into main.users" +
+                "(uuid, pseudo, last_seen)\n" +
+                "values (?, ?, ?);");
+        p.setString(1, u.getUuid().toString());
+        p.setString(2, u.getPseudo());
+        p.setString(3, (new java.util.Date()).toString());
+        p.executeUpdate();
+    }
+
+//    public saveMessage(Message m) {
+////        this.dbConnexion.prepareStatement("")
+//    }
 
 //    public ArrayList<Conversation> retrieveAll() {
 //

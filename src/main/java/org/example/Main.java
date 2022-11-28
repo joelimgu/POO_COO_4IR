@@ -1,34 +1,19 @@
 package org.example;
 
-import org.example.model.communication.server.HTTPServer;
-
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-
-import io.github.cdimascio.dotenv.Dotenv;
-import org.example.model.conversation.Conversation;
-import org.example.model.conversation.History;
 import org.example.model.conversation.Message;
 import org.example.model.conversation.User;
 import org.example.services.StorageService;
 
-import static java.lang.Thread.sleep;
-import java.sql.*;
+import java.sql.SQLException;
 
 public class Main {
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         StorageService s = StorageService.StorageService("");
-
+        try {
+            s.save(new Message(new User("Joel"), new User("Louis"), "message1"));
+        } catch (SQLException e) {
+            throw new RuntimeException("SQL", e);
+        }
     }
 //        Connection connection = null;
 //        try
