@@ -55,7 +55,7 @@ public class UDPReceive extends Thread implements Runnable {
             //ds.setSoTimeout(100000);
             ds.receive(dp);
             lText = new String(dp.getData());
-            System.out.println("UDP Received : \n" + lText);
+            System.out.println("UDP packet received" + lText);
         } catch (SocketException e) {
             e.printStackTrace();
         } catch (IOException e) {
