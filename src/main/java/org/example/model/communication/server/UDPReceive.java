@@ -6,7 +6,8 @@ import java.net.*;
 import java.nio.charset.StandardCharsets;
 
 
-public class UDPReceive extends Thread {
+
+public class UDPReceive extends Thread implements Runnable {
     String m_ip;
 
     private static DatagramSocket m_ServerSock ;
@@ -18,6 +19,8 @@ public class UDPReceive extends Thread {
     private int m_state ;
 
     private User m_user;
+
+    private static final int MAX_UDP_DATAGRAM_LEN = 1000;
     /* -------------------- Getter & Setter --------------------------------*/
     public boolean isOpen()
     {
@@ -40,12 +43,37 @@ public class UDPReceive extends Thread {
     }
 
     /* --------------------------------------------------------------------------*/
+    public void run() {
+        System.out.println("je suis lancé");
+        String lText;
+        byte[] lMsg = new byte[MAX_UDP_DATAGRAM_LEN];
+        DatagramPacket dp = new DatagramPacket(lMsg, lMsg.length);
+        DatagramSocket ds = null;
+        try {
+            ds = new DatagramSocket(4000);
+            //disable timeout for testing
+            //ds.setSoTimeout(100000);
+            ds.receive(dp);
+            lText = new String(dp.getData());
+            System.out.println("UDP packet received" + lText);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (ds != null) {
+                ds.close();
+            }
+        }
+    }
+
 
     public static void main(String arg[]) throws IOException{
         DatagramSocket m_socket = new DatagramSocket();
         byte[] receive = new byte[10000];
         DatagramPacket m_packet = null;
-        while (true){
+     /*   while (true){
+            System.out.println("listening");
             m_packet = new DatagramPacket(receive, receive.length);
             m_socket.receive(m_packet);
 
@@ -55,6 +83,10 @@ public class UDPReceive extends Thread {
             InetAddress m_adress = m_socket.getLocalAddress();
             //DatagramPacket m_Answer = new DatagramPacket(answer, answer.length, m_adress, m_socket);
 
-        }
+        }*/
+        UDPReceive m_runnable = new UDPReceive();
+        Thread t1 = new Thread(m_runnable);
+        t1.start();
+        System.out.println("I'm the main");
     }
 }
