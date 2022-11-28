@@ -17,16 +17,20 @@ import java.util.Objects;
  */
 public class StorageService {
 
-    private static StorageService instance;
+    private static volatile StorageService instance;
     private final String storagePath;
 
     private StorageService(String path) {
         this.storagePath = path;
     }
 
-    public static StorageService StorageService(String path) {
-        if(StorageService.instance == null) {
-            StorageService.instance = new StorageService(path);
+    public static StorageService getInstance(String path) {
+        if (instance == null){
+            synchronized(SessionService.class) {
+                if (instance == null) {
+                    StorageService.instance = new StorageService(path);
+                }
+            }
         } else if(!Objects.equals(path, StorageService.instance.storagePath)) {
             throw new IllegalArgumentException("There can only be one storage location for the app");
         }
