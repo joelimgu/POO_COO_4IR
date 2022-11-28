@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" style="-fx-border-width: 0;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.view.HelloController">
    <children>
@@ -14,16 +17,26 @@
          <left>
             <ScrollPane hbarPolicy="NEVER" prefHeight="498.0" prefWidth="179.0" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
                <content>
-                  <VBox fx:id="listPeopleConnected" onMouseClicked="#addNewPerson" prefHeight="474.0" prefWidth="178.0" style="-fx-background-color: #34495e;" />
+                  <VBox fx:id="listPeopleConnected" onMouseClicked="#addNewPerson" prefHeight="474.0" prefWidth="178.0" style="-fx-background-color: #34495e;">
+                     <children>
+                        <TextField cacheShape="false" centerShape="false" editable="false" focusTraversable="false" promptText="Connected people" scaleShape="false" style="-fx-background-color: #34495e;">
+                           <font>
+                              <Font name="Laksaman" size="13.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                        </TextField>
+                     </children></VBox>
                </content>
             </ScrollPane>
          </left>
          <top>
             <MenuBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="15.0" prefWidth="750.0" style="-fx-background-color: #bdc3c7;" BorderPane.alignment="CENTER">
               <menus>
-                <Menu mnemonicParsing="false" text="File">
+                <Menu mnemonicParsing="false" text="Settings">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Settings" />
+                    <MenuItem mnemonicParsing="false" text="Change username" />
                   </items>
                 </Menu>
               </menus>

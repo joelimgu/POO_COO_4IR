@@ -13,9 +13,10 @@ public class HelloApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/Test_IHM.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setResizable(false);
-        stage.setTitle("Hello!");
+        stage.setTitle("The best chat application EVER");
         stage.setScene(scene);
         stage.show();
+
     }
 
 
