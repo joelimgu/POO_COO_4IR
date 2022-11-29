@@ -19,9 +19,9 @@
                <content>
                   <VBox fx:id="listPeopleConnected" onMouseClicked="#addNewPerson" prefHeight="474.0" prefWidth="178.0" style="-fx-background-color: #34495e;">
                      <children>
-                        <TextField cacheShape="false" centerShape="false" editable="false" focusTraversable="false" promptText="Connected people" scaleShape="false" style="-fx-background-color: #34495e;">
+                        <TextField cacheShape="false" centerShape="false" editable="false" focusTraversable="false" mouseTransparent="true" pickOnBounds="false" promptText="Connected people" scaleShape="false" style="-fx-background-color: #34495e;">
                            <font>
-                              <Font name="Laksaman" size="13.0" />
+                              <Font name="Laksaman" size="15.0" />
                            </font>
                            <cursor>
                               <Cursor fx:constant="DEFAULT" />
