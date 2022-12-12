@@ -7,7 +7,13 @@ import org.jetbrains.annotations.NotNull;
 
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * This class is a singleton, only one instance should exist at any time
@@ -35,7 +41,7 @@ public class StorageService {
                 "    sender sender_id not null,\n" +
                 "    receiver receiver_id not null,\n" +
                 "    text varchar(2000) not null,\n" +
-                "    send_at date not null default CURRENT_TIMESTAMP,\n" +
+                "    sent_at date not null default CURRENT_TIMESTAMP,\n" +
                 "    foreign key (sender) references users(uuid) on delete cascade,\n" +
                 "    foreign key (receiver) references users(uuid) on delete cascade\n" +
                 "    primary key(uuid)\n" +
@@ -79,7 +85,7 @@ public class StorageService {
         this.save(m.getReceiver());
         PreparedStatement p = this.dbConnexion.prepareStatement(
                 "insert or replace into main.messages" +
-                "(uuid, sender, receiver, text, send_at)" +
+                "(uuid, sender, receiver, text, sent_at)" +
                 "values (?, ?, ?, ?, ?)"
         );
         p.setString(1, m.getUuid().toString());
@@ -105,9 +111,22 @@ public class StorageService {
 ////        this.dbConnexion.prepareStatement("")
 //    }
 
-//    public ArrayList<Conversation> retrieveAll() {
-//
-//    }
+    public List<Message> retrieveAllMessages() throws SQLException, ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH-mm-ss z yyyy");
+        ResultSet rs = this.dbConnexion.createStatement().executeQuery(
+                "select messages.uuid, messages.sender as sender_uuid, u2.pseudo as sender, messages.receiver as receiver_uuid, u.pseudo as receiver, messages.text, sent_at from main.messages " +
+                "join users u on u.uuid = messages.receiver " +
+                "join users u2 on u2.uuid = messages.sender;");
+        ArrayList<Message> lsm = new ArrayList<>();
+        User sender = new User(rs.getString("sender"), UUID.fromString(rs.getString("sender_uuid")));
+        User receiver = new User(rs.getString("receiver"), UUID.fromString(rs.getString("receiver_uuid")));
+        System.out.println(format.parse(rs.getString("sent_at")));
+//        Message m = new Message(UUID.fromString(rs.getString("uuid")),sender, receiver, rs.getString("text"), new Date(rs.getTimestamp("sent_at").));
+//        lsm.add(m);
+        while (rs.next()) {
+        }
+        return lsm;
+    }
 
     public String getPath() {
         return this.storagePath;

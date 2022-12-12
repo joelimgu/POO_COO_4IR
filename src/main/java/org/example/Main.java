@@ -1,27 +1,42 @@
 package org.example;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.example.model.conversation.Conversation;
 import org.example.model.conversation.Message;
 import org.example.model.conversation.User;
 import org.example.services.StorageService;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Main {
     public static void main(String[] args) {
-        StorageService s = StorageService.StorageService("");
+//        StorageService s = StorageService.StorageService("");
+        SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH-mm-ss z yyyy", new Locale("en"));
         try {
-            User j = new User("Joel");
-            Message m = new Message(j, new User("louis"), "coucou");
-            List<Message> lsm = new ArrayList<>();
-            lsm.add(m);
-            s.save(new Message(new User("Joel"), new User("Louis"), "message1"));
-            s.save(new Conversation(j, lsm));
-        } catch (SQLException e) {
-            throw new RuntimeException("SQL", e);
+            System.out.println(format.parse("Mon Nov 28 16:34:30 CET 2022"));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
+//        try {
+//            User j = new User("Joel");
+//            Message m = new Message(j, new User("louis"), "coucou");
+//            List<Message> lsm = new ArrayList<>();
+//            lsm.add(m);
+//            s.save(new Message(new User("Joel"), new User("Louis"), "message1"));
+//            s.save(new Conversation(j, lsm));
+//            Gson g = new GsonBuilder().setPrettyPrinting().create();
+//            System.out.println(g.toJson(s.retrieveAllMessages()));
+//        } catch (SQLException e) {
+//            throw new RuntimeException("SQL", e);
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 //        Connection connection = null;
 //        try
