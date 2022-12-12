@@ -1,7 +1,6 @@
 package org.example.services;
 
 import org.example.model.conversation.Conversation;
-import org.example.model.conversation.History;
 import org.example.model.conversation.Message;
 import org.example.model.conversation.User;
 import org.jetbrains.annotations.NotNull;
@@ -43,7 +42,7 @@ public class StorageService {
                 ");"
         );
 //        PreparedStatement s = this.dbConnexion.prepareStatement(
-//                "select * from messages where sender=?"
+//                "select * from main.messages where sender=?"
 //        );
 //        s.setString(1,"Joel");
 //        String m = s.executeQuery().getString("uuid");
@@ -69,10 +68,8 @@ public class StorageService {
     }
 
     public void save(@NotNull Conversation conversation) throws SQLException {
-        for (History h: conversation.getHistories()) {
-            for (Message m: h) {
-                this.save(m);
-            }
+        for (Message m: conversation.getMessages()) {
+            this.save(m);
         }
     }
 
@@ -80,10 +77,11 @@ public class StorageService {
         System.out.println(m);
         this.save(m.getSender());
         this.save(m.getReceiver());
-        PreparedStatement p = this.dbConnexion.prepareStatement("insert into main.messages " +
-                "(uuid, sender, receiver, text, send_at)\n" +
-                "values (?, ?, ?, ?, ?)" +
-                "where not exists (select * from main.messages where uuid=...;"); // todo
+        PreparedStatement p = this.dbConnexion.prepareStatement(
+                "insert or replace into main.messages" +
+                "(uuid, sender, receiver, text, send_at)" +
+                "values (?, ?, ?, ?, ?)"
+        );
         p.setString(1, m.getUuid().toString());
         p.setString(2, m.getSender().getUuid().toString());
         p.setString(3, m.getReceiver().getUuid().toString());
@@ -94,7 +92,7 @@ public class StorageService {
 
     public void save(@NotNull User u) throws SQLException {
         PreparedStatement p = this.dbConnexion.prepareStatement(
-                "insert into main.users" +
+                "insert or replace into main.users" +
                 "(uuid, pseudo, last_seen)\n" +
                 "values (?, ?, ?);");
         p.setString(1, u.getUuid().toString());

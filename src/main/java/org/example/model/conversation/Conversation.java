@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Conversation implements Serializable {
 
-    private List<History> histories = new ArrayList<>();
+    private List<Message> messages = new ArrayList<>();
 
     private final User user1;
 
@@ -17,16 +17,16 @@ public class Conversation implements Serializable {
     }
 
     // TODO, should be privade and be called from the other constructor
-    public Conversation (@NotNull User user, @NotNull List<History> h) {
+    public Conversation (@NotNull User user, @NotNull List<Message> h) {
         this.user1 = user;
-        this.histories = h;
+        this.messages = h;
     }
 
     public User getUser1() {
         return user1;
     }
 
-    public List<History> getHistories() {
-        return histories;
+    public List<Message> getMessages() {
+        return this.messages;
     }
 }

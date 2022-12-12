@@ -1,16 +1,24 @@
 package org.example;
 
+import org.example.model.conversation.Conversation;
 import org.example.model.conversation.Message;
 import org.example.model.conversation.User;
 import org.example.services.StorageService;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         StorageService s = StorageService.StorageService("");
         try {
+            User j = new User("Joel");
+            Message m = new Message(j, new User("louis"), "coucou");
+            List<Message> lsm = new ArrayList<>();
+            lsm.add(m);
             s.save(new Message(new User("Joel"), new User("Louis"), "message1"));
+            s.save(new Conversation(j, lsm));
         } catch (SQLException e) {
             throw new RuntimeException("SQL", e);
         }
