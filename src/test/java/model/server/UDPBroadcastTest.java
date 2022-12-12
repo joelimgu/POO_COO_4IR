@@ -2,6 +2,7 @@ package model.server;
 
 import org.example.model.communication.server.UDPBroadcast;
 import org.example.model.communication.server.UDPReceive;
+import org.example.model.conversation.User;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -31,7 +32,7 @@ public class UDPBroadcastTest {
         // System.out.println("Thread is listening");
         UDPReceive listener = new UDPReceive();
         listener.start();
-
+        //Todo : sending back to the sender by extracting ip address from udp packet
     }
 
     @Test
@@ -41,14 +42,19 @@ public class UDPBroadcastTest {
         m_broadcaster.SendBroadcast("test broadcast",4000);
     }
 
+    //@Test
+//    public void testNetworkInterface() throws SocketException, UnknownHostException {
+//        System.out.println("printing network interface");
+//        System.out.println("mon local host" + InetAddress.getLocalHost());
+//        List<InetAddress> m_list = this.m_broadcaster.listAllBroadcastAddresses();
+//        System.out.println("network interface" + m_list);
+//    }
+
     @Test
-    public void testNetworkInterface() throws SocketException, UnknownHostException {
-        System.out.println("printing network interface");
-        System.out.println("mon local host" + InetAddress.getLocalHost());
-        List<InetAddress> m_list = this.m_broadcaster.listAllBroadcastAddresses();
-        System.out.println(m_list);
-
+    public void testBroadcastUser() throws IOException{
+        User User = new User("Asmun");
+        //InetAddress ip = InetAddress.getLocalHost();
+        //Todo : test sending in UDP user object
     }
-
 
 }
