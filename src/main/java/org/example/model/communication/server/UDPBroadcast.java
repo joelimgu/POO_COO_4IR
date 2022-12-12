@@ -15,6 +15,7 @@ import java.util.Objects;
 import java.net.NetworkInterface;
 
 public class UDPBroadcast {
+    private static final int MAX_UDP_DATAGRAM_LEN = 100;
 
 
     /**
@@ -55,8 +56,11 @@ public class UDPBroadcast {
                     // todo : handler
                     e.printStackTrace();
                 }
-
             }
+            // TODO: 12/12/22 split listener and sender in two differents methods
+//            String lText;
+//            byte[] receivedData = new byte[MAX_UDP_DATAGRAM_LEN];
+
         }
 
 

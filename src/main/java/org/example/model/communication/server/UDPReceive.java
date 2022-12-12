@@ -20,7 +20,7 @@ public class UDPReceive extends Thread implements Runnable {
 
     private User m_user;
 
-    private static final int MAX_UDP_DATAGRAM_LEN = 1000;
+    private static final int MAX_UDP_DATAGRAM_LEN = 100;
     /* -------------------- Getter & Setter --------------------------------*/
     public boolean isOpen()
     {
@@ -44,10 +44,11 @@ public class UDPReceive extends Thread implements Runnable {
 
     /* --------------------------------------------------------------------------*/
     public void run() {
-        System.out.println("je suis lancé");
+        //System.out.println("je suis lancé");
         String lText;
-        byte[] lMsg = new byte[MAX_UDP_DATAGRAM_LEN];
-        DatagramPacket dp = new DatagramPacket(lMsg, lMsg.length);
+        byte[] receivedData = new byte[MAX_UDP_DATAGRAM_LEN];
+        byte[] sendData = new byte[MAX_UDP_DATAGRAM_LEN];
+        DatagramPacket dp = new DatagramPacket(receivedData, receivedData.length);
         DatagramSocket ds = null;
         try {
             ds = new DatagramSocket(4000);
@@ -55,7 +56,12 @@ public class UDPReceive extends Thread implements Runnable {
             //ds.setSoTimeout(100000);
             ds.receive(dp);
             lText = new String(dp.getData());
-            System.out.println("UDP packet received" + lText);
+            System.out.println("UDP packet received : \n" + lText);
+            InetAddress IpAddress = dp.getAddress();
+            String sendString = "Moi aussi je aussi co";
+            sendData = sendString.getBytes();
+            System.out.println(IpAddress.getHostAddress());
+            DatagramPacket sendPacket = new DatagramPacket(sendData,sendData.length,IpAddress,ds.getLocalPort());
         } catch (SocketException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -72,18 +78,6 @@ public class UDPReceive extends Thread implements Runnable {
         DatagramSocket m_socket = new DatagramSocket();
         byte[] receive = new byte[10000];
         DatagramPacket m_packet = null;
-     /*   while (true){
-            System.out.println("listening");
-            m_packet = new DatagramPacket(receive, receive.length);
-            m_socket.receive(m_packet);
-
-            String str = new String(m_packet.getData());
-
-            byte[] answer = ("I received your packet" ).getBytes(StandardCharsets.UTF_8);
-            InetAddress m_adress = m_socket.getLocalAddress();
-            //DatagramPacket m_Answer = new DatagramPacket(answer, answer.length, m_adress, m_socket);
-
-        }*/
         UDPReceive m_runnable = new UDPReceive();
         Thread t1 = new Thread(m_runnable);
         t1.start();

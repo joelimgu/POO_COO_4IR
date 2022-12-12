@@ -1,7 +1,11 @@
 package model.server;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.example.model.communication.server.UDPBroadcast;
 import org.example.model.communication.server.UDPReceive;
+import org.example.model.conversation.User;
+import org.example.services.SessionService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -39,16 +43,27 @@ public class UDPBroadcastTest {
         DatagramSocket socket = new DatagramSocket();
         int port = socket.getLocalPort();
         m_broadcaster.SendBroadcast("test broadcast",4000);
+
     }
 
+//    @Test
+//    public void testNetworkInterface() throws SocketException, UnknownHostException {
+//        System.out.println("printing network interface");
+//        System.out.println("mon local host" + InetAddress.getLocalHost());
+//        List<InetAddress> m_list = this.m_broadcaster.listAllBroadcastAddresses();
+//        System.out.println(m_list);
+//
+//    }
     @Test
-    public void testNetworkInterface() throws SocketException, UnknownHostException {
-        System.out.println("printing network interface");
-        System.out.println("mon local host" + InetAddress.getLocalHost());
-        List<InetAddress> m_list = this.m_broadcaster.listAllBroadcastAddresses();
-        System.out.println(m_list);
+    public void testSendUserBroadcast() throws IOException{
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        User user_test = new User("Amnay");
+        SessionService m_session = SessionService.getInstance();
+        m_session.setM_localUser(user_test);
+        DatagramSocket socket = new DatagramSocket();
+        int port = socket.getLocalPort();
+        m_broadcaster.SendBroadcast(gson.toJson(m_session.getM_localUser()),4000);
 
     }
-
 
 }
