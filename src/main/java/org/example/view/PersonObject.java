@@ -28,22 +28,20 @@ public class PersonObject extends BorderPane {
             image = new ImageView(String.valueOf(getClass().getResource("../../../pictures/disconnected.png")));
         }
 
-        image.setFitHeight(20);
-        image.setFitWidth(20);
+        image.setFitHeight(13);
+        image.setFitWidth(13);
         TextField textPersonConnect = new TextField(name);
-        textPersonConnect.setFont(Font.font("Laksaman", FontWeight.NORMAL, 12));
+        textPersonConnect.setFont(Font.font("Liberation Mono", FontWeight.NORMAL, 12));
         textPersonConnect.setBackground(Background.EMPTY);
         textPersonConnect.setPrefSize(130,20);
         textPersonConnect.setStyle("-fx-text-fill: #ecf0f1; -fx-alignment: center");
         textPersonConnect.setEditable(false);
-
 
         this.setRight(textPersonConnect);
         BorderPane.setMargin(textPersonConnect, i);
         this.setLeft(image);
         this.centerProperty();
         BorderPane.setMargin(image, iImage);
-
     }
 
     public PersonObject getValue() {
