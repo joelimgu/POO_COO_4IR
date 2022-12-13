@@ -11,15 +11,19 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class Main {
     public static void main(String[] args) {
 //        StorageService s = StorageService.StorageService("");
-        SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH-mm-ss z yyyy", new Locale("en"));
+//        SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH-mm-ss z yyyy", new Locale("en"));
+        SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", new Locale("en"));
         try {
-            System.out.println(format.parse("Mon Nov 28 16:34:30 CET 2022"));
+//            System.out.println(format.parse("Wed Nov 28 16:34:30 CET 2022"));
+            Date d = format.parse("Wed Nov 28 16:34:30 CET 2022");
+//            System.out.println(d.getTime());
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
