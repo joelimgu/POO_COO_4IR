@@ -9,11 +9,8 @@ import org.jetbrains.annotations.NotNull;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 /**
  * This class is a singleton, only one instance should exist at any time
@@ -23,6 +20,8 @@ public class StorageService {
     private static StorageService instance;
     private final String storagePath;
     private final Connection dbConnexion;
+
+    private final SimpleDateFormat sqlDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
 
     private StorageService(String path) throws SQLException {
         this.storagePath = path;
@@ -112,21 +111,62 @@ public class StorageService {
 //    }
 
     public List<Message> retrieveAllMessages() throws SQLException, ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH-mm-ss z yyyy");
-        ResultSet rs = this.dbConnexion.createStatement().executeQuery(
-                "select messages.uuid, messages.sender as sender_uuid, u2.pseudo as sender, messages.receiver as receiver_uuid, u.pseudo as receiver, messages.text, sent_at from main.messages " +
+        String query = "select messages.uuid, messages.sender as sender_uuid, u2.pseudo as sender, messages.receiver as receiver_uuid, u.pseudo as receiver, messages.text, sent_at from main.messages " +
                 "join users u on u.uuid = messages.receiver " +
-                "join users u2 on u2.uuid = messages.sender;");
-        ArrayList<Message> lsm = new ArrayList<>();
-        User sender = new User(rs.getString("sender"), UUID.fromString(rs.getString("sender_uuid")));
-        User receiver = new User(rs.getString("receiver"), UUID.fromString(rs.getString("receiver_uuid")));
-        System.out.println(format.parse(rs.getString("sent_at")));
-//        Message m = new Message(UUID.fromString(rs.getString("uuid")),sender, receiver, rs.getString("text"), new Date(rs.getTimestamp("sent_at").));
-//        lsm.add(m);
-        while (rs.next()) {
-        }
+                "join users u2 on u2.uuid = messages.sender;";
+        ResultSet rs = this.dbConnexion.createStatement().executeQuery(query);
+        if (rs.getFetchSize() == 0) {
+            return new ArrayList<>();
+        };
+        ArrayList<Message> lsm = getMessagesFromResultSet(rs);
         return lsm;
     }
+
+    @NotNull
+    private ArrayList<Message> getMessagesFromResultSet(ResultSet rs) throws SQLException, ParseException {
+        ArrayList<Message> lsm = new ArrayList<>();
+        do {
+            lsm.add(getMessageFromResult(rs));
+        } while (rs.next());
+        return lsm;
+    }
+
+    @NotNull
+    private Message getMessageFromResult(ResultSet rs) throws SQLException {
+        User sender = new User(rs.getString("sender"), UUID.fromString(rs.getString("sender_uuid")));
+        User receiver = new User(rs.getString("receiver"), UUID.fromString(rs.getString("receiver_uuid")));
+        Date d = null;
+        try {
+            d = this.sqlDateFormat.parse(rs.getString("sent_at"));
+        } catch (ParseException e) {
+            String colorRed = "\u001B[31m";
+            System.out.println(colorRed + "[ERROR] " + e );
+        }
+        Message m = new Message(UUID.fromString(rs.getString("uuid")), sender, receiver, rs.getString("text"), d);
+        return m;
+    }
+
+//    public Conversation getConversation(@NotNull User local, @NotNull User remote) throws SQLException {
+//        String query = "select * from main.messages\n" +
+//                "inner join users receiver on receiver.uuid=messages.receiver\n" +
+//                "join users sender on sender.uuid = messages.sender\n" +
+//                "where messages.sender is ? " +
+//                "or messages.receiver is ?;" +
+//                "or messages.sender is ?;" +
+//                "or messages.receiver is ?;";
+//
+//        PreparedStatement p = this.dbConnexion.prepareStatement(query);
+//        p.setString(1,local.getUuid().toString());
+//        p.setString(2,local.getUuid().toString());
+//        p.setString(3,remote.getUuid().toString());
+//        p.setString(4,remote.getUuid().toString());
+//        ResultSet rs = p.executeQuery();
+//        ArrayList<Message> mls = new ArrayList<>();
+//        Message m =
+//        while (rs.next()) {
+//
+//        }
+//    }
 
     public String getPath() {
         return this.storagePath;

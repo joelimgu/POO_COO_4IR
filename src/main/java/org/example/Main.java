@@ -17,30 +17,26 @@ import java.util.Locale;
 
 public class Main {
     public static void main(String[] args) {
-//        StorageService s = StorageService.StorageService("");
-//        SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH-mm-ss z yyyy", new Locale("en"));
-        SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", new Locale("en"));
+        StorageService s = StorageService.StorageService("");
+
         try {
-//            System.out.println(format.parse("Wed Nov 28 16:34:30 CET 2022"));
-            Date d = format.parse("Wed Nov 28 16:34:30 CET 2022");
-//            System.out.println(d.getTime());
+            User j = new User("Joel");
+            Message m = new Message(j, new User("louis"), "coucou");
+            List<Message> lsm = new ArrayList<>();
+            lsm.add(m);
+            s.save(new Message(new User("Joel"), new User("Louis"), "message1"));
+            s.save(new Conversation(j, lsm));
+            Gson g = new GsonBuilder().setPrettyPrinting().create();
+            System.out.println(g.toJson(s.retrieveAllMessages()));
+//            System.out.println(s.retrieveAllMessages().size());
+            String colorRed = "\u001B[31m";
+            String colorReset = "\u001B[0m";
+            System.out.println(colorRed + "[ERROR] " + "dadw" + colorReset);
+        } catch (SQLException e) {
+            throw new RuntimeException("SQL", e);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-//        try {
-//            User j = new User("Joel");
-//            Message m = new Message(j, new User("louis"), "coucou");
-//            List<Message> lsm = new ArrayList<>();
-//            lsm.add(m);
-//            s.save(new Message(new User("Joel"), new User("Louis"), "message1"));
-//            s.save(new Conversation(j, lsm));
-//            Gson g = new GsonBuilder().setPrettyPrinting().create();
-//            System.out.println(g.toJson(s.retrieveAllMessages()));
-//        } catch (SQLException e) {
-//            throw new RuntimeException("SQL", e);
-//        } catch (ParseException e) {
-//            throw new RuntimeException(e);
-//        }
     }
 //        Connection connection = null;
 //        try
