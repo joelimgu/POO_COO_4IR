@@ -56,7 +56,7 @@
                <bottom>
                   <BorderPane prefHeight="29.0" prefWidth="595.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
                      <center>
-                        <TextField fx:id="messageSendField" prefHeight="29.0" prefWidth="522.0" promptText="Write your message here" style="-fx-background-radius: 5px;" BorderPane.alignment="CENTER">
+                        <TextField fx:id="messageSendField" onKeyPressed="#sendMessageEnter" prefHeight="29.0" prefWidth="522.0" promptText="Write your message here" style="-fx-background-radius: 5px;" BorderPane.alignment="CENTER">
                            <font>
                               <Font name="Liberation Mono" size="13.0" />
                            </font></TextField>

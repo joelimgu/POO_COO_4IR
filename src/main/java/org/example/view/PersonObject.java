@@ -30,6 +30,7 @@ public class PersonObject extends BorderPane {
 
         image.setFitHeight(13);
         image.setFitWidth(13);
+        image.setStyle("-fx-alignment: center");
         TextField textPersonConnect = new TextField(name);
         textPersonConnect.setFont(Font.font("Liberation Mono", FontWeight.NORMAL, 12));
         textPersonConnect.setBackground(Background.EMPTY);
@@ -47,9 +48,5 @@ public class PersonObject extends BorderPane {
     public PersonObject getValue() {
         return this;
     }
-
-
-
-
 
 }

@@ -18,6 +18,7 @@ public class HelloApplication extends Application {
         stage.setTitle("The best chat application EVER");
         stage.setScene(scene);
         stage.show();
+
     }
 
 
