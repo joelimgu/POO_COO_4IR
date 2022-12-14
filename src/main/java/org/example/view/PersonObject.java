@@ -10,23 +10,27 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import org.controlsfx.tools.Borders;
+import org.example.model.conversation.ConnectedUser;
+import org.example.model.conversation.User;
 
 import java.io.FileNotFoundException;
+import java.util.UUID;
 
 public class PersonObject extends BorderPane {
 
     private ImageView image;
+    private User user;
 
-    public PersonObject(String name, boolean status)  {
-
+    public PersonObject(String name, ConnectedUser u)  {
+        user = u;
         Insets i = new Insets(3,3,3,5);
         Insets iImage = new Insets(9,3,3,5);
 
-        if (status) {
+       /* if (status) {
             image = new ImageView(String.valueOf(getClass().getResource("../../../pictures/connected.png")));
-        } else {
-            image = new ImageView(String.valueOf(getClass().getResource("../../../pictures/disconnected.png")));
-        }
+        } else {*/
+            image = new ImageView(String.valueOf(getClass().getResource("../../../pictures/connected.png")));
+        //}
 
         image.setFitHeight(13);
         image.setFitWidth(13);

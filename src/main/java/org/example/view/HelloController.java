@@ -22,6 +22,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import org.example.model.conversation.ConnectedUser;
 import org.jetbrains.annotations.Async;
 
 import java.io.FileInputStream;
@@ -59,8 +60,9 @@ public class HelloController {
     }
 
     public void addNewPerson(MouseEvent mouseEvent) {
-        PersonObject po = new PersonObject("YAYA", false);
-        PersonObject po2 = new PersonObject("KIKI", true);
+
+        PersonObject po = new PersonObject("YAYA", new ConnectedUser("sd", null));
+        //PersonObject po2 = new PersonObject("KIKI", true, null);
 
         // *****  LISTENER CONFIGURATION *****
         // Here : get(0) in order to get the textField area of the person you want to append
@@ -73,32 +75,22 @@ public class HelloController {
                     chatList.getChildren().add(new MessageObject("This is a conversation with " + p1.getText(), true));
                     chatList.getChildren().add(new MessageObject("Yes we currently talk with " + p1.getText() + " !", false));
                 }
-
         );
 
-        TextField p2 = (TextField) po2.getChildren().get(0);
-
-        // Put a listener to the TextField in order to print the conversation linked to this user
-        p2.setOnMouseClicked(
-                event -> {
-                    chatList.getChildren().clear();
-                    chatList.getChildren().add(new MessageObject("This is a conversation with " + p2.getText(), true));
-                    chatList.getChildren().add(new MessageObject("Yes we currently talk with " + p2.getText() + " !", false));
-                }
-        );
 
         // ***** END OF LISTENERS *****
 
 
         // Add to the main frame
-        listPeopleConnected.getChildren().add(po2);
         listPeopleConnected.getChildren().add(po);
 
     }
 
 
     public void sendMessageClick(MouseEvent mouseEvent) {
+
         MessageObject mo;
+
         if (nbMessages%2 == 0) {
             mo = new MessageObject(messageSendField.getText(), true);
             chatList.getChildren().add(mo);
