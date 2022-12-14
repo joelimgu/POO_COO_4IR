@@ -16,7 +16,7 @@ public class getUserHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        SessionService s = SessionService.SessionService();
+        SessionService s = SessionService.getInstance();
 
         if ("GET".equals(httpExchange.getRequestMethod())){
             //todo : search for code of non existing object and how to send the return code

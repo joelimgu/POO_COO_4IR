@@ -4,13 +4,23 @@ import org.example.model.conversation.User;
 import org.jetbrains.annotations.NotNull;
 
 public class SessionService {
-    private static SessionService m_instance ;
+    private static SessionService instance ;
     private User m_localUser;
-    public static SessionService SessionService (){
-        if (m_instance == null){
-            SessionService.m_instance = new SessionService();
+
+    private SessionService() {
+        if (instance != null) {
+            throw new RuntimeException("SessionService instanced twice");
         }
-        return SessionService.m_instance;
+    }
+    public static SessionService getInstance(){
+        if (instance == null){
+            synchronized(SessionService.class) {
+                if (instance == null) {
+                    SessionService.instance = new SessionService();
+                }
+            }
+        }
+        return SessionService.instance;
     }
 
 

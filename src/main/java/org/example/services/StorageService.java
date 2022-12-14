@@ -1,58 +1,164 @@
 package org.example.services;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.example.model.conversation.Conversation;
-import org.example.model.conversation.History;
+import org.example.model.conversation.Message;
+import org.example.model.conversation.User;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Objects;
+
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Date;
 
 /**
  * This class is a singleton, only one instance should exist at any time
  */
 public class StorageService {
 
-    private static StorageService instance;
+    private static volatile StorageService instance;
     private final String storagePath;
+    private final Connection dbConnexion;
 
-    private StorageService(String path) {
+    private final SimpleDateFormat sqlDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+
+    private StorageService(String path) throws SQLException {
         this.storagePath = path;
+        this.dbConnexion = DriverManager.getConnection("jdbc:sqlite:clavardage.db");
+        Statement statement = this.dbConnexion.createStatement();
+        statement.setQueryTimeout(5);  // set timeout to 5 sec.
+        statement.executeUpdate("create table if not exists users (\n" +
+                "   uuid varchar(36) not null,\n" +
+                "   pseudo varchar(31) not null,\n" +
+                "   last_seen date not null default CURRENT_TIMESTAMP,\n" +
+                "   primary key(uuid)\n" +
+                ");"
+        );
+        statement.executeUpdate("create table if not exists messages (\n" +
+                "    uuid varchar(36) not null,\n" +
+                "    sender sender_id not null,\n" +
+                "    receiver receiver_id not null,\n" +
+                "    text varchar(2000) not null,\n" +
+                "    sent_at date not null default CURRENT_TIMESTAMP,\n" +
+                "    foreign key (sender) references users(uuid) on delete cascade,\n" +
+                "    foreign key (receiver) references users(uuid) on delete cascade\n" +
+                "    primary key(uuid)\n" +
+                ");"
+        );
+//        PreparedStatement s = this.dbConnexion.prepareStatement(
+//                "select * from main.messages where sender=?"
+//        );
+//        s.setString(1,"Joel");
+//        String m = s.executeQuery().getString("uuid");
+//        System.out.println("Query=" + m);
     }
 
-    public static StorageService StorageService(String path) {
-        if(StorageService.instance == null) {
-            StorageService.instance = new StorageService(path);
+    public static StorageService getInstance(String path) {
+        if (instance == null){
+            synchronized(SessionService.class) {
+                if (instance == null) {
+                    StorageService.instance = new StorageService(path);
+                }
+            }
         } else if(!Objects.equals(path, StorageService.instance.storagePath)) {
             throw new IllegalArgumentException("There can only be one storage location for the app");
         }
         return StorageService.instance;
     }
 
-
-    public void save(@NotNull Conversation conversation) throws IOException {
-        File directoryPath = new File(this.storagePath);
-        System.out.println(Arrays.toString(directoryPath.list()));
-        System.out.println(directoryPath.mkdir()); // create the .clavardage dir if it does not exist
-        File conversations = new File(this.storagePath + "/conversations");
-        conversations.mkdir();
-        String historyPath = this.storagePath + "/conversations" + "/" + conversation.getUser().getUuid().toString();
-        File userHistory = new File(historyPath);
-        userHistory.mkdir();
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        for (History h : conversation.getHistories()) {
-            File f = new File(historyPath + "/" + h.getFormattedDate() + ".json");
-            f.createNewFile();
-            try (FileWriter fw = new FileWriter(f)) {
-                fw.write(gson.toJson(h));
-            } catch (IOException e) {
-                System.out.println("cant write to file");
-            }
+    public void save(@NotNull Conversation conversation) throws SQLException {
+        for (Message m: conversation.getMessages()) {
+            this.save(m);
         }
+    }
+
+    public void save(@NotNull Message m) throws SQLException {
+//        System.out.println(m);
+        this.save(m.getSender());
+        this.save(m.getReceiver());
+        PreparedStatement p = this.dbConnexion.prepareStatement(
+                "insert or replace into main.messages" +
+                "(uuid, sender, receiver, text, sent_at)" +
+                "values (?, ?, ?, ?, ?)"
+        );
+        p.setString(1, m.getUuid().toString());
+        p.setString(2, m.getSender().getUuid().toString());
+        p.setString(3, m.getReceiver().getUuid().toString());
+        p.setString(4, m.getText());
+        p.setString(5, m.getSendTime().toString());
+        p.executeUpdate();
+    }
+
+    public void save(@NotNull User u) throws SQLException {
+        PreparedStatement p = this.dbConnexion.prepareStatement(
+                "insert or replace into main.users" +
+                "(uuid, pseudo, last_seen)\n" +
+                "values (?, ?, ?);");
+        p.setString(1, u.getUuid().toString());
+        p.setString(2, u.getPseudo());
+        p.setString(3, (new java.util.Date()).toString());
+        p.executeUpdate();
+    }
+
+//    public saveMessage(Message m) {
+////        this.dbConnexion.prepareStatement("")
+//    }
+
+    public List<Message> retrieveAllMessages() throws SQLException {
+        String query = "select messages.uuid, messages.sender as sender_uuid, u2.pseudo as sender, messages.receiver as receiver_uuid, u.pseudo as receiver, messages.text, sent_at from main.messages " +
+                "join users u on u.uuid = messages.receiver " +
+                "join users u2 on u2.uuid = messages.sender;";
+        ResultSet rs = this.dbConnexion.createStatement().executeQuery(query);
+        return getMessageListFromResultSet(rs);
+    }
+
+    @NotNull
+    private ArrayList<Message> getMessageListFromResultSet(ResultSet rs) throws SQLException {
+        ArrayList<Message> lsm = new ArrayList<>();
+        if (rs.isClosed()) {
+            return lsm;
+        }
+        do {
+            lsm.add(getMessageFromResult(rs));
+        } while (rs.next());
+        return lsm;
+    }
+
+    @NotNull
+    private Message getMessageFromResult(ResultSet rs) throws SQLException {
+        User sender = new User(rs.getString("sender"), UUID.fromString(rs.getString("sender_uuid")));
+        User receiver = new User(rs.getString("receiver"), UUID.fromString(rs.getString("receiver_uuid")));
+        Date d;
+        try {
+            d = this.sqlDateFormat.parse(rs.getString("sent_at"));
+        } catch (ParseException e) {
+            String colorRed = "\u001B[31m";
+            String colorReset = "\u001B[0m";
+            System.out.println(colorRed + "[ERROR] " + e + colorReset );
+            d = new Date();
+        }
+        return new Message(UUID.fromString(rs.getString("uuid")), sender, receiver, rs.getString("text"), d);
+    }
+
+    public Conversation getConversation(@NotNull User local, @NotNull User remote) throws SQLException {
+        String query = "select  messages.uuid, messages.sender as sender_uuid, sender.pseudo as sender, messages.receiver as receiver_uuid, receiver.pseudo as receiver, messages.text, sent_at from main.messages\n" +
+                "join users receiver on receiver.uuid=messages.receiver\n" +
+                "join users sender on sender.uuid = messages.sender\n" +
+                "where messages.sender is ? " +
+                "or messages.receiver is ?" +
+                "or messages.sender is ?" +
+                "or messages.receiver is ?;";
+
+        PreparedStatement p = this.dbConnexion.prepareStatement(query);
+        p.setString(1,local.getUuid().toString());
+        p.setString(2,local.getUuid().toString());
+        p.setString(3,remote.getUuid().toString());
+        p.setString(4,remote.getUuid().toString());
+        System.out.println("query generated");
+        ResultSet rs = p.executeQuery();
+        List<Message> messages = getMessageListFromResultSet(rs);
+        return new Conversation(remote, messages);
     }
 
     public String getPath() {

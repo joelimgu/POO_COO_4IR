@@ -10,16 +10,16 @@ public class StorageServiceTests {
 
     @Test
     public void singletonTest() {
-        StorageService s1 = StorageService.StorageService("/home/usr");
-        StorageService s2 = StorageService.StorageService("/home/usr");
+        StorageService s1 = StorageService.getInstance("/home/usr");
+        StorageService s2 = StorageService.getInstance("/home/usr");
         assertEquals(s1,s2);
     }
 
     @Test
     public void cantModifyPath() {
-        StorageService s1 = StorageService.StorageService("/home/usr");
+        StorageService s1 = StorageService.getInstance("/home/usr");
         assertThrows(IllegalArgumentException.class, () -> {
-            StorageService s2 = StorageService.StorageService("/home/usr2");
+            StorageService s2 = StorageService.getInstance("/home/usr2");
         });
         assertEquals(s1.getPath(), "/home/usr");
     }
