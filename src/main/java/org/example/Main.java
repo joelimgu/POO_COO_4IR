@@ -8,12 +8,8 @@ import org.example.model.conversation.User;
 import org.example.services.StorageService;
 
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class Main {
     public static void main(String[] args) {
@@ -21,21 +17,21 @@ public class Main {
 
         try {
             User j = new User("Joel");
-            Message m = new Message(j, new User("louis"), "coucou");
+            User l = new User("louis");
+            Message m = new Message(j, l, "conversation");
             List<Message> lsm = new ArrayList<>();
             lsm.add(m);
             s.save(new Message(new User("Joel"), new User("Louis"), "message1"));
             s.save(new Conversation(j, lsm));
             Gson g = new GsonBuilder().setPrettyPrinting().create();
-            System.out.println(g.toJson(s.retrieveAllMessages()));
+//            System.out.println(g.toJson(s.retrieveAllMessages()));
 //            System.out.println(s.retrieveAllMessages().size());
-            String colorRed = "\u001B[31m";
-            String colorReset = "\u001B[0m";
-            System.out.println(colorRed + "[ERROR] " + "dadw" + colorReset);
+            System.out.println(s.getConversation(j,l));
+//            String colorRed = "\u001B[31m";
+//            String colorReset = "\u001B[0m";
+//            System.out.println(colorRed + "[ERROR] " + "dadw" + colorReset);
         } catch (SQLException e) {
             throw new RuntimeException("SQL", e);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
         }
     }
 //        Connection connection = null;

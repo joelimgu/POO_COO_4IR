@@ -57,7 +57,6 @@ public class StorageService {
     /**
      * @throws RuntimeException if cant connect tot the db at start
      * @param path where de db will be sored
-     * @return
      */
     public static StorageService StorageService(String path) {
         if(StorageService.instance == null) {
@@ -79,7 +78,7 @@ public class StorageService {
     }
 
     public void save(@NotNull Message m) throws SQLException {
-        System.out.println(m);
+//        System.out.println(m);
         this.save(m.getSender());
         this.save(m.getReceiver());
         PreparedStatement p = this.dbConnexion.prepareStatement(
@@ -110,21 +109,20 @@ public class StorageService {
 ////        this.dbConnexion.prepareStatement("")
 //    }
 
-    public List<Message> retrieveAllMessages() throws SQLException, ParseException {
+    public List<Message> retrieveAllMessages() throws SQLException {
         String query = "select messages.uuid, messages.sender as sender_uuid, u2.pseudo as sender, messages.receiver as receiver_uuid, u.pseudo as receiver, messages.text, sent_at from main.messages " +
                 "join users u on u.uuid = messages.receiver " +
                 "join users u2 on u2.uuid = messages.sender;";
         ResultSet rs = this.dbConnexion.createStatement().executeQuery(query);
-        if (rs.getFetchSize() == 0) {
-            return new ArrayList<>();
-        };
-        ArrayList<Message> lsm = getMessagesFromResultSet(rs);
-        return lsm;
+        return getMessageListFromResultSet(rs);
     }
 
     @NotNull
-    private ArrayList<Message> getMessagesFromResultSet(ResultSet rs) throws SQLException, ParseException {
+    private ArrayList<Message> getMessageListFromResultSet(ResultSet rs) throws SQLException {
         ArrayList<Message> lsm = new ArrayList<>();
+        if (rs.isClosed()) {
+            return lsm;
+        }
         do {
             lsm.add(getMessageFromResult(rs));
         } while (rs.next());
@@ -135,38 +133,37 @@ public class StorageService {
     private Message getMessageFromResult(ResultSet rs) throws SQLException {
         User sender = new User(rs.getString("sender"), UUID.fromString(rs.getString("sender_uuid")));
         User receiver = new User(rs.getString("receiver"), UUID.fromString(rs.getString("receiver_uuid")));
-        Date d = null;
+        Date d;
         try {
             d = this.sqlDateFormat.parse(rs.getString("sent_at"));
         } catch (ParseException e) {
             String colorRed = "\u001B[31m";
-            System.out.println(colorRed + "[ERROR] " + e );
+            String colorReset = "\u001B[0m";
+            System.out.println(colorRed + "[ERROR] " + e + colorReset );
+            d = new Date();
         }
-        Message m = new Message(UUID.fromString(rs.getString("uuid")), sender, receiver, rs.getString("text"), d);
-        return m;
+        return new Message(UUID.fromString(rs.getString("uuid")), sender, receiver, rs.getString("text"), d);
     }
 
-//    public Conversation getConversation(@NotNull User local, @NotNull User remote) throws SQLException {
-//        String query = "select * from main.messages\n" +
-//                "inner join users receiver on receiver.uuid=messages.receiver\n" +
-//                "join users sender on sender.uuid = messages.sender\n" +
-//                "where messages.sender is ? " +
-//                "or messages.receiver is ?;" +
-//                "or messages.sender is ?;" +
-//                "or messages.receiver is ?;";
-//
-//        PreparedStatement p = this.dbConnexion.prepareStatement(query);
-//        p.setString(1,local.getUuid().toString());
-//        p.setString(2,local.getUuid().toString());
-//        p.setString(3,remote.getUuid().toString());
-//        p.setString(4,remote.getUuid().toString());
-//        ResultSet rs = p.executeQuery();
-//        ArrayList<Message> mls = new ArrayList<>();
-//        Message m =
-//        while (rs.next()) {
-//
-//        }
-//    }
+    public Conversation getConversation(@NotNull User local, @NotNull User remote) throws SQLException {
+        String query = "select  messages.uuid, messages.sender as sender_uuid, sender.pseudo as sender, messages.receiver as receiver_uuid, receiver.pseudo as receiver, messages.text, sent_at from main.messages\n" +
+                "join users receiver on receiver.uuid=messages.receiver\n" +
+                "join users sender on sender.uuid = messages.sender\n" +
+                "where messages.sender is ? " +
+                "or messages.receiver is ?" +
+                "or messages.sender is ?" +
+                "or messages.receiver is ?;";
+
+        PreparedStatement p = this.dbConnexion.prepareStatement(query);
+        p.setString(1,local.getUuid().toString());
+        p.setString(2,local.getUuid().toString());
+        p.setString(3,remote.getUuid().toString());
+        p.setString(4,remote.getUuid().toString());
+        System.out.println("query generated");
+        ResultSet rs = p.executeQuery();
+        List<Message> messages = getMessageListFromResultSet(rs);
+        return new Conversation(remote, messages);
+    }
 
     public String getPath() {
         return this.storagePath;

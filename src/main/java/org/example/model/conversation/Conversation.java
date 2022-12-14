@@ -1,5 +1,7 @@
 package org.example.model.conversation;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -28,5 +30,11 @@ public class Conversation implements Serializable {
 
     public List<Message> getMessages() {
         return this.messages;
+    }
+
+    @Override
+    public String toString() {
+        Gson g = new GsonBuilder().setPrettyPrinting().create();
+        return g.toJson(this);
     }
 }
