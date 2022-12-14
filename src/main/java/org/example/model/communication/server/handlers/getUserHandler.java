@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.example.model.communication.server.HTTPServer;
-import org.example.model.conversation.User;
 import org.example.services.SessionService;
 
 import java.io.IOException;
@@ -22,7 +21,7 @@ public class getUserHandler implements HttpHandler {
             //todo : search for code of non existing object and how to send the return code
             if (s.getM_localUser() == null)
             {
-                sendResponse(httpExchange,"");
+                sendResponse(httpExchange,"test");
             }
             HTTPServer.sendResponse(httpExchange,gson.toJson(s.getM_localUser()));
         }
