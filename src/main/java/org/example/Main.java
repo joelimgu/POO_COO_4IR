@@ -16,7 +16,6 @@ import java.util.Date;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.example.model.conversation.Conversation;
-import org.example.model.conversation.History;
 import org.example.model.conversation.Message;
 import org.example.model.conversation.User;
 import org.example.services.SessionService;

@@ -58,7 +58,11 @@ public class StorageService {
         if (instance == null){
             synchronized(SessionService.class) {
                 if (instance == null) {
-                    StorageService.instance = new StorageService(path);
+                    try {
+                        StorageService.instance = new StorageService(path);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         } else if(!Objects.equals(path, StorageService.instance.storagePath)) {
