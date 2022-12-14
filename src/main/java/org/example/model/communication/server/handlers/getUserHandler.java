@@ -18,7 +18,7 @@ public class getUserHandler implements HttpHandler {
         SessionService s = SessionService.getInstance();
 
         if ("GET".equals(httpExchange.getRequestMethod())){
-            //todo : search for code of non existing object and how to send the return code
+            System.out.printf(s.getM_localUser().getPseudo());
             if (s.getM_localUser() == null)
             {
                 sendResponse(httpExchange,"test");
