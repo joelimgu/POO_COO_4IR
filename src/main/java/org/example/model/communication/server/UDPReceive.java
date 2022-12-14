@@ -1,4 +1,6 @@
 package org.example.model.communication.server;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.example.model.conversation.User;
 
 import java.io.IOException;
@@ -50,12 +52,14 @@ public class UDPReceive extends Thread implements Runnable {
         byte[] sendData = new byte[MAX_UDP_DATAGRAM_LEN];
         DatagramPacket dp = new DatagramPacket(receivedData, receivedData.length);
         DatagramSocket ds = null;
+        Gson g = new GsonBuilder().create();
         try {
             ds = new DatagramSocket(4000);
             //disable timeout for testing
             //ds.setSoTimeout(100000);
             ds.receive(dp);
             lText = new String(dp.getData());
+            User user = g.fromJson(lText,User.class);
             System.out.println("UDP packet received : \n" + lText);
             InetAddress IpAddress = dp.getAddress();
             String sendString = "Moi aussi je aussi co";

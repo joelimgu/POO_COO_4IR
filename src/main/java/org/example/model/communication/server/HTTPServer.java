@@ -2,6 +2,7 @@ package org.example.model.communication.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+import org.example.model.communication.server.handlers.ConnectedUserHandler;
 import org.example.model.communication.server.handlers.GetPseudo;
 import org.example.model.communication.server.handlers.getUserHandler;
 
@@ -20,6 +21,7 @@ public class HTTPServer {
 
         server.createContext("/get_pseudo", new GetPseudo());
         server.createContext("/get_user", new getUserHandler());
+        server.createContext("/connectedUser",new ConnectedUserHandler());
 
         ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
         server.setExecutor(threadPoolExecutor);

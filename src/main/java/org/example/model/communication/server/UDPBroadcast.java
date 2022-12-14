@@ -117,6 +117,9 @@ public class UDPBroadcast {
             ArrayList<ConnectedUser> m_list = new ArrayList<ConnectedUser>();
             //todo : list of  connected users ;
             return m_list;
+            //écoute sur le port dédié
+            //pour chaque paquet received ajout de l'adresse ajout de (user + adresse ip à la liste
+
         }
     }
 }
