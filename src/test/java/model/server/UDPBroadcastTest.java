@@ -22,7 +22,7 @@ import java.util.List;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UDPBroadcastTest {
-    public int num_port = 4000;
+    public int num_port = 3000;
     public UDPBroadcast m_broadcast = new UDPBroadcast();
     public UDPBroadcast.broadcastUDP m_broadcaster = new UDPBroadcast.broadcastUDP();
 
