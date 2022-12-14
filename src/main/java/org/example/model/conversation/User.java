@@ -18,6 +18,9 @@ public class User {
         this.uuid = uuid;
     }
 
+    public boolean equals(User u) {
+        return this.pseudo.equals(u.pseudo) && this.uuid.equals(u.getUuid());
+    }
 
     public String getPseudo() {
         return pseudo;
