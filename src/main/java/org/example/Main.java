@@ -13,8 +13,11 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import org.example.model.communication.server.UDPReceive;
 import org.example.model.conversation.Conversation;
 import org.example.model.conversation.Message;
 import org.example.model.conversation.User;
@@ -25,7 +28,13 @@ import static java.lang.Thread.sleep;
 
 public class Main {
     public static void main(String[] args) throws IOException, ParseException, InterruptedException {
-////        new HTTPServer(8001);
+        HTTPServer http = new HTTPServer(8080);
+        UDPReceive udp = new UDPReceive();
+        udp.start();
+
+        Consumer<Integer> f = (a) -> {System.out.println("Do nothing!"); };
+//        System.out.println(f.accept(4));
+
 //        Dotenv dotenv = Dotenv.configure().load();
 //        // TODO: make it work on windows too ( / vs \ )
 //        // Get the directory where data will be stored, either configured on the .env or tmp by default
