@@ -4,7 +4,9 @@ import org.example.model.conversation.User;
 import java.io.IOException;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Flow;
 
 
 public class UDPReceive extends Thread implements Runnable {
@@ -42,6 +44,8 @@ public class UDPReceive extends Thread implements Runnable {
         this.m_state = state;
     }
 
+    private List<Flow.Subscriber> subscribers = new ArrayList<>();
+
     /* --------------------------------------------------------------------------*/
     public void run() {
         System.out.println("je suis lancé");
@@ -68,7 +72,7 @@ public class UDPReceive extends Thread implements Runnable {
     }
 
 
-    public static void main(String arg[]) throws IOException{
+    public static void main(String arg[]) throws IOException {
         DatagramSocket m_socket = new DatagramSocket();
         byte[] receive = new byte[10000];
         DatagramPacket m_packet = null;
@@ -89,4 +93,5 @@ public class UDPReceive extends Thread implements Runnable {
         t1.start();
         System.out.println("I'm the main");
     }
+
 }

@@ -5,4 +5,6 @@ Group composed of :
 - Asmun Kanane
 - Killian Gonet
 
-
+# DOC
+## Reactive programming:
+https://www.appsdeveloperblog.com/reactive-programming-creating-publishers-and-subscribers-in-java/
