@@ -27,6 +27,7 @@ public class Main {
 //            System.out.println(g.toJson(s.retrieveAllMessages()));
 //            System.out.println(s.retrieveAllMessages().size());
             System.out.println(s.getConversation(j,l));
+            System.out.println(g.toJson(s.getAllRegisteredUsers()));
 //            String colorRed = "\u001B[31m";
 //            String colorReset = "\u001B[0m";
 //            System.out.println(colorRed + "[ERROR] " + "dadw" + colorReset);
