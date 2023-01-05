@@ -32,40 +32,36 @@ public class MessageObject extends BorderPane {
         double widthConfiguration;
 
         // Configure the width of the text area to put the background
-       if (message.length() < 74) {
-            widthConfiguration = (message.length())* (500.0/75.0) + 15;
+        if (message.length() < 73) {
+            widthConfiguration = (message.length())* (500.0/72) + 15;
            System.out.println(widthConfiguration);
-
         } else {
             widthConfiguration = 515;
         }
 
-       Insets i = new Insets(10,10,10,10);
+        Insets i = new Insets(10,10,10,10);
 
         if (type) {
             messageText.setStyle("-fx-text-fill: #444444; -fx-padding: 5px;-fx-background-radius: 5px;-fx-alignment: center-left; -fx-word-break: keep-all;-fx-background-color: #bdc3c7");
-            messageText.setFont(Font.font("Liberation Mono", FontWeight.LIGHT, 11));
+            messageText.setFont(Font.font("Ubuntu Mono", FontWeight.NORMAL, 14));
             //messageText.backgroundProperty().set(new Background());
             this.setLeft(messageText);
 
         } else {
-            messageText.setStyle("-fx-text-fill: #EEEEEE;-fx-alignment: center-right; -fx-background-radius: 5px; -fx-padding: 5px ;-fx-word-break: break-all;-fx-background-color: #2ecc71");
-            messageText.setFont(Font.font("Liberation Mono", FontWeight.LIGHT, 11));
+            messageText.setStyle("-fx-text-fill: #EEEEEE;-fx-alignment: center-right; -fx-background-radius: 5px; -fx-padding: 5px ;-fx-word-break: break-all;-fx-background-color: #3498db");
+            messageText.setFont(Font.font("Ubuntu Mono", FontWeight.NORMAL, 14));
 
             this.setRight(messageText);
         }
 
         messageText.setWrapText(true);
-        messageText.setMaxSize(widthConfiguration,((int) ((message.length()/77)+1)*16) + 15);
-        messageText.setMinSize(widthConfiguration,((int) ((message.length()/77)+1)*16) + 15);
-        messageText.setPrefSize(widthConfiguration,((int) ((message.length()/77)+1)*16) + 15);
-
-
+        messageText.setMaxSize(widthConfiguration,((int) ((message.length()/74)+1)*16) + 15);
+        messageText.setMinSize(widthConfiguration,((int) ((message.length()/74)+1)*16) + 15);
+        messageText.setPrefSize(widthConfiguration,((int) ((message.length()/74)+1)*16) + 15);
         //messageText.setMaxHeight(Double.MAX_VALUE);
         BorderPane.setMargin(messageText, i);
         //this.maxHeight(Double.MAX_VALUE);
         //this.maxWidth(Double.MAX_VALUE);
-
     }
 
     public MessageObject getValue() {

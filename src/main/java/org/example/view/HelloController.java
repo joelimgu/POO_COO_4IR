@@ -5,10 +5,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,6 +25,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import org.example.model.conversation.ConnectedUser;
 import org.jetbrains.annotations.Async;
 
@@ -35,7 +39,7 @@ import static java.lang.Thread.sleep;
 
 public class HelloController {
     public VBox listPeopleConnected;
-    public TextField messageSendField;
+    public TextArea messageSendField;
     @FXML
     private TextField welcomeText;
     @FXML
@@ -47,10 +51,15 @@ public class HelloController {
     BorderPane borderPaneGlobal;
 
 
-    boolean isListened = false;
-    int nbMessages = 0;
+    private boolean isListened = false;
+    private int nbMessages = 0;
+
+    Stage myStage;
 
 
+    public void setStage(Stage s) {
+        myStage = s;
+    }
     @FXML
     public void addNewMessages(ScrollEvent scrollEvent) {
         System.out.println(scrollEvent.getDeltaY());
@@ -65,6 +74,7 @@ public class HelloController {
         //PersonObject po2 = new PersonObject("KIKI", true, null);
 
         // *****  LISTENER CONFIGURATION *****
+
         // Here : get(0) in order to get the textField area of the person you want to append
         TextField p1 = (TextField) po.getChildren().get(0);
 
@@ -76,7 +86,6 @@ public class HelloController {
                     chatList.getChildren().add(new MessageObject("Yes we currently talk with " + p1.getText() + " !", false));
                 }
         );
-
 
         // ***** END OF LISTENERS *****
 
@@ -113,5 +122,14 @@ public class HelloController {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
             sendMessageClick(null);
         }
+    }
+
+    public void goToChangeUsernameFrame(ActionEvent actionEvent) throws Exception {
+        ChangeUsenameApplication cua = new ChangeUsenameApplication(myStage);
+        cua.start(new Stage());
+    }
+
+    public void validateOK(MouseEvent mouseEvent) {
+
     }
 }
