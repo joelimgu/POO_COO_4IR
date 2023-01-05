@@ -159,10 +159,31 @@ public class StorageService {
         p.setString(2,local.getUuid().toString());
         p.setString(3,remote.getUuid().toString());
         p.setString(4,remote.getUuid().toString());
-        System.out.println("query generated");
         ResultSet rs = p.executeQuery();
         List<Message> messages = getMessageListFromResultSet(rs);
         return new Conversation(remote, messages);
+    }
+
+    public List<User> getAllRegisteredUsers() throws SQLException {
+        String query = "select * from main.users;";
+        PreparedStatement p = this.dbConnexion.prepareStatement(query);
+        ResultSet rs = p.executeQuery();
+        return getUserListFromResultSet(rs);
+    }
+
+    private List<User> getUserListFromResultSet(ResultSet rs) throws SQLException {
+        ArrayList<User> users = new ArrayList<>();
+        if (rs.isClosed()) {
+            return users;
+        }
+        do {
+            users.add(getUserFromResult(rs));
+        } while (rs.next());
+        return users;
+    }
+
+    private User getUserFromResult(ResultSet rs) throws SQLException {
+        return new User(rs.getString("pseudo"), UUID.fromString(rs.getString("uuid")));
     }
 
     public String getPath() {
