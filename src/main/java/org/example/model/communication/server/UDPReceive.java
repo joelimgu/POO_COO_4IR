@@ -1,10 +1,14 @@
 package org.example.model.communication.server;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import org.example.model.CustomObservable;
 import org.example.model.CustomObserver;
 import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.User;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +64,9 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
             ds.receive(dp);
             lText = new String(dp.getData());
             System.out.println("UDP packet received" + lText);
+            Type listType = new TypeToken<ArrayList<ConnectedUser>>(){}.getType();
+            Gson g = new GsonBuilder().setPrettyPrinting().create();
+            g.fromJson(lText, listType);
         } catch (SocketException e) {
             e.printStackTrace();
         } catch (IOException e) {
