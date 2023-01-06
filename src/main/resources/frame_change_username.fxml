@@ -18,7 +18,7 @@
             <Font name="Liberation Mono" size="15.0" />
          </font>
       </TextField>
-      <Button fx:id="OKButton" layoutX="261.0" layoutY="167.0" mnemonicParsing="false" onMouseClicked="#validateOK" prefHeight="31.0" prefWidth="96.0" style="-fx-background-radius: 0px; -fx-background-color: #2ecc71;" text="OK" textFill="#eeeeee">
+      <Button fx:id="OKButton" layoutX="261.0" layoutY="167.0" mnemonicParsing="false" onMouseClicked="#tryStartSession" prefHeight="31.0" prefWidth="96.0" style="-fx-background-radius: 0px; -fx-background-color: #2ecc71;" text="OK" textFill="#eeeeee">
          <font>
             <Font name="Liberation Mono" size="14.0" />
          </font>

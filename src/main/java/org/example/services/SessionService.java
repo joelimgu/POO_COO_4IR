@@ -1,5 +1,7 @@
 package org.example.services;
 
+import org.example.model.communication.server.HTTPServer;
+import org.example.model.communication.server.UDPReceive;
 import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.User;
 import org.jetbrains.annotations.NotNull;
@@ -16,6 +18,9 @@ public class SessionService {
 
     private List<ConnectedUser> connectedUsers = new ArrayList<>();
 
+    private HTTPServer httpServer;
+
+    private UDPReceive UDPServer;
 
     private int nb_connectedUser=0;
     private SessionService() {
@@ -49,5 +54,23 @@ public class SessionService {
     public void setNb_connectedUser(int x){this.nb_connectedUser = x;}
     public int getNb_connectedUser() {return nb_connectedUser;}
 
+    public void setHttpServer(HTTPServer httpServer) {
+        this.httpServer = httpServer;
+    }
 
+    public HTTPServer getHttpServer() {
+        return this.httpServer;
+    }
+
+    public void setUDPServer(UDPReceive u) {
+        this.UDPServer = u;
+    }
+
+    public UDPReceive getUDPServer() {
+        return this.UDPServer;
+    }
+
+    public List<ConnectedUser> getConnectedUsers() {
+        return connectedUsers;
+    }
 }
