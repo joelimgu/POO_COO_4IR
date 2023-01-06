@@ -5,14 +5,19 @@ import org.example.model.conversation.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class SessionService {
     private static SessionService instance ;
     private User m_localUser;
+    private ArrayList<ConnectedUser> m_list = new ArrayList<ConnectedUser>();
 
     private List<ConnectedUser> connectedUsers = new ArrayList<>();
 
+
+    private int nb_connectedUser=0;
     private SessionService() {
         if (instance != null) {
             throw new RuntimeException("SessionService instanced twice");
@@ -40,5 +45,9 @@ public class SessionService {
     public void setM_localUser(User m_localUser) {
         this.m_localUser = m_localUser;
     }
+
+    public void setNb_connectedUser(int x){this.nb_connectedUser = x;}
+    public int getNb_connectedUser() {return nb_connectedUser;}
+
 
 }
