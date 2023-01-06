@@ -64,9 +64,11 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
             ds.receive(dp);
             lText = new String(dp.getData());
             System.out.println("UDP packet received" + lText);
+            // TODO: Error checking du string et parsing
             Type listType = new TypeToken<ArrayList<ConnectedUser>>(){}.getType();
             Gson g = new GsonBuilder().setPrettyPrinting().create();
-            g.fromJson(lText, listType);
+            List<ConnectedUser> connectedUsers = g.fromJson(lText, listType);
+            this.notifyAllSubscribers(connectedUsers);
         } catch (SocketException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -101,6 +103,14 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
         System.out.println("I'm the main");
     }
 
+    public void notifyAllSubscribers(List<ConnectedUser> c) {
+        this.subscribers.forEach((s) -> {
+            if(s==null) {
+                return;
+            }
+            s.notify(c);
+        });
+    }
     @Override
     public int subscribe(CustomObserver<List<ConnectedUser>> o) {
         this.subscribers.add(o);
@@ -111,6 +121,6 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
     public CustomObserver<List<ConnectedUser>> unsubscribe(int i) {
         CustomObserver<List<ConnectedUser>> o = this.subscribers.get(i);
         this.subscribers.set(i, null);
-        return  o;
+        return o;
     }
 }
