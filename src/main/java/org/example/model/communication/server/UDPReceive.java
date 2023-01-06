@@ -6,6 +6,7 @@ import org.example.model.CustomObservable;
 import org.example.model.CustomObserver;
 import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.User;
+import org.example.services.SessionService;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -69,6 +70,8 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
             Gson g = new GsonBuilder().setPrettyPrinting().create();
             List<ConnectedUser> connectedUsers = g.fromJson(lText, listType);
             this.notifyAllSubscribers(connectedUsers);
+            SessionService s = SessionService.getInstance();
+            s.setConnectedUsers(connectedUsers);
         } catch (SocketException e) {
             e.printStackTrace();
         } catch (IOException e) {
