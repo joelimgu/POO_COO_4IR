@@ -33,7 +33,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import static java.lang.Thread.sleep;
 
@@ -70,24 +72,31 @@ public class HelloController {
 
     public void addNewPerson(MouseEvent mouseEvent) {
 
-        PersonObject po = new PersonObject("YAYA", new ConnectedUser("sd", null));
+        PersonObject po = new PersonObject(new ConnectedUser("re", null));
         //PersonObject po2 = new PersonObject("KIKI", true, null);
 
         // *****  LISTENER CONFIGURATION *****
 
         // Here : get(0) in order to get the textField area of the person you want to append
+        //TextField p1 = (TextField) po.getChildren().get(0);
         TextField p1 = (TextField) po.getChildren().get(0);
 
         // Put a listener to the TextField in order to print the conversation linked to this user
         p1.setOnMouseClicked(
                 event -> {
+                    // *** ACCESS TO UUID ** ///
+                    UUID uuid = po.getUUID();
+                    System.out.println(uuid.toString());
                     chatList.getChildren().clear();
-                    chatList.getChildren().add(new MessageObject("This is a conversation with " + p1.getText(), true));
-                    chatList.getChildren().add(new MessageObject("Yes we currently talk with " + p1.getText() + " !", false));
+                    chatList.getChildren().add(new MessageObject("This is a conversation with " + po.getUsername(), true));
+                    chatList.getChildren().add(new MessageObject("Yes we currently talk with " + po.getUsername() + " !", false));
+                    chatList.getChildren().add(new MessageObject("And here a second message with " + po.getUsername() + " !", false));
+
+                    // ********************* //
                 }
         );
 
-        // ***** END OF LISTENERS *****
+        // ***** END OF LISTENER CONFIGURATION *****
 
 
         // Add to the main frame
@@ -132,4 +141,26 @@ public class HelloController {
     public void validateOK(MouseEvent mouseEvent) {
 
     }
+
+    public void changeName(String name) {
+        myStage.setTitle("You are connected as " + name);
+    }
+
+    public void addConnectedUser(List<ConnectedUser> users) {
+        for (ConnectedUser user : users) {
+            PersonObject po = new PersonObject(user);
+            TextField p1 = (TextField) po.getChildren().get(0);
+            p1.setOnMouseClicked(
+                    event -> {
+                        // *** ACCESS TO UUID ** ///
+                        UUID uuid = po.getUUID();
+                        System.out.println(uuid.toString());
+                        chatList.getChildren().clear();
+                        // ********************* //
+                        // TODO : Find a way to get the messages of a connected user in the front part with his UUID
+                    }
+            );
+        }
+    }
+
 }
