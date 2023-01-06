@@ -20,7 +20,7 @@ public class ListenersInit {
     }
     public static void startServers() throws IOException {
         int port = 5400;
-        HTTPService.getInstance("localhost:" + 5400);
+        HTTPService.getInstance();
         startHTTPServer(5400);
         startUDPServer();
     }

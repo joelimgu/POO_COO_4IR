@@ -6,6 +6,7 @@ import org.example.model.communication.server.handlers.ConnectedUserHandler;
 import org.example.model.CustomObservable;
 import org.example.model.CustomObserver;
 import org.example.model.communication.server.handlers.GetPseudo;
+import org.example.model.communication.server.handlers.PingHandler;
 import org.example.model.communication.server.handlers.getUserHandler;
 import org.example.model.communication.server.httpEvents.HTTPEvent;
 import org.example.model.conversation.ConnectedUser;
@@ -29,6 +30,7 @@ public class HTTPServer implements CustomObservable<HTTPEvent> {
         server.createContext("/get_pseudo", new GetPseudo());
         server.createContext("/get_user", new getUserHandler());
         server.createContext("/connectedUser",new ConnectedUserHandler());
+        server.createContext("/ping",new PingHandler());
 
         ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
         server.setExecutor(threadPoolExecutor);
