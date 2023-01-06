@@ -2,11 +2,9 @@ package org.example.model.communication.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
-import org.example.model.communication.server.handlers.ConnectedUserHandler;
+import org.example.model.communication.server.handlers.*;
 import org.example.model.CustomObservable;
 import org.example.model.CustomObserver;
-import org.example.model.communication.server.handlers.GetPseudo;
-import org.example.model.communication.server.handlers.getUserHandler;
 import org.example.model.communication.server.httpEvents.HTTPEvent;
 import org.example.model.conversation.ConnectedUser;
 
@@ -28,7 +26,10 @@ public class HTTPServer implements CustomObservable<HTTPEvent> {
 
         server.createContext("/get_pseudo", new GetPseudo());
         server.createContext("/get_user", new getUserHandler());
-        server.createContext("/connectedUser",new ConnectedUserHandler());
+        server.createContext("/connectedUser",new ConnectedUserHandler(this));
+        server.createContext("/EndSessionHandler",new EndSessionHandler(this));
+        server.createContext("/PingHandler",new PingHandler(this));
+
 
         ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
         server.setExecutor(threadPoolExecutor);
