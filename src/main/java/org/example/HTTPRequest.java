@@ -23,5 +23,9 @@ public class HTTPRequest {
         System.out.println(response.body());
 //        System.out.printf(response.statusCode());
     }
+    
+    // TODO: 1/5/23 ping each 10 s to check if the user is still connected
+    // TODO: 1/5/23 receive message (launch an event for a notification)
+    // TODO: 1/5/23 End session Handler (delete the user that got disconnected)
 
-    }
+}
