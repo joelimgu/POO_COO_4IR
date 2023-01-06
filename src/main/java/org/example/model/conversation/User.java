@@ -1,7 +1,11 @@
 package org.example.model.conversation;
 
+import org.example.services.StorageService;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 
 public class User {
@@ -28,5 +32,16 @@ public class User {
 
     public UUID getUuid() {
         return uuid;
+    }
+
+    public static boolean Is_unique(User e) throws SQLException {
+        StorageService data_base = StorageService.getInstance("");
+        List<User> m_list = data_base.getAllRegisteredUsers();
+        for (User m_user : m_list) {
+            if (m_user.getPseudo().equals(e)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
