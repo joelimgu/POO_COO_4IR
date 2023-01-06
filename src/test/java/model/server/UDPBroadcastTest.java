@@ -53,12 +53,4 @@ public class UDPBroadcastTest {
         System.out.println(m_list);
     }
 
-    @Test
-    public void testCallback() {
-        CompletableFuture<List<ConnectedUser>> connectedUsers = CompletableFuture.supplyAsync((users) -> {
-            assertEquals(s1,s2);
-        })
-    }
-
-
 }

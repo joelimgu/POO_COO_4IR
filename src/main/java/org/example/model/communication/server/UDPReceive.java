@@ -1,15 +1,16 @@
 package org.example.model.communication.server;
+import org.example.model.CustomObservable;
+import org.example.model.CustomObserver;
+import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.User;
 
 import java.io.IOException;
 import java.net.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Flow;
 
 
-public class UDPReceive extends Thread implements Runnable {
+public class UDPReceive extends Thread implements Runnable, CustomObservable<List<ConnectedUser>> {
     String m_ip;
 
     private static DatagramSocket m_ServerSock ;
@@ -44,8 +45,7 @@ public class UDPReceive extends Thread implements Runnable {
         this.m_state = state;
     }
 
-    private List<Flow.Subscriber> subscribers = new ArrayList<>();
-
+    private List<CustomObserver<List<ConnectedUser>>> subscribers= new ArrayList<>();
     /* --------------------------------------------------------------------------*/
     public void run() {
         System.out.println("je suis lancé");
@@ -94,4 +94,16 @@ public class UDPReceive extends Thread implements Runnable {
         System.out.println("I'm the main");
     }
 
+    @Override
+    public int subscribe(CustomObserver<List<ConnectedUser>> o) {
+        this.subscribers.add(o);
+        return this.subscribers.size() - 1;
+    }
+
+    @Override
+    public CustomObserver<List<ConnectedUser>> unsubscribe(int i) {
+        CustomObserver<List<ConnectedUser>> o = this.subscribers.get(i);
+        this.subscribers.set(i, null);
+        return  o;
+    }
 }

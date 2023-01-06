@@ -18,7 +18,7 @@ public class FutureService {
         }
     }
 
-    public FutureService getInstance() {
+    public static FutureService getInstance() {
         if (instance == null){
             synchronized(SessionService.class) {
                 if (instance == null) {
@@ -32,4 +32,10 @@ public class FutureService {
     public void addTaskForHistoryReception(CompletableFuture<List<ConnectedUser>> task) {
         this.historyReception.add(task);
     }
+
+    public void notifyHistoryReception(List<ConnectedUser> c) {
+        this.historyReception.forEach((f) -> f.complete(c));
+    }
+
+
 }
