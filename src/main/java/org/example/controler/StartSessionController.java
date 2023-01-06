@@ -21,9 +21,11 @@ public class StartSessionController implements CustomObserver<List<ConnectedUser
         SessionService.getInstance().setConnectedUsers(event);
         try {
             ConnectedUser connectedUser = SessionService.getInstance().getConnectedUsers().get(0);
-//            HTTPService
+            HTTPService.getInstance().sendRequest(connectedUser.getIP() + SessionService.getInstance());
         } catch (IndexOutOfBoundsException e) {
             // TODO: on n'a pas d'internet ou pas de users dans le rzo (INSERT ERROR DIALOG SI PAS INTERNET)
+        } catch (IOException e) {
+            // TODO: Throw Pop up to indicate connexion HTTP error
         }
     }
 }

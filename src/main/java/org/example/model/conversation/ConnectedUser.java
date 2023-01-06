@@ -1,8 +1,7 @@
 package org.example.model.conversation;
 import org.jetbrains.annotations.NotNull;
-import java.net.InetAddress;
+
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class ConnectedUser extends User {
@@ -19,7 +18,7 @@ public class ConnectedUser extends User {
         this.m_IP = IP;
     }
 
-    public String GetIP(User u) throws UnknownHostException
+    public String getIP() throws UnknownHostException
     {
         return this.m_IP;
     }
