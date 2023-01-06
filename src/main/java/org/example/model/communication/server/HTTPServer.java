@@ -30,13 +30,11 @@ public class HTTPServer implements CustomObservable<HTTPEvent> {
         server.createContext("/EndSessionHandler",new EndSessionHandler(this));
         server.createContext("/PingHandler",new PingHandler(this));
 
-
         ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
         server.setExecutor(threadPoolExecutor);
         server.start();
 
         System.out.println(" Server started on port " + port);
-
     }
 
     /**
