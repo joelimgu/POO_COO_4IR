@@ -2,6 +2,7 @@ package model.server;
 
 import org.example.model.communication.server.UDPBroadcast;
 import org.example.model.communication.server.UDPReceive;
+import org.example.model.conversation.ConnectedUser;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -15,6 +16,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UDPBroadcastTest {
@@ -47,8 +51,6 @@ public class UDPBroadcastTest {
         System.out.println("mon local host" + InetAddress.getLocalHost());
         List<InetAddress> m_list = this.m_broadcaster.listAllBroadcastAddresses();
         System.out.println(m_list);
-
     }
-
 
 }

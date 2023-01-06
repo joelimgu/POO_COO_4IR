@@ -1,7 +1,6 @@
 package services;
 
 import org.example.model.conversation.Conversation;
-import org.example.model.conversation.History;
 import org.example.model.conversation.Message;
 import org.example.model.conversation.User;
 import org.example.services.SessionService;

@@ -1,13 +1,21 @@
 package org.example.model.communication.server;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import org.example.model.CustomObservable;
+import org.example.model.CustomObserver;
+import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.User;
+import org.example.services.SessionService;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.*;
-import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 
-
-public class UDPReceive extends Thread implements Runnable {
+public class UDPReceive extends Thread implements Runnable, CustomObservable<List<ConnectedUser>> {
     String m_ip;
 
     private static DatagramSocket m_ServerSock ;
@@ -42,6 +50,7 @@ public class UDPReceive extends Thread implements Runnable {
         this.m_state = state;
     }
 
+    private List<CustomObserver<List<ConnectedUser>>> subscribers= new ArrayList<>();
     /* --------------------------------------------------------------------------*/
     public void run() {
         System.out.println("je suis lancé");
@@ -56,6 +65,13 @@ public class UDPReceive extends Thread implements Runnable {
             ds.receive(dp);
             lText = new String(dp.getData());
             System.out.println("UDP packet received" + lText);
+            // TODO: Error checking du string et parsing
+            Type listType = new TypeToken<ArrayList<ConnectedUser>>(){}.getType();
+            Gson g = new GsonBuilder().setPrettyPrinting().create();
+            List<ConnectedUser> connectedUsers = g.fromJson(lText, listType);
+            this.notifyAllSubscribers(connectedUsers);
+            SessionService s = SessionService.getInstance();
+            s.setConnectedUsers(connectedUsers);
         } catch (SocketException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -68,7 +84,7 @@ public class UDPReceive extends Thread implements Runnable {
     }
 
 
-    public static void main(String arg[]) throws IOException{
+    public static void main(String arg[]) throws IOException {
         DatagramSocket m_socket = new DatagramSocket();
         byte[] receive = new byte[10000];
         DatagramPacket m_packet = null;
@@ -88,5 +104,26 @@ public class UDPReceive extends Thread implements Runnable {
         Thread t1 = new Thread(m_runnable);
         t1.start();
         System.out.println("I'm the main");
+    }
+
+    public void notifyAllSubscribers(List<ConnectedUser> c) {
+        this.subscribers.forEach((s) -> {
+            if(s==null) {
+                return;
+            }
+            s.notify(c);
+        });
+    }
+    @Override
+    public int subscribe(CustomObserver<List<ConnectedUser>> o) {
+        this.subscribers.add(o);
+        return this.subscribers.size() - 1;
+    }
+
+    @Override
+    public CustomObserver<List<ConnectedUser>> unsubscribe(int i) {
+        CustomObserver<List<ConnectedUser>> o = this.subscribers.get(i);
+        this.subscribers.set(i, null);
+        return o;
     }
 }

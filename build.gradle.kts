@@ -16,7 +16,7 @@ version = "1.0-SNAPSHOT"
 
 application {
     //mainClass.set("org.example.Main")
-    mainClass.set("org.example.view.HelloApplication")
+    mainClass.set("org.example.view.LoginApplication")
 }
 
 repositories {

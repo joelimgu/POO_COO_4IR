@@ -35,7 +35,7 @@ public class GetUserHandlerTest  {
         System.out.println("Server created at " + port);
         */
 
-        SessionService m_session = SessionService.SessionService();
+        SessionService m_session = SessionService.getInstance();
         m_session.setM_localUser(null);
 
         var client = HttpClient.newHttpClient();
@@ -67,7 +67,7 @@ public class GetUserHandlerTest  {
 
         User test_user = new User("Asmun");
 
-        SessionService m_session = SessionService.SessionService();
+        SessionService m_session = SessionService.getInstance();
         m_session.setM_localUser(test_user);
         System.out.printf(m_session.getM_localUser().getPseudo());
         var client = HttpClient.newHttpClient();
