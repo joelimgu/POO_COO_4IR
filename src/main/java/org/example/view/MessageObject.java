@@ -29,6 +29,7 @@ public class MessageObject extends BorderPane {
         this.type = type;
         messageText = new Label(message);
 
+
         double widthConfiguration;
 
         // Configure the width of the text area to put the background
