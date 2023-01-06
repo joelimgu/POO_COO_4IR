@@ -10,6 +10,13 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class HelloApplication extends Application {
+
+    String userName;
+
+    public HelloApplication(String name) {
+        userName = name;
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/Test_IHM.fxml"));
@@ -21,8 +28,8 @@ public class HelloApplication extends Application {
         controller.setStage(stage);
         // ---------------------------------------------------------------------------
 
-        //stage.setResizable(false);
-        stage.setTitle("The best chat application EVER");
+        stage.setResizable(false);
+        stage.setTitle("You are connected as " + userName);
         stage.setScene(scene);
         stage.show();
 
