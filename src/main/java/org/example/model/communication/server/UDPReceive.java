@@ -6,11 +6,16 @@ import org.example.model.CustomObservable;
 import org.example.model.CustomObserver;
 import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.User;
+import org.example.services.HTTPService;
 import org.example.services.SessionService;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.*;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpTimeoutException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,15 +70,28 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
             ds.receive(dp);
             lText = new String(dp.getData());
             System.out.println("UDP packet received" + lText);
-            // TODO: Error checking du string et parsing
-            Type listType = new TypeToken<ArrayList<ConnectedUser>>(){}.getType();
+            // TODO: put inside the HTTP service
             Gson g = new GsonBuilder().setPrettyPrinting().create();
-            List<ConnectedUser> connectedUsers = g.fromJson(lText, listType);
-            this.notifyAllSubscribers(connectedUsers);
-            SessionService s = SessionService.getInstance();
-            s.setConnectedUsers(connectedUsers);
-        } catch (SocketException e) {
-            e.printStackTrace();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(dp.getAddress()
+                            + ":"
+                            + SessionService.getInstance().getHttp_port()
+                            + "/receive_connected_users_list"
+                    ))
+                    .timeout(Duration.ofSeconds(10))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(g.toJson(SessionService.getInstance().getConnectedUsers())))
+                    .build();
+            System.out.println("send HTTP request: to " + dp.getAddress() + "and port" + SessionService.getInstance().getHttp_port());
+            HTTPService.getInstance().getClient().sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .exceptionally((e) -> {
+                        // TODO log e
+                        System.out.println("UDPRECV error: " + e);
+                        return null;
+                    });
+
+        } catch (HttpTimeoutException e) {
+            // TODO: log
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

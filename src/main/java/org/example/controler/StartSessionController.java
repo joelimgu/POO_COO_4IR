@@ -2,23 +2,43 @@ package org.example.controler;
 
 import org.example.model.CustomObserver;
 import org.example.model.communication.server.UDPBroadcast;
+import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
+import org.example.model.communication.server.httpEvents.HTTPEvent;
 import org.example.model.conversation.ConnectedUser;
 import org.example.services.HTTPService;
 import org.example.services.SessionService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
-public class StartSessionController implements CustomObserver<List<ConnectedUser>> {
+public class StartSessionController implements CustomObserver<HTTPEvent> {
+
+    private CompletableFuture<List<ConnectedUser>> f;
     public void verifyPseudo(String pseudo) throws IOException {
         ListenersInit.startServers();
-        SessionService.getInstance().getUDPServer().subscribe(this);
-        UDPBroadcast bc = new UDPBroadcast();
+        SessionService.getInstance().getHttpServer().subscribe(this);
+        UDPBroadcast.broadcastUDP bc = new UDPBroadcast.broadcastUDP();
+        this.f = new CompletableFuture<List<ConnectedUser>>().thenApply((c) -> {
+            this.connexionOK(c);
+            return c;
+        });
+        this.f.completeOnTimeout(new ArrayList<>(), 5, TimeUnit.SECONDS);
     }
 
+    public void connexionOK(List<ConnectedUser> c) {
+        System.out.println("Sessions started, connected users = " + c);
+    }
     @Override
-    public void notify(List<ConnectedUser> event) {
-        SessionService.getInstance().setConnectedUsers(event);
+    public void notify(HTTPEvent event) {
+        if (event.getClass() !=  ConnectedUsersListReceived.class) {
+            return;
+        }
+        this.f.complete(((ConnectedUsersListReceived) event).connectedUsers);
+        // TODO: merge instead of set
+//        SessionService.getInstance().setConnectedUsers(event);
         try {
             ConnectedUser connectedUser = SessionService.getInstance().getConnectedUsers().get(0);
             HTTPService.getInstance().sendRequest(connectedUser.getIP() + SessionService.getInstance());

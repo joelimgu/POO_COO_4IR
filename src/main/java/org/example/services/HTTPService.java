@@ -10,7 +10,7 @@ public class HTTPService {
 
     private static volatile HTTPService instance;
     private String url;
-    private HttpClient serv;
+    private final HttpClient serv;
 
     private HTTPService() {
         this.serv = HttpClient.newHttpClient();
@@ -30,6 +30,10 @@ public class HTTPService {
         return instance;
     }
 
+    public HttpClient getClient() {
+        return this.serv;
+    }
+
     public HttpResponse<String> sendRequest(String url) throws IOException {
         HttpResponse<String> response = null;
         var request = HttpRequest.newBuilder(
@@ -42,7 +46,4 @@ public class HTTPService {
             throw new RuntimeException(e);
         }
     }
-
-
-
 }

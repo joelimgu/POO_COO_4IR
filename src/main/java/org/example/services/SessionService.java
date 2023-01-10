@@ -23,6 +23,9 @@ public class SessionService {
     private UDPReceive UDPServer;
 
     private int nb_connectedUser=0;
+
+    private final int udp_port = 4000;
+    private final int http_port = 3000;
     private SessionService() {
         if (instance != null) {
             throw new RuntimeException("SessionService instanced twice");
@@ -72,5 +75,13 @@ public class SessionService {
 
     public List<ConnectedUser> getConnectedUsers() {
         return connectedUsers;
+    }
+
+    public int getUdp_port() {
+        return udp_port;
+    }
+
+    public int getHttp_port() {
+        return http_port;
     }
 }

@@ -1,4 +1,5 @@
 package org.example.model.conversation;
+import com.google.gson.GsonBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.UnknownHostException;

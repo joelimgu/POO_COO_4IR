@@ -2,7 +2,6 @@ package org.example.model.communication.server;
 
 import org.example.model.conversation.ConnectedUser;
 
-import javax.lang.model.type.NullType;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -37,7 +36,7 @@ public class UDPBroadcast {
          * @throws IOException
          */
 
-        public void SendBroadcast(String BroadcastMessage, int port) throws IOException {
+        public void sendBroadcast(String BroadcastMessage, int port) throws IOException {
             for (InetAddress AddrBroadcast : listAllBroadcastAddresses()) {
                 try {
                     DatagramSocket socket = new DatagramSocket();
