@@ -18,10 +18,14 @@ public class ListenersInit {
         UDPReceive udp = new UDPReceive();
         SessionService.getInstance().setUDPServer(udp);
     }
-    public static void startServers() throws IOException {
+    public static void startServers() {
         int port = 5400;
         HTTPService.getInstance();
-        startHTTPServer(5400);
-        startUDPServer();
+        try {
+            startHTTPServer(5400);
+            startUDPServer();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
