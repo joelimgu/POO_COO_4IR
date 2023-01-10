@@ -1,5 +1,6 @@
 package org.example.model.conversation;
 
+import com.google.gson.GsonBuilder;
 import org.example.services.StorageService;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,5 +44,10 @@ public class User {
             }
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return new GsonBuilder().setPrettyPrinting().create().toJson(this);
     }
 }

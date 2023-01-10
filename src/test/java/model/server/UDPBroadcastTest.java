@@ -2,21 +2,14 @@ package model.server;
 
 import org.example.model.communication.server.UDPBroadcast;
 import org.example.model.communication.server.UDPReceive;
-import org.example.model.conversation.ConnectedUser;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.net.*;
-import java.util.ArrayList;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
-import javax.xml.crypto.Data;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -42,7 +35,7 @@ public class UDPBroadcastTest {
     public void testSendBroadcast() throws IOException {
         DatagramSocket socket = new DatagramSocket();
         int port = socket.getLocalPort();
-        m_broadcaster.SendBroadcast("test broadcast",4000);
+        m_broadcaster.sendBroadcast("test broadcast",4000);
     }
 
     @Test
