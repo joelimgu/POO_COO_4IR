@@ -36,6 +36,7 @@ public class UDPBroadcast {
          * @throws IOException
          */
 
+        // TODO: use the same socket in order to use the same port...
         public void sendBroadcast(String BroadcastMessage, int port) throws IOException {
             for (InetAddress AddrBroadcast : listAllBroadcastAddresses()) {
                 try {

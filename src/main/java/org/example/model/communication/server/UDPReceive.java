@@ -58,13 +58,14 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
     private List<CustomObserver<List<ConnectedUser>>> subscribers= new ArrayList<>();
     /* --------------------------------------------------------------------------*/
     public void run() {
-        System.out.println("je suis lancé");
+        int port = SessionService.getInstance().getUdp_port();
+        System.out.println("UDP Server started on port: " + port);
         String lText;
         byte[] lMsg = new byte[MAX_UDP_DATAGRAM_LEN];
         DatagramPacket dp = new DatagramPacket(lMsg, lMsg.length);
         DatagramSocket ds = null;
         try {
-            ds = new DatagramSocket(4000);
+            ds = new DatagramSocket(port);
             //disable timeout for testing
             //ds.setSoTimeout(100000);
             ds.receive(dp);
