@@ -21,7 +21,7 @@ public class ListenersInit {
         SessionService.getInstance().setUDPServer(udp);
     }
     public static void startServers() {
-        HTTPService.getInstance();
+//        HTTPService.getInstance();
         try {
             startHTTPServer(SessionService.getInstance().getHttp_port());
             startUDPServer();

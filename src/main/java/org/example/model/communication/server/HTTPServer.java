@@ -26,7 +26,7 @@ public class HTTPServer implements CustomObservable<HTTPEvent> {
         server.createContext("/get_pseudo", new GetPseudo());
         server.createContext("/get_user", new getUserHandler());
         server.createContext("/end_session_handler",new EndSessionHandler(this));
-        server.createContext("/ping_handler",new PingHandler(this));
+        server.createContext("/ping",new PingHandler(this));
         server.createContext("/receive_message",new ReceiveMessageHandler(this));
         server.createContext("/receive_connected_users_list",new receiveConnectedUsersHandler(this));
 

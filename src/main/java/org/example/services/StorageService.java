@@ -72,6 +72,7 @@ public class StorageService {
     }
 
     public void save(@NotNull Conversation conversation) throws SQLException {
+
         for (Message m: conversation.getMessages()) {
             this.save(m);
         }

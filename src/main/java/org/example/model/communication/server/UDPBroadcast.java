@@ -44,7 +44,7 @@ public class UDPBroadcast {
                     socket.setBroadcast(true);
                     byte[] buffer = BroadcastMessage.getBytes();
                     DatagramPacket packet = new DatagramPacket(buffer, buffer.length, AddrBroadcast, port);
-                    System.out.println("Envoie du message en broadcast to" + AddrBroadcast);
+                    System.out.println("Envoie du message of len: " + buffer.length + "en broadcast to" + AddrBroadcast);
 
                     //DatagramPacket packet = new DatagramPacket(buffer,buffer.length,AddrBroadcast,port);
                     //System.out.println("Envoie du message en broadcast to" + AddrBroadcast );

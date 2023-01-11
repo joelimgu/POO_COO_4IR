@@ -18,9 +18,9 @@ public class StartSessionController implements CustomObserver<HTTPEvent> {
 
     private CompletableFuture<List<ConnectedUser>> f;
     public void verifyPseudo(String pseudo) throws IOException {
-        ListenersInit.startServers();
         SessionService.getInstance().getHttpServer().subscribe(this);
         UDPBroadcast.broadcastUDP bc = new UDPBroadcast.broadcastUDP();
+        bc.sendBroadcast("coucou", SessionService.getInstance().getUdp_port());
         this.f = new CompletableFuture<List<ConnectedUser>>().thenApply((c) -> {
             this.connexionOK(c);
             return c;

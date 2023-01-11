@@ -70,24 +70,27 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
             //ds.setSoTimeout(100000);
             ds.receive(dp);
             lText = new String(dp.getData());
-            System.out.println("UDP packet received" + lText);
+            System.out.println("UDP packet received of len: " + lText.length() + " | " + lText);
             // TODO: put inside the HTTP service
             Gson g = new GsonBuilder().setPrettyPrinting().create();
+//            String[] address_with_url = dp.getAddress().toString().split("/");
+//            String ip = address_with_url[address_with_url.length -1];
+            String url = dp.getAddress()
+                    + ":"
+                    + SessionService.getInstance().getHttp_port()
+                    + "/receive_connected_users_list";
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(dp.getAddress()
-                            + ":"
-                            + SessionService.getInstance().getHttp_port()
-                            + "/receive_connected_users_list"
-                    ))
+                    .uri(URI.create("http:/" + url))
                     .timeout(Duration.ofSeconds(10))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(g.toJson(SessionService.getInstance().getConnectedUsers())))
                     .build();
-            System.out.println("send HTTP request: to " + dp.getAddress() + "and port" + SessionService.getInstance().getHttp_port());
+            System.out.println("send HTTP request: to " + dp.getAddress() + " and port " + SessionService.getInstance().getHttp_port());
             HTTPService.getInstance().getClient().sendAsync(request, HttpResponse.BodyHandlers.ofString())
                     .exceptionally((e) -> {
                         // TODO log e
                         System.out.println("UDPRECV error: " + e);
+                        System.out.println("When trying to send HTTP request: " + dp.getAddress() + " and port " + SessionService.getInstance().getHttp_port());
                         return null;
                     });
 

@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  node1:
+    container_name: clavardage-node-1
+    build: .
+    volumes:
+      - $PWD:/usr/src/POO_COO_4IR
