@@ -21,7 +21,7 @@ public class HTTPServer implements CustomObservable<HTTPEvent> {
     int port = 0;
     public HTTPServer(int port) throws IOException {
         this.port = port;
-        HttpServer server = HttpServer.create(new InetSocketAddress("localhost", port), 1000);
+        HttpServer server = HttpServer.create(new InetSocketAddress(port), 1000);
 
         server.createContext("/get_pseudo", new GetPseudo());
         server.createContext("/get_user", new getUserHandler());

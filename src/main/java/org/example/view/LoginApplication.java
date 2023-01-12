@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.controler.ListenersInit;
 
+import java.util.Arrays;
+
 public class LoginApplication extends Application  {
 
 
@@ -28,7 +30,12 @@ public class LoginApplication extends Application  {
     }
 
     public static void main(String[] args) {
+        System.out.println(Arrays.toString(args));
         ListenersInit.startServers();
+        if (Arrays.asList(args).contains("no-gui")) {
+            System.out.println("Running with no gui");
+            return;
+        }
         launch();
     }
 }

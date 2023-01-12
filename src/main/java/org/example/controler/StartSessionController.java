@@ -1,5 +1,6 @@
 package org.example.controler;
 
+import javafx.stage.Stage;
 import org.example.model.CustomObserver;
 import org.example.model.communication.server.UDPBroadcast;
 import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
@@ -7,6 +8,7 @@ import org.example.model.communication.server.httpEvents.HTTPEvent;
 import org.example.model.conversation.ConnectedUser;
 import org.example.services.HTTPService;
 import org.example.services.SessionService;
+import org.example.view.HelloApplication;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,15 +23,17 @@ public class StartSessionController implements CustomObserver<HTTPEvent> {
         SessionService.getInstance().getHttpServer().subscribe(this);
         UDPBroadcast.broadcastUDP bc = new UDPBroadcast.broadcastUDP();
         bc.sendBroadcast("coucou", SessionService.getInstance().getUdp_port());
-        this.f = new CompletableFuture<List<ConnectedUser>>().thenApply((c) -> {
+        this.f = new CompletableFuture<>();
+        this.f.thenApply((c) -> {
             this.connexionOK(c);
             return c;
         });
-        this.f.completeOnTimeout(new ArrayList<>(), 5, TimeUnit.SECONDS);
+        this.f.completeOnTimeout(new ArrayList<>(), 1, TimeUnit.SECONDS);
     }
 
     public void connexionOK(List<ConnectedUser> c) {
         System.out.println("Sessions started, connected users = " + c);
+        // TODO: change window
     }
     @Override
     public void notify(HTTPEvent event) {
