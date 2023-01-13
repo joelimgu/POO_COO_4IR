@@ -20,9 +20,9 @@ public class LoginApplication extends Application  {
         Scene scene = new Scene(fxmlLoader.load());
 
         // ---- Permettre d'avoir accès au stage dans le contrôleur lors du démarrage
-        //LoginController controller = fxmlLoader.getController();
+        LoginController controller = fxmlLoader.getController();
         // ---------------------------------------------------------------------------
-        //controller.setStage(stage);
+        controller.setStage(stage);
         stage.setResizable(false);
         stage.setTitle("Connexion page");
         stage.setScene(scene);

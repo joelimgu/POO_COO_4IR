@@ -9,6 +9,9 @@ import org.example.model.conversation.ConnectedUser;
 import org.example.services.HTTPService;
 import org.example.services.SessionService;
 import org.example.view.HelloApplication;
+import org.example.view.HelloController;
+import org.example.view.LoginApplication;
+import org.example.view.LoginController;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,15 +27,13 @@ public class StartSessionController implements CustomObserver<HTTPEvent> {
         UDPBroadcast.broadcastUDP bc = new UDPBroadcast.broadcastUDP();
         bc.sendBroadcast("coucou", SessionService.getInstance().getUdp_port());
         this.f = new CompletableFuture<>();
-        this.f.thenApply((c) -> {
-            this.connexionOK(c);
-            return c;
-        });
         this.f.completeOnTimeout(new ArrayList<>(), 1, TimeUnit.SECONDS);
+        this.f.join();
     }
 
     public void connexionOK(List<ConnectedUser> c) {
         System.out.println("Sessions started, connected users = " + c);
+
         // TODO: change window
     }
     @Override
