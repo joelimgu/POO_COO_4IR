@@ -18,7 +18,6 @@ public class Conversation implements Serializable {
         this.user1 = user;
     }
 
-    // TODO, should be privade and be called from the other constructor
     public Conversation (@NotNull User user, @NotNull List<Message> h) {
         this.user1 = user;
         this.messages = h;

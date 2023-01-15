@@ -30,7 +30,7 @@ public class HTTPServer implements CustomObservable<HTTPEvent> {
         server.createContext("/receive_message",new ReceiveMessageHandler(this));
         server.createContext("/receive_connected_users_list",new receiveConnectedUsersHandler(this));
 
-        ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
+        ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
         server.setExecutor(threadPoolExecutor);
         server.start();
 

@@ -8,7 +8,6 @@ import org.example.services.SessionService;
 import java.io.IOException;
 
 public class ListenersInit {
-
     private static void startHTTPServer(int port) throws IOException {
         HTTPServer http = new HTTPServer(port);
         SessionService.getInstance().setHttpServer(http);

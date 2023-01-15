@@ -45,7 +45,6 @@ public class Main {
         Thread.sleep(5000);
 ////        new HTTPServer(8001);
 //        Dotenv dotenv = Dotenv.configure().load();
-//        // TODO: make it work on windows too ( / vs \ )
 //        // Get the directory where data will be stored, either configured on the .env or tmp by default
 //        String dataDirectory = dotenv.get("SAVES_DIR", System.getProperty("java.io.tmpdir")) + "/.clavardage";
 //
