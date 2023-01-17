@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SessionService {
     private static SessionService instance ;
@@ -78,7 +79,9 @@ public class SessionService {
      * @return ConnectedUsers
      */
     synchronized public List<ConnectedUser> getConnectedUsers() {
-        return connectedUsers;
+        List<ConnectedUser> c = new ArrayList<>(this.connectedUsers);
+        c.add(this.m_localUser);
+        return c;
     }
 
     synchronized public void removeConnectedUser(ConnectedUser u) {
@@ -90,7 +93,8 @@ public class SessionService {
     }
 
     synchronized public ConnectedUser deleteConnectedUserByName(String pseudo) {
-        ConnectedUser u = this.connectedUsers.stream().filter((c) -> c.getPseudo().equals(pseudo)).toList().get(0);
+        ConnectedUser u = this.connectedUsers.stream().filter((c) -> c.getPseudo().equals(pseudo))
+                .collect(Collectors.toList()).get(0);
         this.connectedUsers.remove(u);
         return u;
     }
