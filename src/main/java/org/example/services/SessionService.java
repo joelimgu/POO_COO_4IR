@@ -56,8 +56,12 @@ public class SessionService {
         this.m_localUser.setIP(IP);
     }
 
-    public void setNb_connectedUser(int x){this.nb_connectedUser = x;}
-    public int getNb_connectedUser() {return nb_connectedUser;}
+    public void setNb_connectedUser(int x){
+        this.nb_connectedUser = x;
+    }
+    public int getNb_connectedUser() {
+        return nb_connectedUser;
+    }
 
     public void setHttpServer(HTTPServer httpServer) {
         this.httpServer = httpServer;

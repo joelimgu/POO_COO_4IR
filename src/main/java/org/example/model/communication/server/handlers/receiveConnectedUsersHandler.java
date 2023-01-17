@@ -37,6 +37,7 @@ public class receiveConnectedUsersHandler extends BaseHandler implements HttpHan
             this.httpServer.notifyAllSubscribers(new ConnectedUsersListReceived(connectedUsers));
             HTTPServer.sendResponse(httpExchange, Arrays.toString(response));
             httpExchange.sendResponseHeaders(200, response.length);
+            this.httpServer.notifyAllSubscribers(new ConnectedUsersListReceived(connectedUsers));
         }
     }
 }
