@@ -7,12 +7,15 @@ import java.util.UUID;
 
 public class ConnectedUser extends User {
     public String m_IP;
-    public ConnectedUser(@NotNull String Pseudo,@NotNull String IP)
+    public ConnectedUser(@NotNull String Pseudo,String IP)
     {
         super(Pseudo);
         this.m_IP = IP;
     }
 
+    public void setIP(String IP) {
+        this.m_IP = IP;
+    }
     public ConnectedUser (@NotNull String Pseudo, UUID uuid, @NotNull String IP)
     {
         super(Pseudo,uuid);

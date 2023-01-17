@@ -6,6 +6,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.example.controler.StartSessionController;
+import org.example.model.conversation.ConnectedUser;
+import org.example.services.SessionService;
 
 import java.io.IOException;
 
@@ -32,7 +34,8 @@ public class LoginController {
            if no : validate and go to the main frame
          */
         StartSessionController s = new StartSessionController();
-        s.verifyPseudo(loginText.getText());
+        String username = loginText.getText();
+        s.startSession(username);
         startSession(null);
     }
 

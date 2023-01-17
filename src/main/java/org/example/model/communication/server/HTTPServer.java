@@ -29,6 +29,7 @@ public class HTTPServer implements CustomObservable<HTTPEvent> {
         server.createContext("/ping",new PingHandler(this));
         server.createContext("/receive_message",new ReceiveMessageHandler(this));
         server.createContext("/receive_connected_users_list",new receiveConnectedUsersHandler(this));
+        server.createContext("/get_self_ip",new getIPHandler(this));
 
         ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
         server.setExecutor(threadPoolExecutor);

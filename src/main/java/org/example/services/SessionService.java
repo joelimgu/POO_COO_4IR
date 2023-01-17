@@ -13,7 +13,7 @@ import java.util.List;
 
 public class SessionService {
     private static SessionService instance ;
-    private User m_localUser;
+    private ConnectedUser m_localUser;
     private ArrayList<ConnectedUser> m_list = new ArrayList<ConnectedUser>();
 
     private List<ConnectedUser> connectedUsers = new ArrayList<>();
@@ -47,11 +47,12 @@ public class SessionService {
         return m_localUser;
     }
 
-    synchronized public void setConnectedUsers(List<ConnectedUser> u) {
-        this.connectedUsers = u;
-    }
-    public void setM_localUser(User m_localUser) {
+    public void setM_localUser(ConnectedUser m_localUser) {
         this.m_localUser = m_localUser;
+    }
+
+    public void  setLocalIP(String IP) {
+        this.m_localUser.setIP(IP);
     }
 
     public void setNb_connectedUser(int x){this.nb_connectedUser = x;}
@@ -73,8 +74,25 @@ public class SessionService {
         return this.UDPServer;
     }
 
-    public List<ConnectedUser> getConnectedUsers() {
+    /** Order os not guaranteed
+     * @return ConnectedUsers
+     */
+    synchronized public List<ConnectedUser> getConnectedUsers() {
         return connectedUsers;
+    }
+
+    synchronized public void removeConnectedUser(ConnectedUser u) {
+        this.connectedUsers.remove(u);
+    }
+
+    synchronized public void addConnectedUser(ConnectedUser u) {
+        this.connectedUsers.add(u);
+    }
+
+    synchronized public ConnectedUser deleteConnectedUserByName(String pseudo) {
+        ConnectedUser u = this.connectedUsers.stream().filter((c) -> c.getPseudo().equals(pseudo)).toList().get(0);
+        this.connectedUsers.remove(u);
+        return u;
     }
 
     public int getUdp_port() {

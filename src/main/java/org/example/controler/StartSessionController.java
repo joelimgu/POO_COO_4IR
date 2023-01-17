@@ -1,6 +1,5 @@
 package org.example.controler;
 
-import javafx.stage.Stage;
 import org.example.model.CustomObserver;
 import org.example.model.communication.server.UDPBroadcast;
 import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
@@ -8,13 +7,13 @@ import org.example.model.communication.server.httpEvents.HTTPEvent;
 import org.example.model.conversation.ConnectedUser;
 import org.example.services.HTTPService;
 import org.example.services.SessionService;
-import org.example.view.HelloApplication;
-import org.example.view.HelloController;
-import org.example.view.LoginApplication;
-import org.example.view.LoginController;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -22,13 +21,15 @@ import java.util.concurrent.TimeUnit;
 public class StartSessionController implements CustomObserver<HTTPEvent> {
 
     private CompletableFuture<List<ConnectedUser>> f;
-    public void verifyPseudo(String pseudo) throws IOException {
+    public void startSession(String pseudo) throws IOException {
         SessionService.getInstance().getHttpServer().subscribe(this);
         UDPBroadcast.broadcastUDP bc = new UDPBroadcast.broadcastUDP();
+        SessionService.getInstance().setM_localUser(new ConnectedUser(pseudo, null));
         bc.sendBroadcast("coucou", SessionService.getInstance().getUdp_port());
         this.f = new CompletableFuture<>();
         this.f.completeOnTimeout(new ArrayList<>(), 1, TimeUnit.SECONDS);
         this.f.join();
+        System.out.println("Pseudo verified");
     }
 
     public void connexionOK(List<ConnectedUser> c) {

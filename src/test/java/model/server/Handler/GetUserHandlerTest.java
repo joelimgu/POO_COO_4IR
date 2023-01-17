@@ -1,6 +1,7 @@
 package model.server.Handler;
 
 import org.example.model.communication.server.HTTPServer;
+import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.User;
 import org.example.services.SessionService;
 import org.junit.jupiter.api.BeforeAll;
@@ -68,7 +69,7 @@ public class GetUserHandlerTest  {
         User test_user = new User("Asmun");
 
         SessionService m_session = SessionService.getInstance();
-        m_session.setM_localUser(test_user);
+        m_session.setM_localUser(new ConnectedUser(test_user.getPseudo(), test_user.getUuid(), null);
         System.out.printf(m_session.getM_localUser().getPseudo());
         var client = HttpClient.newHttpClient();
 
