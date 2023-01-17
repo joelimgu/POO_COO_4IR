@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Type;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,13 +27,13 @@ public class receiveConnectedUsersHandler extends BaseHandler implements HttpHan
         SessionService s = SessionService.getInstance();
         if ("POST".equals(httpExchange.getRequestMethod())) {
             byte [] response = "thanks".getBytes();
-            String body = httpExchange.getRequestBody().toString();
+            String body = new String(httpExchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
             System.out.println("received ConnectedUsers: " + body);
             Gson g = new GsonBuilder().setPrettyPrinting().create();
             Type listType = new TypeToken<ArrayList<ConnectedUser>>(){}.getType();
             List<ConnectedUser> connectedUsers = g.fromJson(body, listType);
             // TODO: merge instead of set
-            s.setConnectedUsers(connectedUsers);
+            connectedUsers.forEach(s::addConnectedUser);
             this.httpServer.notifyAllSubscribers(new ConnectedUsersListReceived(connectedUsers));
             HTTPServer.sendResponse(httpExchange, Arrays.toString(response));
             httpExchange.sendResponseHeaders(200, response.length);

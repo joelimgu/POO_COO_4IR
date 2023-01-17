@@ -3,7 +3,7 @@ package org.example;
 import org.example.model.communication.server.HTTPServer;
 
 import java.io.IOException;
-import java.net.URI;
+import java.net.*;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.text.DateFormat;
@@ -14,12 +14,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.example.model.conversation.ConnectedUser;
@@ -33,16 +31,24 @@ import org.example.services.StorageService;
 import static java.lang.Thread.sleep;
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
-
-
-        CompletableFuture<String> f = new CompletableFuture<>();
-        f.thenApply((c) -> {
-            System.out.println("complete");
-            return c;
-        });
-        f.completeOnTimeout("coucou", 1, TimeUnit.SECONDS);
-        Thread.sleep(5000);
+    public static void main(String[] args) throws UnknownHostException {
+//        List<String> ips = new ArrayList<>();
+//        try {
+//            Enumeration<NetworkInterface> nics = NetworkInterface
+//                    .getNetworkInterfaces();
+//            while (nics.hasMoreElements()) {
+//                NetworkInterface nic = nics.nextElement();
+//                Enumeration<InetAddress> addrs = nic.getInetAddresses();
+//                while (addrs.hasMoreElements()) {
+//                    InetAddress addr = addrs.nextElement();
+//                    ips.add(addr.getHostAddress());
+//                }
+//            }
+//        } catch (SocketException e) {
+//            e.printStackTrace();
+//        }
+//        String ip = ips.stream().filter((s) -> s.startsWith("10.") || s.contains("192.")).toList().get(0);
+//        System.out.println("IPs: " + ip);
 ////        new HTTPServer(8001);
 //        Dotenv dotenv = Dotenv.configure().load();
 //        // Get the directory where data will be stored, either configured on the .env or tmp by default

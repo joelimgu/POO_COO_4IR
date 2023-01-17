@@ -2,6 +2,7 @@ package org.example.model.communication.server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.example.HTTPRequest;
 import org.example.model.CustomObservable;
 import org.example.model.CustomObserver;
 import org.example.model.conversation.ConnectedUser;
@@ -64,45 +65,59 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
         byte[] lMsg = new byte[MAX_UDP_DATAGRAM_LEN];
         DatagramPacket dp = new DatagramPacket(lMsg, lMsg.length);
         DatagramSocket ds = null;
-        try {
-            ds = new DatagramSocket(port);
-            //disable timeout for testing
-            //ds.setSoTimeout(100000);
-            ds.receive(dp);
-            lText = new String(dp.getData());
-            System.out.println("UDP packet received of len: " + lText.length() + " | " + lText);
-            // TODO: put inside the HTTP service
-            Gson g = new GsonBuilder().setPrettyPrinting().create();
-//            String[] address_with_url = dp.getAddress().toString().split("/");
-//            String ip = address_with_url[address_with_url.length -1];
-            String url = dp.getAddress()
-                    + ":"
-                    + SessionService.getInstance().getHttp_port()
-                    + "/receive_connected_users_list";
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http:/" + url))
-                    .timeout(Duration.ofSeconds(10))
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(g.toJson(SessionService.getInstance().getConnectedUsers())))
-                    .build();
-            System.out.println("send HTTP request: to " + dp.getAddress() + " and port " + SessionService.getInstance().getHttp_port());
-            HTTPService.getInstance().getClient().sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                    .exceptionally((e) -> {
-                        // TODO log e
-                        System.out.println("UDPRECV error: " + e);
-                        System.out.println("When trying to send HTTP request: " + dp.getAddress() + " and port " + SessionService.getInstance().getHttp_port());
-                        return null;
-                    });
-
-        } catch (HttpTimeoutException e) {
-            // TODO: log
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (ds != null) {
-                ds.close();
+            try {
+                ds = new DatagramSocket(port);
+                //disable timeout for testing
+                //ds.setSoTimeout(100000);
+                while (true) {
+                    ds.receive(dp);
+                    lText = new String(dp.getData());
+                    System.out.println("UDP packet received of len: " + lText.length() + " | " + lText);
+                    // TODO: put inside the HTTP service
+                    Gson g = new GsonBuilder().setPrettyPrinting().create();
+                    String connectedUsers = g.toJson(SessionService.getInstance().getConnectedUsers());
+                    //            String[] address_with_url = dp.getAddress().toString().split("/");
+                    //            String ip = address_with_url[address_with_url.length -1];
+                    String ip = dp.getAddress()
+                            + ":"
+                            + SessionService.getInstance().getHttp_port();
+                    // get local IP
+                    HttpRequest ipRequest = HttpRequest.newBuilder()
+                            .uri(URI.create("http:/" + ip + "/get_self_ip"))
+                            .timeout(Duration.ofSeconds(10))
+                            .GET()
+                            .build();
+                    String IP = HTTPService.getInstance().getClient().send(ipRequest, HttpResponse.BodyHandlers.ofString()).body();
+                    System.out.println("received IP: " + IP);
+                    SessionService.getInstance().setLocalIP(IP);
+                    String url = ip + "/receive_connected_users_list";
+                    HttpRequest request = HttpRequest.newBuilder()
+                            .uri(URI.create("http:/" + url))
+                            .timeout(Duration.ofSeconds(10))
+                            .header("Content-Type", "application/json")
+                            .POST(HttpRequest.BodyPublishers.ofString(connectedUsers))
+                            .build();
+                    System.out.println("send HTTP request: to " + dp.getAddress() + " and port " + SessionService.getInstance().getHttp_port() + " with users: " + connectedUsers);
+                    HTTPService.getInstance().getClient().sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                            .exceptionally((e) -> {
+                                // TODO log e
+                                System.out.println("UDPRECV error: " + e);
+                                System.out.println("When trying to send HTTP request: " + dp.getAddress() + " and port " + SessionService.getInstance().getHttp_port());
+                                return null;
+                            });
+                }
+            } catch (HttpTimeoutException e) {
+                // TODO: log
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
-        }
+//        finally {
+//            if (ds != null) {
+//                ds.close();
+//            }
+//        }
     }
 
 

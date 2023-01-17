@@ -1,6 +1,5 @@
 package org.example.controler;
 
-import javafx.stage.Stage;
 import org.example.model.CustomObserver;
 import org.example.model.communication.server.UDPBroadcast;
 import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
@@ -8,13 +7,13 @@ import org.example.model.communication.server.httpEvents.HTTPEvent;
 import org.example.model.conversation.ConnectedUser;
 import org.example.services.HTTPService;
 import org.example.services.SessionService;
-import org.example.view.HelloApplication;
-import org.example.view.HelloController;
-import org.example.view.LoginApplication;
-import org.example.view.LoginController;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -22,13 +21,15 @@ import java.util.concurrent.TimeUnit;
 public class StartSessionController implements CustomObserver<HTTPEvent> {
 
     private CompletableFuture<List<ConnectedUser>> f;
-    public void verifyPseudo(String pseudo) throws IOException {
+    public void startSession(String pseudo) throws IOException {
         SessionService.getInstance().getHttpServer().subscribe(this);
         UDPBroadcast.broadcastUDP bc = new UDPBroadcast.broadcastUDP();
         bc.sendBroadcast("coucou", SessionService.getInstance().getUdp_port());
         this.f = new CompletableFuture<>();
         this.f.completeOnTimeout(new ArrayList<>(), 1, TimeUnit.SECONDS);
         this.f.join();
+        SessionService.getInstance().addConnectedUser(new ConnectedUser(pseudo, getLocalIP()));
+        System.out.println("Pseudo verified");
     }
 
     public void connexionOK(List<ConnectedUser> c) {
@@ -52,5 +53,25 @@ public class StartSessionController implements CustomObserver<HTTPEvent> {
         } catch (IOException e) {
             // TODO: Throw Pop up to indicate connexion HTTP error
         }
+    }
+
+    private static String getLocalIP() {
+        List<String> ips = new ArrayList<>();
+        try {
+            Enumeration<NetworkInterface> nics = NetworkInterface
+                    .getNetworkInterfaces();
+            while (nics.hasMoreElements()) {
+                NetworkInterface nic = nics.nextElement();
+                Enumeration<InetAddress> addrs = nic.getInetAddresses();
+                while (addrs.hasMoreElements()) {
+                    InetAddress addr = addrs.nextElement();
+                    ips.add(addr.getHostAddress());
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        // return only the private address ( not localhost, neither docker addresses, etc... )
+        return ips.stream().filter((s) -> s.startsWith("10.") || s.contains("192.")).toList().get(0);
     }
 }

@@ -11,5 +11,3 @@ https://www.appsdeveloperblog.com/reactive-programming-creating-publishers-and-s
 https://medium.com/javarevisited/completablefuture-usage-and-best-practises-4285c4ceaad4
 
 You can start the application with no gui with ```gradle run --args='-no-gui'``` to only start the servers.
-
-yufgduyawd
