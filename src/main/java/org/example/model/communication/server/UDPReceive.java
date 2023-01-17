@@ -67,6 +67,8 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
         DatagramSocket ds = null;
             try {
                 ds = new DatagramSocket(port);
+                Gson g = new GsonBuilder().setPrettyPrinting().create();
+                SessionService s = SessionService.getInstance();
                 //disable timeout for testing
                 //ds.setSoTimeout(100000);
                 while (true) {
@@ -74,8 +76,9 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
                     lText = new String(dp.getData());
                     System.out.println("UDP packet received of len: " + lText.length() + " | " + lText);
                     // TODO: put inside the HTTP service
-                    Gson g = new GsonBuilder().setPrettyPrinting().create();
-                    String connectedUsers = g.toJson(SessionService.getInstance().getConnectedUsers());
+                    if (s.getM_localUser() == null) {
+                        continue;
+                    }
                     //            String[] address_with_url = dp.getAddress().toString().split("/");
                     //            String ip = address_with_url[address_with_url.length -1];
                     String ip = dp.getAddress()
@@ -90,6 +93,7 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
                     String IP = HTTPService.getInstance().getClient().send(ipRequest, HttpResponse.BodyHandlers.ofString()).body();
                     System.out.println("received IP: " + IP);
                     SessionService.getInstance().setLocalIP(IP);
+                    String connectedUsers = g.toJson(SessionService.getInstance().getConnectedUsers());
                     String url = ip + "/receive_connected_users_list";
                     HttpRequest request = HttpRequest.newBuilder()
                             .uri(URI.create("http:/" + url))
