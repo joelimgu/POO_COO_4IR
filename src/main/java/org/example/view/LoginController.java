@@ -14,6 +14,8 @@ public class LoginController {
     public TextField loginText;
     Stage myStage;
 
+    boolean isChatOpen = false;
+
     public void setStage(Stage s) {
         myStage = s;
     }
@@ -23,6 +25,7 @@ public class LoginController {
         ha.start(new Stage());
         myStage.close();
     }
+
     public void validateOK(MouseEvent mouseEvent) throws IOException {
         /* TODO : Verify the username to check if it is used
            if yes : tell to the user to retry
@@ -30,6 +33,7 @@ public class LoginController {
          */
         StartSessionController s = new StartSessionController();
         s.verifyPseudo(loginText.getText());
+        startSession(null);
     }
 
     public void loginEnter(KeyEvent keyEvent) throws IOException {

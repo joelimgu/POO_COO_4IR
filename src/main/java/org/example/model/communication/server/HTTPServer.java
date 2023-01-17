@@ -21,16 +21,16 @@ public class HTTPServer implements CustomObservable<HTTPEvent> {
     int port = 0;
     public HTTPServer(int port) throws IOException {
         this.port = port;
-        HttpServer server = HttpServer.create(new InetSocketAddress("localhost", port), 1000);
+        HttpServer server = HttpServer.create(new InetSocketAddress(port), 1000);
 
         server.createContext("/get_pseudo", new GetPseudo());
         server.createContext("/get_user", new getUserHandler());
         server.createContext("/end_session_handler",new EndSessionHandler(this));
-        server.createContext("/ping_handler",new PingHandler(this));
+        server.createContext("/ping",new PingHandler(this));
         server.createContext("/receive_message",new ReceiveMessageHandler(this));
         server.createContext("/receive_connected_users_list",new receiveConnectedUsersHandler(this));
 
-        ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
+        ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
         server.setExecutor(threadPoolExecutor);
         server.start();
 

@@ -19,11 +19,11 @@ public class ReceiveMessageHandler extends BaseHandler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         if ("POST".equals(exchange.getRequestMethod())) {
             byte [] response = "CONNECTED".getBytes();
-            HTTPServer.sendResponse(exchange, "I'm connected");
-            exchange.sendResponseHeaders(200, response.length);
             Gson g = new GsonBuilder().setPrettyPrinting().create();
             Message m = g.fromJson(exchange.getRequestBody().toString(), Message.class);
             this.httpServer.notifyAllSubscribers(new NewMessageEvent(m));
+            HTTPServer.sendResponse(exchange, "I'm connected");
+            exchange.sendResponseHeaders(200, response.length);
         }
     }
 }

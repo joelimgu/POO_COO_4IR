@@ -1,0 +1,3 @@
+FROM gradle:jdk17
+WORKDIR /usr/src/POO_COO_4IR
+ENTRYPOINT sleep inf;

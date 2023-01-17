@@ -8,21 +8,21 @@ import org.example.services.SessionService;
 import java.io.IOException;
 
 public class ListenersInit {
-
     private static void startHTTPServer(int port) throws IOException {
         HTTPServer http = new HTTPServer(port);
         SessionService.getInstance().setHttpServer(http);
     }
 
+    // TODO: pass the port in the argument
     private static void startUDPServer() {
         UDPReceive udp = new UDPReceive();
+        new Thread(udp).start();
         SessionService.getInstance().setUDPServer(udp);
     }
     public static void startServers() {
-        int port = 5400;
-        HTTPService.getInstance();
+//        HTTPService.getInstance();
         try {
-            startHTTPServer(5400);
+            startHTTPServer(SessionService.getInstance().getHttp_port());
             startUDPServer();
         } catch (IOException e) {
             throw new RuntimeException(e);

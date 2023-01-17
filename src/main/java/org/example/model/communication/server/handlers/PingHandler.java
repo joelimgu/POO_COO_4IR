@@ -14,13 +14,8 @@ import java.io.IOException;
 public class PingHandler extends BaseHandler implements HttpHandler {
     public PingHandler(@NotNull HTTPServer s){super(s);}
     public void handle(HttpExchange exchange) throws IOException {
-        if ("POST".equals(exchange.getRequestMethod())) {
-            byte [] response = "PING RECEIVED".getBytes();
-            HTTPServer.sendResponse(exchange,response.toString());
-            exchange.sendResponseHeaders(200, response.length);
-            Gson g = new GsonBuilder().setPrettyPrinting().create();
-            Message m = g.fromJson(exchange.getRequestBody().toString(), Message.class);
-            this.httpServer.notifyAllSubscribers(new NewMessageEvent(m));
+        if ("GET".equals(exchange.getRequestMethod())) {
+            HTTPServer.sendResponse(exchange, "Yes, I'm here");
         }
     }
 }
