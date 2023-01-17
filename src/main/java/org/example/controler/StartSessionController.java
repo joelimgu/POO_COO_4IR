@@ -24,11 +24,11 @@ public class StartSessionController implements CustomObserver<HTTPEvent> {
     public void startSession(String pseudo) throws IOException {
         SessionService.getInstance().getHttpServer().subscribe(this);
         UDPBroadcast.broadcastUDP bc = new UDPBroadcast.broadcastUDP();
+        SessionService.getInstance().setM_localUser(new ConnectedUser(pseudo, null));
         bc.sendBroadcast("coucou", SessionService.getInstance().getUdp_port());
         this.f = new CompletableFuture<>();
         this.f.completeOnTimeout(new ArrayList<>(), 1, TimeUnit.SECONDS);
         this.f.join();
-        SessionService.getInstance().addConnectedUser(new ConnectedUser(pseudo, getLocalIP()));
         System.out.println("Pseudo verified");
     }
 
@@ -53,25 +53,5 @@ public class StartSessionController implements CustomObserver<HTTPEvent> {
         } catch (IOException e) {
             // TODO: Throw Pop up to indicate connexion HTTP error
         }
-    }
-
-    private static String getLocalIP() {
-        List<String> ips = new ArrayList<>();
-        try {
-            Enumeration<NetworkInterface> nics = NetworkInterface
-                    .getNetworkInterfaces();
-            while (nics.hasMoreElements()) {
-                NetworkInterface nic = nics.nextElement();
-                Enumeration<InetAddress> addrs = nic.getInetAddresses();
-                while (addrs.hasMoreElements()) {
-                    InetAddress addr = addrs.nextElement();
-                    ips.add(addr.getHostAddress());
-                }
-            }
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-        // return only the private address ( not localhost, neither docker addresses, etc... )
-        return ips.stream().filter((s) -> s.startsWith("10.") || s.contains("192.")).toList().get(0);
     }
 }
