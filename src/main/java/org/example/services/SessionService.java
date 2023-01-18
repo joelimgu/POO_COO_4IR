@@ -86,7 +86,7 @@ public class SessionService {
         //List<ConnectedUser> c = new ArrayList<>(this.connectedUsers);
         HashMap<UUID, ConnectedUser> c = new HashMap<>(this.usersConnected);
         c.put(this.m_localUser.getUuid(), this.m_localUser);
-        return new ArrayList<>(usersConnected.values());
+        return new ArrayList<>(c.values());
     }
 
     synchronized public void removeConnectedUser(ConnectedUser u) {
