@@ -31,7 +31,7 @@ public class HelloApplication extends Application {
         HelloController controller = fxmlLoader.getController();
         controller.subscribeToObservers();
 
-        controller.addConnectedUser(new ArrayList<>(SessionService.getInstance().getConnectedUsers().values()));
+        controller.addConnectedUser(SessionService.getInstance().getConnectedUsers());
         controller.setStage(stage);
         // ---------------------------------------------------------------------------
 

@@ -82,11 +82,11 @@ public class SessionService {
     /** Order os not guaranteed
      * @return ConnectedUsers
      */
-    synchronized public HashMap<UUID, ConnectedUser> getConnectedUsers() {
+    synchronized public List<ConnectedUser> getConnectedUsers() {
         //List<ConnectedUser> c = new ArrayList<>(this.connectedUsers);
         HashMap<UUID, ConnectedUser> c = new HashMap<>(this.usersConnected);
         c.put(this.m_localUser.getUuid(), this.m_localUser);
-        return c;
+        return new ArrayList<>(usersConnected.values());
     }
 
     synchronized public void removeConnectedUser(ConnectedUser u) {
@@ -115,6 +115,10 @@ public class SessionService {
             //this.connectedUsers.add(u);
             this.usersConnected.put(u.getUuid(), u);
         }
+    }
+
+    public List<ConnectedUser> getRemoteConnectedUsers() {
+        return new ArrayList<>(this.usersConnected.values());
     }
 
     synchronized public ConnectedUser deleteConnectedUserByName(String pseudo) {
@@ -147,4 +151,5 @@ public class SessionService {
     public int getHttp_port() {
         return http_port;
     }
+
 }

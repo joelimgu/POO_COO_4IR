@@ -22,7 +22,7 @@ public class GetAllConnectedUsers extends BaseHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if ("GET".equals(exchange.getRequestMethod())) {
-            List<ConnectedUser> connectedUsers = new ArrayList<>(SessionService.getInstance().getConnectedUsers().values());
+            List<ConnectedUser> connectedUsers = SessionService.getInstance().getConnectedUsers();
             Gson g = new GsonBuilder().setPrettyPrinting().create();
             String connectedUsersJSON = g.toJson(SessionService.getInstance().getConnectedUsers());
             HTTPServer.sendResponse(exchange, connectedUsersJSON);
