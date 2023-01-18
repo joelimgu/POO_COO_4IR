@@ -52,7 +52,7 @@ public class HTTPService {
      * @return response
      * @throws IOException
      */
-    public CompletableFuture<HttpResponse<String>> sendRequest(@NotNull String IP, @NotNull String url, @NotNull HTTPMethods method, @NotNull String requestBody) throws IOException {
+    public CompletableFuture<HttpResponse<String>> sendRequest(@NotNull String IP, @NotNull String url, @NotNull HTTPMethods method, @NotNull String requestBody) {
         String uri = "http://" + IP + ":" + SessionService.getInstance().getHttp_port() + url;
         var baseRequest = HttpRequest.newBuilder(
                 URI.create(uri)
