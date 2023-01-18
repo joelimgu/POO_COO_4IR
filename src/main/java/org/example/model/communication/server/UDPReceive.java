@@ -75,48 +75,43 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
                     ds.receive(dp);
                     lText = new String(dp.getData());
                     System.out.println("UDP packet received of len: " + lText.length() + " | " + lText);
-                    // TODO: put inside the HTTP service
                     if (s.getM_localUser() == null) {
                         continue;
                     }
-                    //            String[] address_with_url = dp.getAddress().toString().split("/");
-                    //            String ip = address_with_url[address_with_url.length -1];
-                    String ip = dp.getAddress()
-                            + ":"
-                            + SessionService.getInstance().getHttp_port();
+                    // IP format: /192.168.43.205
+                    // TODO: put inside the HTTP service
+                    String remoteIp = dp.getAddress().toString().replace("/","");
                     // get local IP
-                    HttpRequest ipRequest = HttpRequest.newBuilder()
-                            .uri(URI.create("http:/" + ip + "/get_self_ip"))
-                            .timeout(Duration.ofSeconds(10))
-                            .GET()
-                            .build();
-                    String IP = HTTPService.getInstance().getClient().send(ipRequest, HttpResponse.BodyHandlers.ofString()).body();
-                    System.out.println("received IP: " + IP);
-                    SessionService.getInstance().setLocalIP(IP);
+                    String localIp = HTTPService.getInstance()
+                            .sendRequest(remoteIp,"/get_self_ip", HTTPService.HTTPMethods.GET,"").join().body();
+                    if (remoteIp.equals(localIp)) {
+                        continue;
+                    }
+                    System.out.println("received IP: " + localIp);
+                    SessionService.getInstance().setLocalIP(localIp);
+                    // we include ourselves
                     String connectedUsers = g.toJson(SessionService.getInstance().getConnectedUsers());
-                    String url = ip + "/receive_connected_users_list";
+                    String url = remoteIp + "/receive_connected_users_list";
                     HttpRequest request = HttpRequest.newBuilder()
                             .uri(URI.create("http:/" + url))
                             .timeout(Duration.ofSeconds(10))
                             .header("Content-Type", "application/json")
                             .POST(HttpRequest.BodyPublishers.ofString(connectedUsers))
                             .build();
+                    HTTPService.getInstance()
+                            .sendRequest(remoteIp, "/receive_connected_users_list", HTTPService.HTTPMethods.POST, connectedUsers)
+                                    .thenAccept((r) -> System.out.println("Sent http from UDP recv correctly"))
+                                    .exceptionally((e) -> {
+                                        System.out.println("UDPRECV error: " + e);
+                                        System.out.println("When trying to send HTTP request: " + dp.getAddress() + " and port " + SessionService.getInstance().getHttp_port());
+                                        return null;
+                                    });
                     System.out.println("send HTTP request from UDP: to " + dp.getAddress() + " and port " + SessionService.getInstance().getHttp_port() + " with users: " + connectedUsers);
-                    var r = HTTPService.getInstance().getClient().sendAsync(request, HttpResponse.BodyHandlers.ofString());
-                            r.thenAccept((res) -> System.out.println("Sent http from UDP recv correctly"));
-                            r.exceptionally((e) -> {
-                                // TODO log e
-                                System.out.println("UDPRECV error: " + e);
-                                System.out.println("When trying to send HTTP request: " + dp.getAddress() + " and port " + SessionService.getInstance().getHttp_port());
-                                return null;
-                            });
                 }
             } catch (HttpTimeoutException e) {
                 // TODO: log
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
             }
 //        finally {
 //            if (ds != null) {

@@ -31,33 +31,48 @@ public class StartSessionController {
 
     private CompletableFuture<HTTPEvent> f;
     public void startSession(String pseudo) throws IOException {
+        Gson g = new GsonBuilder().setPrettyPrinting().create();
         UDPBroadcast.broadcastUDP bc = new UDPBroadcast.broadcastUDP();
         SessionService.getInstance().setM_localUser(new ConnectedUser(pseudo, null));
         bc.sendBroadcast("coucou", SessionService.getInstance().getUdp_port());
         this.f = new CompletableFuture<>();
-        this.f.completeOnTimeout(new ConnectedUsersListReceived(new ArrayList<>()), 1, TimeUnit.SECONDS);
-        this.f.join();
-
+        this.f.completeOnTimeout(new ConnectedUsersListReceived(new ArrayList<>()), 2, TimeUnit.SECONDS);
         SessionService.getInstance().getHttpServer().addEventList(f);
-
-        Gson g = new GsonBuilder().setPrettyPrinting().create();
-        SessionService.getInstance().getConnectedUsers().forEach((u) -> {
-            String url = u.getIP() + ":3000" + "/receive_connected_users_list";
-            String json = g.toJson(SessionService.getInstance().getConnectedUsers());
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://" + url))
-                    .POST(HttpRequest.BodyPublishers.ofString("[]"))
-                    .build();
-            System.out.println("Sent connected users on login: " + u.getPseudo());
-            try {
-                HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-            } catch (IOException e) {
-                System.out.println("IO exception http 2");
-                System.out.println("error while sending request to: " + url);
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+        this.f.join();
+        System.out.println("jonied future");
+        this.f.thenAccept((event) -> {
+            if (event.getClass() ==  ConnectedUsersListReceived.class) {
+                ((ConnectedUsersListReceived) event).connectedUsers.forEach((u) -> {
+                    SessionService.getInstance().addConnectedUser(u);
+                });
             }
+        });
+        System.out.println("Sending to all users: " + SessionService.getInstance().getRemoteConnectedUsers());
+        SessionService.getInstance().getRemoteConnectedUsers().forEach((u) -> {
+            String json = g.toJson(SessionService.getInstance().getConnectedUsers());
+            HTTPService.getInstance()
+                    .sendRequest(u.getIP(),"/receive_connected_users_list", HTTPService.HTTPMethods.POST, json)
+                            .thenAccept((r) -> System.out.println("Sent connected users on login: " + u.getPseudo()))
+                    .exceptionally((e) -> {
+                        System.out.println("Error sending http to " + u.getIP());
+                        e.printStackTrace();
+                        return null;
+                    });
+//            String url = u.getIP() + ":3000" + ;
+//            HttpRequest request = HttpRequest.newBuilder()
+//                    .uri(URI.create("http://" + url))
+//                    .POST(HttpRequest.BodyPublishers.ofString(json))
+//                    .build();
+
+//            try {
+//                HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+//            } catch (IOException e) {
+//                System.out.println("IO exception http 2");
+//                System.out.println("error while sending request to: " + url);
+//                e.printStackTrace();
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
         });
 
         System.out.println("Pseudo verified");

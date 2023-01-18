@@ -6,18 +6,17 @@ import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.User;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class SessionService {
     private static SessionService instance ;
     private ConnectedUser m_localUser;
-    private ArrayList<ConnectedUser> m_list = new ArrayList<ConnectedUser>();
+    private List<ConnectedUser> m_list = Collections.synchronizedList(new ArrayList<>());
 
-    private List<ConnectedUser> connectedUsers = new ArrayList<>();
+    private List<ConnectedUser> connectedUsers = Collections.synchronizedList(new ArrayList<>());
 
     private HTTPServer httpServer;
 
@@ -86,6 +85,10 @@ public class SessionService {
         List<ConnectedUser> c = new ArrayList<>(this.connectedUsers);
         c.add(this.m_localUser);
         return c;
+    }
+
+    synchronized public List<ConnectedUser> getRemoteConnectedUsers() {
+        return this.connectedUsers;
     }
 
     synchronized public void removeConnectedUser(ConnectedUser u) {
