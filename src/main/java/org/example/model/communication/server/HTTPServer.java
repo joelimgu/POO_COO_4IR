@@ -56,23 +56,11 @@ public class HTTPServer{
     }
 
     public void notifyAllSubscribers(HTTPEvent c) {
-        // TODO use CompletableFutures instead of callbacks in order to use an event loop
-        /*this.subscribers.forEach((s) -> {
-            if(s==null) {
-                return;
-            }
-            System.out.println("notified: " + s);
-            try {
-                s.notify(c);
-            } catch (Exception e) {
-                System.out.println("HTTP callback exception: ");
-                e.printStackTrace();
-            }
-        });*/
-
+        System.out.println("Notifying everyone HTTP");
         int currentIndex = futureEvent.size() - 1;
         while(futureEvent.size() != 0) {
-            futureEvent.get(currentIndex).complete((ConnectedUsersListReceived) c);
+            System.out.println("Notified: " + futureEvent.get(currentIndex) );
+            futureEvent.get(currentIndex).complete(c);
             futureEvent.remove(currentIndex);
             currentIndex--;
         }
