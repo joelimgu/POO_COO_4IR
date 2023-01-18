@@ -10,6 +10,7 @@ import org.example.services.SessionService;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetAllConnectedUsers extends BaseHandler implements HttpHandler {
@@ -21,7 +22,7 @@ public class GetAllConnectedUsers extends BaseHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if ("GET".equals(exchange.getRequestMethod())) {
-            List<ConnectedUser> connectedUsers = SessionService.getInstance().getConnectedUsers();
+            List<ConnectedUser> connectedUsers = new ArrayList<>(SessionService.getInstance().getConnectedUsers().values());
             Gson g = new GsonBuilder().setPrettyPrinting().create();
             String connectedUsersJSON = g.toJson(SessionService.getInstance().getConnectedUsers());
             HTTPServer.sendResponse(exchange, connectedUsersJSON);

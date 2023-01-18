@@ -41,7 +41,7 @@ public class StartSessionController {
         SessionService.getInstance().getHttpServer().addEventList(f);
 
         Gson g = new GsonBuilder().setPrettyPrinting().create();
-        SessionService.getInstance().getConnectedUsers().forEach((u) -> {
+        SessionService.getInstance().getConnectedUsers().forEach((uuid, u) -> {
             String url = u.getIP() + ":3000" + "/receive_connected_users_list";
             String json = g.toJson(SessionService.getInstance().getConnectedUsers());
             HttpRequest request = HttpRequest.newBuilder()

@@ -6,9 +6,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.example.model.conversation.ConnectedUser;
 import org.example.services.SessionService;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class HelloApplication extends Application {
 
@@ -28,7 +31,7 @@ public class HelloApplication extends Application {
         HelloController controller = fxmlLoader.getController();
         controller.subscribeToObservers();
 
-        controller.addConnectedUser(SessionService.getInstance().getConnectedUsers());
+        controller.addConnectedUser(new ArrayList<>(SessionService.getInstance().getConnectedUsers().values()));
         controller.setStage(stage);
         // ---------------------------------------------------------------------------
 
