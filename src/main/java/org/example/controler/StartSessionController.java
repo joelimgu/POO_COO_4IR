@@ -47,7 +47,7 @@ public class StartSessionController {
                 });
             }
         });
-        System.out.println("Sending to all users: " + SessionService.getInstance().getRemoteConnectedUsers());
+        System.out.println("Sending to all users: " + SessionService.getInstance().getConnectedUsers());
         SessionService.getInstance().getRemoteConnectedUsers().forEach((u) -> {
             String json = g.toJson(SessionService.getInstance().getConnectedUsers());
             HTTPService.getInstance()
