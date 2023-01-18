@@ -16,7 +16,7 @@ import java.util.UUID;
 public class PersonObject extends BorderPane {
 
     private ImageView image;
-    private User user;
+    private ConnectedUser user;
 
     public PersonObject(ConnectedUser u)  {
         user = u;
@@ -56,6 +56,10 @@ public class PersonObject extends BorderPane {
 
     public UUID getUUID() {
         return user.getUuid();
+    }
+
+    public ConnectedUser getConnectedUser() {
+        return user;
     }
 
 }

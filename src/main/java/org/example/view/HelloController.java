@@ -34,6 +34,7 @@ import org.example.model.communication.server.HTTPServer;
 import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
 import org.example.model.communication.server.httpEvents.HTTPEvent;
 import org.example.model.conversation.ConnectedUser;
+import org.example.model.conversation.Message;
 import org.example.services.HTTPService;
 import org.example.services.SessionService;
 import org.jetbrains.annotations.Async;
@@ -61,6 +62,8 @@ public class HelloController {
 
     @FXML
     BorderPane borderPaneGlobal;
+
+    ConnectedUser selectedConnectedUser = null;
 
 
     private boolean isListened = false;
@@ -140,14 +143,26 @@ public class HelloController {
 
         MessageObject mo;
 
-        if (nbMessages%2 == 0) {
+       /* if (nbMessages%2 == 0) {
             mo = new MessageObject(messageSendField.getText(), true);
             chatList.getChildren().add(mo);
         } else {
             mo = new MessageObject(messageSendField.getText(), false);
             chatList.getChildren().add(mo);
         }
-        nbMessages++;
+        nbMessages++; */
+        Gson g = new GsonBuilder().setPrettyPrinting().create();
+
+        SessionService ss = SessionService.getInstance();
+        Message m = new Message(ss.getM_localUser(), selectedConnectedUser, messageSendField.getText());
+
+        System.out.println(selectedConnectedUser.getPseudo());
+        HTTPService.getInstance().sendRequest(selectedConnectedUser.getIP(), "/receive_message", HTTPService.HTTPMethods.POST,  g.toJson(m)).exceptionally(err -> {
+            System.out.println("Error while sending the message");
+            err.printStackTrace();
+            return null;
+        });
+
         messageSendField.setText("");
         messageSendField.setPromptText("Write your message here");
 
@@ -156,6 +171,8 @@ public class HelloController {
             chatList.heightProperty().addListener(observable -> scrollChatPane.setVvalue(1D));
             isListened = true;
         }
+
+
     }
 
     public void sendMessageEnter(KeyEvent keyEvent) {
@@ -191,6 +208,7 @@ public class HelloController {
                         UUID uuid = po.getUUID();
                         System.out.println(uuid.toString());
                         chatList.getChildren().clear();
+                        selectedConnectedUser = po.getConnectedUser();
                         // ********************* //
                         // TODO : Find a way to get the messages of a connected user in the front part with his UUID
                     }
