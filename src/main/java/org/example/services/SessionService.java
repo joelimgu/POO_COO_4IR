@@ -93,7 +93,18 @@ public class SessionService {
     }
 
     synchronized public void addConnectedUser(ConnectedUser u) {
-        this.connectedUsers.add(u);
+        System.out.println("FAIT CHIER :)");
+
+        boolean isInConnectedUsersList = false;
+        for (ConnectedUser cu : connectedUsers) {
+            if (cu.getUuid() == u.getUuid()) {
+                isInConnectedUsersList = true;
+            }
+        }
+
+        if (!isInConnectedUsersList) {
+            this.connectedUsers.add(u);
+        }
     }
 
     synchronized public ConnectedUser deleteConnectedUserByName(String pseudo) {

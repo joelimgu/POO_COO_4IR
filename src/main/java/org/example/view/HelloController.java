@@ -26,7 +26,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.example.model.CustomObserver;
+import org.example.model.communication.server.HTTPServer;
+import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
+import org.example.model.communication.server.httpEvents.HTTPEvent;
 import org.example.model.conversation.ConnectedUser;
+import org.example.services.HTTPService;
+import org.example.services.SessionService;
 import org.jetbrains.annotations.Async;
 
 import java.io.FileInputStream;
@@ -36,6 +42,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import static java.lang.Thread.sleep;
 
@@ -58,6 +65,10 @@ public class HelloController {
 
     Stage myStage;
 
+    public void subscribeToObservers() {
+        SessionService ss = SessionService.getInstance();
+        ss.getHttpServer().addEventList(new CompletableFuture<ConnectedUsersListReceived>());
+    }
 
     public void setStage(Stage s) {
         myStage = s;
@@ -149,6 +160,7 @@ public class HelloController {
     public void addConnectedUser(List<ConnectedUser> users) {
         for (ConnectedUser user : users) {
             PersonObject po = new PersonObject(user);
+            System.out.println("IFJODJSOIFIJOSD" + user.toString());
             TextField p1 = (TextField) po.getChildren().get(0);
             p1.setOnMouseClicked(
                     event -> {
@@ -160,7 +172,18 @@ public class HelloController {
                         // TODO : Find a way to get the messages of a connected user in the front part with his UUID
                     }
             );
+
+            listPeopleConnected.getChildren().add(po);
+
+
         }
     }
 
+   /* public void notify(HTTPEvent event) {
+        System.out.println("AAZAAAAHAHAH");
+        if (event.getClass() == ConnectedUsersListReceived.class) {
+            ConnectedUsersListReceived culr = (ConnectedUsersListReceived) event;
+            addConnectedUser(culr.connectedUsers);
+        }
+    }*/
 }
