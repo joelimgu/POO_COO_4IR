@@ -56,7 +56,13 @@ public class HTTPServer implements CustomObservable<HTTPEvent> {
             if(s==null) {
                 return;
             }
-            s.notify(c);
+            System.out.println("notified: " + s);
+            try {
+                s.notify(c);
+            } catch (Exception e) {
+                System.out.println("HTTP callback exception: ");
+                e.printStackTrace();
+            }
         });
     }
 

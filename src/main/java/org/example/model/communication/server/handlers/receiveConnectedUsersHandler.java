@@ -26,7 +26,7 @@ public class receiveConnectedUsersHandler extends BaseHandler implements HttpHan
     public void handle(HttpExchange httpExchange) throws IOException {
         SessionService s = SessionService.getInstance();
         if ("POST".equals(httpExchange.getRequestMethod())) {
-            byte [] response = "thanks".getBytes();
+//            byte [] response = "thanks".getBytes();
             String body = new String(httpExchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
             System.out.println("received ConnectedUsers: " + body);
             Gson g = new GsonBuilder().setPrettyPrinting().create();
@@ -35,9 +35,10 @@ public class receiveConnectedUsersHandler extends BaseHandler implements HttpHan
             // TODO: merge instead of set
             connectedUsers.forEach(s::addConnectedUser);
             this.httpServer.notifyAllSubscribers(new ConnectedUsersListReceived(connectedUsers));
-            HTTPServer.sendResponse(httpExchange, Arrays.toString(response));
-            httpExchange.sendResponseHeaders(200, response.length);
-            this.httpServer.notifyAllSubscribers(new ConnectedUsersListReceived(connectedUsers));
+            String response = "thanks";
+            HTTPServer.sendResponse(httpExchange, response);
+        } if ("GET".equals((httpExchange.getRequestMethod()))) {
+            HTTPServer.sendResponse(httpExchange, "You should POST");
         }
     }
 }

@@ -1,8 +1,11 @@
 package org.example;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import org.example.model.communication.server.HTTPServer;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.*;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -32,6 +35,12 @@ import static java.lang.Thread.sleep;
 
 public class Main {
     public static void main(String[] args) throws UnknownHostException {
+
+            var g = new GsonBuilder().setPrettyPrinting().create();
+            Type listType = new TypeToken<ArrayList<ConnectedUser>>(){}.getType();
+            List<ConnectedUser> connectedUsers = g.fromJson("[]", listType);
+            connectedUsers.forEach(System.out::println);
+//            System.out.println();
 //        List<String> ips = new ArrayList<>();
 //        try {
 //            Enumeration<NetworkInterface> nics = NetworkInterface

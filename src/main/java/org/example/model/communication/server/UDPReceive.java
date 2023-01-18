@@ -101,9 +101,10 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
                             .header("Content-Type", "application/json")
                             .POST(HttpRequest.BodyPublishers.ofString(connectedUsers))
                             .build();
-                    System.out.println("send HTTP request: to " + dp.getAddress() + " and port " + SessionService.getInstance().getHttp_port() + " with users: " + connectedUsers);
-                    HTTPService.getInstance().getClient().sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                            .exceptionally((e) -> {
+                    System.out.println("send HTTP request from UDP: to " + dp.getAddress() + " and port " + SessionService.getInstance().getHttp_port() + " with users: " + connectedUsers);
+                    var r = HTTPService.getInstance().getClient().sendAsync(request, HttpResponse.BodyHandlers.ofString());
+                            r.thenAccept((res) -> System.out.println("Sent http from UDP recv correctly"));
+                            r.exceptionally((e) -> {
                                 // TODO log e
                                 System.out.println("UDPRECV error: " + e);
                                 System.out.println("When trying to send HTTP request: " + dp.getAddress() + " and port " + SessionService.getInstance().getHttp_port());

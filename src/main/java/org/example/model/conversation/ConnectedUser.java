@@ -22,8 +22,7 @@ public class ConnectedUser extends User {
         this.m_IP = IP;
     }
 
-    public String getIP() throws UnknownHostException
-    {
+    public String getIP() {
         return this.m_IP;
     }
 }
