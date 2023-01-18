@@ -31,7 +31,7 @@ public class HTTPServer implements CustomObservable<HTTPEvent> {
         server.createContext("/receive_connected_users_list",new receiveConnectedUsersHandler(this));
         server.createContext("/get_self_ip",new getIPHandler(this));
 
-        ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
+        ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
         server.setExecutor(threadPoolExecutor);
         server.start();
 
@@ -52,6 +52,7 @@ public class HTTPServer implements CustomObservable<HTTPEvent> {
     }
 
     public void notifyAllSubscribers(HTTPEvent c) {
+        // TODO use CompletableFutures instead of callbacks in order to use an event loop
         this.subscribers.forEach((s) -> {
             if(s==null) {
                 return;

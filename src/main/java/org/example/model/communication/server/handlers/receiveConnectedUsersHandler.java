@@ -35,10 +35,10 @@ public class receiveConnectedUsersHandler extends BaseHandler implements HttpHan
             // TODO: merge instead of set
             connectedUsers.forEach(s::addConnectedUser);
             this.httpServer.notifyAllSubscribers(new ConnectedUsersListReceived(connectedUsers));
-            String response = "thanks";
+            String response = "thanks\n";
             HTTPServer.sendResponse(httpExchange, response);
         } if ("GET".equals((httpExchange.getRequestMethod()))) {
-            HTTPServer.sendResponse(httpExchange, "You should POST");
+            HTTPServer.sendResponse(httpExchange, "You should POST\n");
         }
     }
 }

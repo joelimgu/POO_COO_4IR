@@ -16,6 +16,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URI;
+import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
@@ -38,19 +39,18 @@ public class StartSessionController implements CustomObserver<HTTPEvent> {
         this.f.join();
         Gson g = new GsonBuilder().setPrettyPrinting().create();
         SessionService.getInstance().getConnectedUsers().forEach((u) -> {
-            String url = u.getIP() + "/receive_connected_users_list";
+            String url = u.getIP() + ":3000" + "/receive_connected_users_list";
             String json = g.toJson(SessionService.getInstance().getConnectedUsers());
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("http://" + url))
-                    .timeout(Duration.ofSeconds(10))
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .POST(HttpRequest.BodyPublishers.ofString("[]"))
                     .build();
             System.out.println("Sent connected users on login: " + u.getPseudo());
             try {
-                HTTPService.getInstance().getClient().send(request, HttpResponse.BodyHandlers.ofString());
+                HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
             } catch (IOException e) {
                 System.out.println("IO exception http 2");
+                System.out.println("error while sending request to: " + url);
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -66,7 +66,7 @@ public class StartSessionController implements CustomObserver<HTTPEvent> {
         // TODO: change window
     }
     @Override
-    public void notify(HTTPEvent event) {
+    synchronized public void notify(HTTPEvent event) {
         if (event.getClass() !=  ConnectedUsersListReceived.class) {
             return;
         }
