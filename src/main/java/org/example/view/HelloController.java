@@ -1,5 +1,8 @@
 package org.example.view;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -66,8 +69,25 @@ public class HelloController {
     Stage myStage;
 
     public void subscribeToObservers() {
-        SessionService ss = SessionService.getInstance();
-        ss.getHttpServer().addEventList(new CompletableFuture<ConnectedUsersListReceived>());
+            CompletableFuture<HTTPEvent> cf = new CompletableFuture<>();
+            SessionService.getInstance().getHttpServer().addEventList(cf);
+            cf.thenAccept((ev) -> {
+                        System.out.println("CPF executed");
+                        System.out.println("The type of ev is : " + ev.getClass());
+                        System.out.println("The compared type : " + ConnectedUsersListReceived.class);
+                        if (ev.getClass() == ConnectedUsersListReceived.class) {
+                            ConnectedUsersListReceived culr = (ConnectedUsersListReceived) ev;
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    addConnectedUser(culr.connectedUsers);
+                                }
+                            });
+                            System.out.println("And now we are in the condition");
+                        }
+                    }
+                    );
+
     }
 
     public void setStage(Stage s) {
@@ -157,8 +177,11 @@ public class HelloController {
         myStage.setTitle("You are connected as " + name);
     }
 
-    public void addConnectedUser(List<ConnectedUser> users) {
+    synchronized void addConnectedUser(List<ConnectedUser> users) {
+        listPeopleConnected.getChildren().clear();
         for (ConnectedUser user : users) {
+            Gson g = new GsonBuilder().setPrettyPrinting().create();
+            System.out.println("Trying to add connected user" + g.toJson(users));
             PersonObject po = new PersonObject(user);
             System.out.println("IFJODJSOIFIJOSD" + user.toString());
             TextField p1 = (TextField) po.getChildren().get(0);
@@ -179,11 +202,5 @@ public class HelloController {
         }
     }
 
-   /* public void notify(HTTPEvent event) {
-        System.out.println("AAZAAAAHAHAH");
-        if (event.getClass() == ConnectedUsersListReceived.class) {
-            ConnectedUsersListReceived culr = (ConnectedUsersListReceived) event;
-            addConnectedUser(culr.connectedUsers);
-        }
-    }*/
+
 }

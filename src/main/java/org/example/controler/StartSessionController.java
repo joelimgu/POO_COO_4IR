@@ -35,7 +35,7 @@ public class StartSessionController {
         UDPBroadcast.broadcastUDP bc = new UDPBroadcast.broadcastUDP();
         SessionService.getInstance().setM_localUser(new ConnectedUser(pseudo, null));
         this.f = new CompletableFuture<>();
-        this.f.completeOnTimeout(new ConnectedUsersListReceived(new ArrayList<>()), 5, TimeUnit.SECONDS);
+        this.f.completeOnTimeout(new ConnectedUsersListReceived(new ArrayList<>()), 2, TimeUnit.SECONDS);
         SessionService.getInstance().getHttpServer().addEventList(f);
         bc.sendBroadcast("coucou", SessionService.getInstance().getUdp_port());
         this.f.join();
