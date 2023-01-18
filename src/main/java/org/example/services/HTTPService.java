@@ -1,13 +1,22 @@
 package org.example.services;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
 
 public class HTTPService {
-
+    public enum HTTPMethods {
+        GET,
+        POST,
+        PUT,
+        DELETE
+    }
     private static volatile HTTPService instance;
     private String url;
     private final HttpClient serv;
@@ -34,16 +43,26 @@ public class HTTPService {
         return this.serv;
     }
 
-    public HttpResponse<String> sendRequest(String url) throws IOException {
-        HttpResponse<String> response = null;
-        var request = HttpRequest.newBuilder(
-                URI.create(url)
-        ).build();
-        try {
-            response = this.serv.send(request, HttpResponse.BodyHandlers.ofString());
-            return response;
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+    /**
+     * Send HTTP request using the app default port
+     * @param IP -> domain or IP without / at the start ex: "192.168.0.14"
+     * @param url -> path to ping with slash : "/test"
+     * @param method -> HTTP request method GET or POST or DELETE or PUT
+     * @param requestBody
+     * @return response
+     * @throws IOException
+     */
+    public CompletableFuture<HttpResponse<String>> sendRequest(@NotNull String IP, @NotNull String url, @NotNull HTTPMethods method, @NotNull String requestBody) throws IOException {
+        String uri = "http://" + IP + ":" + SessionService.getInstance().getHttp_port() + url;
+        var baseRequest = HttpRequest.newBuilder(
+                URI.create(uri)
+        ).timeout(Duration.ofSeconds(5));
+        HttpRequest request = null;
+        if (method == HTTPMethods.GET) {
+            request = baseRequest.GET().build();
+        } else if (method == HTTPMethods.POST) {
+            request = baseRequest.POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
         }
+        return this.serv.sendAsync(request, HttpResponse.BodyHandlers.ofString());
     }
 }
