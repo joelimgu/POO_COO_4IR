@@ -92,12 +92,12 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
                     // we include ourselves
                     String connectedUsers = g.toJson(SessionService.getInstance().getConnectedUsers());
                     String url = remoteIp + "/receive_connected_users_list";
-//                    HttpRequest request = HttpRequest.newBuilder()
-//                            .uri(URI.create("http:/" + url))
-//                            .timeout(Duration.ofSeconds(10))
-//                            .header("Content-Type", "application/json")
-//                            .POST(HttpRequest.BodyPublishers.ofString(connectedUsers))
-//                            .build();
+                   /* HttpRequest request = HttpRequest.newBuilder()
+                            .uri(URI.create("http:/" + url))
+                            .timeout(Duration.ofSeconds(10))
+                            .header("Content-Type", "application/json")
+                            .POST(HttpRequest.BodyPublishers.ofString(connectedUsers))
+                            .build();*/
                     HTTPService.getInstance()
                             .sendRequest(remoteIp, "/receive_connected_users_list", HTTPService.HTTPMethods.POST, connectedUsers)
                                     .thenAccept((r) -> System.out.println("Sent http from UDP recv correctly"))

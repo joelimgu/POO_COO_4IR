@@ -10,6 +10,7 @@ import org.example.services.SessionService;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetAllConnectedUsers extends BaseHandler implements HttpHandler {

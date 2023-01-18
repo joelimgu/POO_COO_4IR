@@ -4,19 +4,20 @@ import org.example.model.communication.server.HTTPServer;
 import org.example.model.communication.server.UDPReceive;
 import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.User;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class SessionService {
     private static SessionService instance ;
     private ConnectedUser m_localUser;
-    private List<ConnectedUser> m_list = Collections.synchronizedList(new ArrayList<>());
+    private ArrayList<ConnectedUser> m_list = new ArrayList<ConnectedUser>();
 
-    private List<ConnectedUser> connectedUsers = Collections.synchronizedList(new ArrayList<>());
+    //private List<ConnectedUser> connectedUsers = new ArrayList<>();
+    private HashMap<UUID, ConnectedUser> usersConnected = new HashMap<>();
 
     private HTTPServer httpServer;
 
@@ -82,39 +83,65 @@ public class SessionService {
      * @return ConnectedUsers
      */
     synchronized public List<ConnectedUser> getConnectedUsers() {
-        List<ConnectedUser> c = new ArrayList<>(this.connectedUsers);
-        c.add(this.m_localUser);
-        return c;
-    }
-
-    synchronized public List<ConnectedUser> getRemoteConnectedUsers() {
-        return this.connectedUsers;
+        //List<ConnectedUser> c = new ArrayList<>(this.connectedUsers);
+        HashMap<UUID, ConnectedUser> c = new HashMap<>(this.usersConnected);
+        c.put(this.m_localUser.getUuid(), this.m_localUser);
+        return new ArrayList<>(usersConnected.values());
     }
 
     synchronized public void removeConnectedUser(ConnectedUser u) {
-        this.connectedUsers.remove(u);
+        this.usersConnected.remove(u);
     }
 
     synchronized public void addConnectedUser(ConnectedUser u) {
-        System.out.println("FAIT CHIER :)");
+        System.out.println("New user added : " + u.getPseudo());
 
-        boolean isInConnectedUsersList = false;
-        for (ConnectedUser cu : connectedUsers) {
+        AtomicBoolean isInConnectedUsersList = new AtomicBoolean(false);
+       /* for (ConnectedUser cu : usersConnected) {
             if (cu.getUuid() == u.getUuid()) {
                 isInConnectedUsersList = true;
             }
         }
+        */
+        usersConnected.forEach(
+                ((uuid, connectedUser) -> {
+                    if (uuid == u.getUuid()) {
+                        isInConnectedUsersList.set(true);
+                    }
+                })
+        );
 
-        if (!isInConnectedUsersList) {
-            this.connectedUsers.add(u);
+        if (!isInConnectedUsersList.get()) {
+            //this.connectedUsers.add(u);
+            this.usersConnected.put(u.getUuid(), u);
         }
     }
 
+    public List<ConnectedUser> getRemoteConnectedUsers() {
+        return new ArrayList<>(this.usersConnected.values());
+    }
+
     synchronized public ConnectedUser deleteConnectedUserByName(String pseudo) {
-        ConnectedUser u = this.connectedUsers.stream().filter((c) -> c.getPseudo().equals(pseudo))
+        /*ConnectedUser u = this.connectedUsers.stream().filter((c) -> c.getPseudo().equals(pseudo))
                 .collect(Collectors.toList()).get(0);
         this.connectedUsers.remove(u);
-        return u;
+        return u;*/
+        
+        AtomicReference<ConnectedUser> u = new AtomicReference<>();
+
+        usersConnected.forEach(
+                ((uuid, connectedUser) ->
+                {
+                    if (connectedUser.getPseudo().equals(pseudo)) {
+                        u.set(connectedUser);
+                    }
+                })
+        );
+
+        if (u.get() != null)
+            usersConnected.remove(u.get().getUuid());
+
+        return u.get();
     }
 
     public int getUdp_port() {
@@ -124,4 +151,5 @@ public class SessionService {
     public int getHttp_port() {
         return http_port;
     }
+
 }
