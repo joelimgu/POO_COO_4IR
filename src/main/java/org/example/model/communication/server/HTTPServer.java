@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpServer;
 import org.example.model.communication.server.handlers.*;
 import org.example.model.CustomObservable;
 import org.example.model.CustomObserver;
+import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
 import org.example.model.communication.server.httpEvents.HTTPEvent;
 
 import java.io.IOException;
@@ -12,12 +13,15 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
-public class HTTPServer implements CustomObservable<HTTPEvent> {
+public class HTTPServer{
 
-    private final List<CustomObserver<HTTPEvent>> subscribers = new ArrayList<>();
+   // private final List<CustomObserver<HTTPEvent>> subscribers = new ArrayList<>();
+
+    private List<CompletableFuture<HTTPEvent>> futureEvent = new ArrayList<>();
     int port = 0;
     public HTTPServer(int port) throws IOException {
         this.port = port;
@@ -53,7 +57,7 @@ public class HTTPServer implements CustomObservable<HTTPEvent> {
 
     public void notifyAllSubscribers(HTTPEvent c) {
         // TODO use CompletableFutures instead of callbacks in order to use an event loop
-        this.subscribers.forEach((s) -> {
+        /*this.subscribers.forEach((s) -> {
             if(s==null) {
                 return;
             }
@@ -64,19 +68,32 @@ public class HTTPServer implements CustomObservable<HTTPEvent> {
                 System.out.println("HTTP callback exception: ");
                 e.printStackTrace();
             }
-        });
+        });*/
+
+        int currentIndex = futureEvent.size() - 1;
+        while(futureEvent.size() != 0) {
+            futureEvent.get(currentIndex).complete((ConnectedUsersListReceived) c);
+            futureEvent.remove(currentIndex);
+            currentIndex--;
+        }
     }
 
-    @Override
-    public int subscribe(CustomObserver<HTTPEvent> o) {
+   // @Override
+   /* public int subscribe(CustomObserver<HTTPEvent> o) {
         this.subscribers.add(o);
         return this.subscribers.size() - 1;
+        this.futureEvent.add(new CompletableFuture<HTTPEvent>(o));
+    }*/
+
+    public int addEventList(CompletableFuture<?> cf) {
+        this.futureEvent.add((CompletableFuture<HTTPEvent>) cf);
+        return this.futureEvent.size() - 1;
     }
 
-    @Override
-    public CustomObserver<HTTPEvent> unsubscribe(int i) {
+   // @Override
+    /*public CustomObserver<HTTPEvent> unsubscribe(int i) {
         CustomObserver<HTTPEvent> o = this.subscribers.get(i);
         this.subscribers.set(i, null);
         return o;
-    }
+    }*/
 }

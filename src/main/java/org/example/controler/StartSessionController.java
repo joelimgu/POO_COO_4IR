@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.example.HTTPRequest;
 import org.example.model.CustomObserver;
+import org.example.model.communication.server.HTTPServer;
 import org.example.model.communication.server.UDPBroadcast;
 import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
 import org.example.model.communication.server.httpEvents.HTTPEvent;
@@ -26,17 +27,19 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
-public class StartSessionController implements CustomObserver<HTTPEvent> {
+public class StartSessionController {
 
-    private CompletableFuture<List<ConnectedUser>> f;
+    private CompletableFuture<HTTPEvent> f;
     public void startSession(String pseudo) throws IOException {
-        SessionService.getInstance().getHttpServer().subscribe(this);
         UDPBroadcast.broadcastUDP bc = new UDPBroadcast.broadcastUDP();
         SessionService.getInstance().setM_localUser(new ConnectedUser(pseudo, null));
         bc.sendBroadcast("coucou", SessionService.getInstance().getUdp_port());
         this.f = new CompletableFuture<>();
-        this.f.completeOnTimeout(new ArrayList<>(), 1, TimeUnit.SECONDS);
+        this.f.completeOnTimeout(new ConnectedUsersListReceived(new ArrayList<>()), 1, TimeUnit.SECONDS);
         this.f.join();
+
+        SessionService.getInstance().getHttpServer().addEventList(f);
+
         Gson g = new GsonBuilder().setPrettyPrinting().create();
         SessionService.getInstance().getConnectedUsers().forEach((u) -> {
             String url = u.getIP() + ":3000" + "/receive_connected_users_list";
@@ -65,13 +68,13 @@ public class StartSessionController implements CustomObserver<HTTPEvent> {
 
         // TODO: change window
     }
-    @Override
     synchronized public void notify(HTTPEvent event) {
         if (event.getClass() !=  ConnectedUsersListReceived.class) {
             return;
         }
-        System.out.println("notify with users: " + ((ConnectedUsersListReceived) event).connectedUsers);
-        this.f.complete(((ConnectedUsersListReceived) event).connectedUsers);
+        /*System.out.println("notify with users: " + ((ConnectedUsersListReceived) event).connectedUsers);
+        this.f.complete(((ConnectedUsersListReceived) event).connectedUsers);*/
+        SessionService.getInstance().getHttpServer().notifyAllSubscribers(event);
         // TODO: merge instead of set
 //        SessionService.getInstance().setConnectedUsers(event);
 //        try {
