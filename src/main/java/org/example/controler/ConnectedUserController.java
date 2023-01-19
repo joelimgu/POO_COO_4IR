@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.CompletableFuture;
@@ -19,7 +20,7 @@ public class ConnectedUserController implements Runnable {
 
     public void sendPing() throws IOException, InterruptedException {
         while (true) {
-            sleep(10);
+            Thread.sleep(Duration.ofSeconds(10));
             List<ConnectedUser> m_list = SessionService.getInstance().getRemoteConnectedUsers();
             ListIterator<ConnectedUser> aux = m_list.listIterator();
             while (aux.hasNext()) {
@@ -27,7 +28,7 @@ public class ConnectedUserController implements Runnable {
                 String ip = test.getIP();
                 if (ip == null){continue;}
                 var m_request = HTTPService.getInstance().sendRequest(test.getIP(),"/Send_ping", HTTPService.HTTPMethods.GET,"ping sent");
-                System.out.println("send HTTP request: to " + test.getPseudo() + " and port " + SessionService.getInstance().getHttp_port() + " with users: " + test);
+//                System.out.println("send HTTP request: to " + test.getPseudo() + " and port " + SessionService.getInstance().getHttp_port() + " with users: " + test);
                 m_request.exceptionally((e) -> {
                             System.out.println("Removing user from connectedUsers list: " + test.getPseudo());
                             SessionService.getInstance().deleteConnectedUserByName(test.getPseudo());

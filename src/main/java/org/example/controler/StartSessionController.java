@@ -2,9 +2,6 @@ package org.example.controler;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.example.HTTPRequest;
-import org.example.model.CustomObserver;
-import org.example.model.communication.server.HTTPServer;
 import org.example.model.communication.server.UDPBroadcast;
 import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
 import org.example.model.communication.server.httpEvents.HTTPEvent;
@@ -13,16 +10,7 @@ import org.example.services.HTTPService;
 import org.example.services.SessionService;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -45,7 +33,7 @@ public class StartSessionController {
         System.out.println("joined future");
         this.f.thenAccept((event) -> {
             if (event.getClass() ==  ConnectedUsersListReceived.class) {
-                addAllnewUsers((ConnectedUsersListReceived) event);
+                addAllNewUsers((ConnectedUsersListReceived) event);
             }
         });
         if (isUnique(pseudo)==true) {
@@ -74,7 +62,7 @@ public class StartSessionController {
 
     }
 
-    private static void addAllnewUsers(ConnectedUsersListReceived event) {
+    private static void addAllNewUsers(ConnectedUsersListReceived event) {
         event.connectedUsers.forEach((u) -> {
             SessionService.getInstance().addConnectedUser(u);
         });

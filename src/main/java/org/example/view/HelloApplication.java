@@ -58,6 +58,9 @@ public class HelloApplication extends Application {
             List<ConnectedUser> list = SessionService.getInstance().getConnectedUsers();
             for (ConnectedUser cu : list) {
                 System.out.println(cu.getPseudo());
+                if (cu.getIP() == null) {
+                    continue;
+                }
                 HTTPService.getInstance().sendRequest(cu.getIP(), "/disconnect", HTTPService.HTTPMethods.POST, g.toJson(ss.getM_localUser())).exceptionally(err -> {
                     System.out.println("Error while sending the message");
                     err.printStackTrace();
