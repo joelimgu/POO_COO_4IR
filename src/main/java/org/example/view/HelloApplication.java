@@ -1,16 +1,22 @@
 package org.example.view;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.example.model.conversation.ConnectedUser;
+import org.example.model.conversation.Message;
+import org.example.services.HTTPService;
 import org.example.services.SessionService;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class HelloApplication extends Application {
@@ -41,6 +47,32 @@ public class HelloApplication extends Application {
         System.out.println("AAAH : " + SessionService.getInstance().getConnectedUsers().size());
         stage.show();
 
+        // SET BEHAVIOUR WHILE CLOSING
+        stage.setOnCloseRequest(event -> {
+
+            System.out.println("Stage is closing");
+            Gson g = new GsonBuilder().setPrettyPrinting().create();
+
+            SessionService ss = SessionService.getInstance();
+
+            List<ConnectedUser> list = SessionService.getInstance().getConnectedUsers();
+            for (ConnectedUser cu : list) {
+                System.out.println(cu.getPseudo());
+                HTTPService.getInstance().sendRequest(cu.getIP(), "/disconnect", HTTPService.HTTPMethods.POST, g.toJson(ss.getM_localUser())).exceptionally(err -> {
+                    System.out.println("Error while sending the message");
+                    err.printStackTrace();
+                    return null;
+                });
+                }
+
+            // Save file
+        });
+
+    }
+
+    @Override
+    public void stop(){
+        System.out.println("TEst");
     }
 
 

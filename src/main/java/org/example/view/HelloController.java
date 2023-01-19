@@ -33,8 +33,10 @@ import org.example.model.CustomObserver;
 import org.example.model.communication.server.HTTPServer;
 import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
 import org.example.model.communication.server.httpEvents.HTTPEvent;
+import org.example.model.communication.server.httpEvents.UserDisconnectedEvent;
 import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.Message;
+import org.example.model.conversation.User;
 import org.example.services.HTTPService;
 import org.example.services.SessionService;
 import org.jetbrains.annotations.Async;
@@ -86,10 +88,26 @@ public class HelloController {
                                     addConnectedUser(culr.connectedUsers);
                                 }
                             });
-                            System.out.println("And now we are in the condition");
                         }
                     }
                     );
+
+            CompletableFuture<HTTPEvent> cfDisco = new CompletableFuture<>();
+            SessionService.getInstance().getHttpServer().addEventList(cfDisco);
+            cfDisco.thenAccept((ev) -> {
+                System.out.println("CPF executed");
+                System.out.println("The type of ev is : " + ev.getClass());
+                System.out.println("The compared type : " + ConnectedUsersListReceived.class);
+                if (ev.getClass() == UserDisconnectedEvent.class) {
+                    UserDisconnectedEvent culr = (UserDisconnectedEvent) ev;
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            deleteUser(culr.u);
+                        }
+                    });
+                }
+            });
 
     }
 
@@ -156,15 +174,22 @@ public class HelloController {
         SessionService ss = SessionService.getInstance();
         Message m = new Message(ss.getM_localUser(), selectedConnectedUser, messageSendField.getText());
 
-        System.out.println(selectedConnectedUser.getPseudo());
-        HTTPService.getInstance().sendRequest(selectedConnectedUser.getIP(), "/receive_message", HTTPService.HTTPMethods.POST,  g.toJson(m)).exceptionally(err -> {
-            System.out.println("Error while sending the message");
-            err.printStackTrace();
-            return null;
-        });
+        if (selectedConnectedUser.getIP() == null) {
+            System.out.println("The IP address of the person is null :)");
+        } else {
+            System.out.println(selectedConnectedUser.getPseudo());
+            HTTPService.getInstance().sendRequest(selectedConnectedUser.getIP(), "/receive_message", HTTPService.HTTPMethods.POST, g.toJson(m)).exceptionally(err -> {
+                System.out.println("Error while sending the message");
+                err.printStackTrace();
+                return null;
+            });
 
-        messageSendField.setText("");
-        messageSendField.setPromptText("Write your message here");
+            mo = new MessageObject(m.getText(), false);
+            chatList.getChildren().add(mo);
+
+            messageSendField.setText("");
+            messageSendField.setPromptText("Write your message here");
+        }
 
         // Put the scroll pane at the end of the list
         if (!isListened) {
@@ -206,19 +231,29 @@ public class HelloController {
                     event -> {
                         // *** ACCESS TO UUID ** ///
                         UUID uuid = po.getUUID();
-                        System.out.println("Chating with: " +  po.getConnectedUser());
+                        System.out.println(uuid.toString() + "/" + po.getConnectedUser().getIP());
                         chatList.getChildren().clear();
                         selectedConnectedUser = po.getConnectedUser();
                         // ********************* //
                         // TODO : Find a way to get the messages of a connected user in the front part with his UUID
                     }
             );
-
             listPeopleConnected.getChildren().add(po);
-
-
         }
     }
 
+    synchronized void deleteUser(User u) {
+        for(int i = 0; i < listPeopleConnected.getChildren().size(); i++) {
+            PersonObject po =  (PersonObject) listPeopleConnected.getChildren().get(i);
+            if (po.getUUID() == u.getUuid()) {
+                listPeopleConnected.getChildren().remove(i);
+            }
+        }
+    }
+
+    @FXML
+    public void exitApplication(ActionEvent event) {
+        Platform.exit();
+    }
 
 }

@@ -25,4 +25,8 @@ public class ConnectedUser extends User {
     public String getIP() {
         return this.m_IP;
     }
+
+    public User getUser() {
+        return new User(this.getPseudo(), this.getUuid());
+    }
 }
