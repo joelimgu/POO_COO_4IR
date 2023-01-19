@@ -31,6 +31,7 @@ public class StartSessionController {
 
     private CompletableFuture<HTTPEvent> f;
     public void startSession(String pseudo) throws IOException {
+
         Gson g = new GsonBuilder().setPrettyPrinting().create();
         UDPBroadcast.broadcastUDP bc = new UDPBroadcast.broadcastUDP();
         SessionService.getInstance().setM_localUser(new ConnectedUser(pseudo, null));
@@ -39,7 +40,7 @@ public class StartSessionController {
         SessionService.getInstance().getHttpServer().addEventList(f);
         bc.sendBroadcast("coucou", SessionService.getInstance().getUdp_port());
         this.f.join();
-        System.out.println("jonied future");
+        System.out.println("joined future");
         this.f.thenAccept((event) -> {
             if (event.getClass() ==  ConnectedUsersListReceived.class) {
                 ((ConnectedUsersListReceived) event).connectedUsers.forEach((u) -> {
@@ -47,17 +48,21 @@ public class StartSessionController {
                 });
             }
         });
-        System.out.println("Sending to all users: " + SessionService.getInstance().getConnectedUsers());
-        SessionService.getInstance().getRemoteConnectedUsers().forEach((u) -> {
-            String json = g.toJson(SessionService.getInstance().getConnectedUsers());
-            HTTPService.getInstance()
-                    .sendRequest(u.getIP(),"/receive_connected_users_list", HTTPService.HTTPMethods.POST, json)
-                            .thenAccept((r) -> System.out.println("Sent connected users on login: " + u.getPseudo()))
-                    .exceptionally((e) -> {
-                        System.out.println("Error sending http to " + u.getIP());
-                        e.printStackTrace();
-                        return null;
-                    });
+        if (isUnique(pseudo)==true) {
+            System.out.println("Sending to all users: " + SessionService.getInstance().getConnectedUsers());
+            SessionService.getInstance().getRemoteConnectedUsers().forEach((u) -> {
+                String json = g.toJson(SessionService.getInstance().getConnectedUsers());
+                HTTPService.getInstance()
+                        .sendRequest(u.getIP(), "/receive_connected_users_list", HTTPService.HTTPMethods.POST, json)
+                        .thenAccept((r) -> System.out.println("Sent connected users on login: " + u.getPseudo()))
+                        .exceptionally((e) -> {
+                            System.out.println("Error sending http to " + u.getIP());
+                            e.printStackTrace();
+                            return null;
+                        });
+                System.out.println("Pseudo verified");
+
+
 //            String url = u.getIP() + ":3000" + ;
 //            HttpRequest request = HttpRequest.newBuilder()
 //                    .uri(URI.create("http://" + url))
@@ -73,9 +78,12 @@ public class StartSessionController {
 //            } catch (InterruptedException e) {
 //                throw new RuntimeException(e);
 //            }
-        });
-
-        System.out.println("Pseudo verified");
+            });
+        }
+        else{
+            System.out.println("Please chose another pseudo, already used !");
+            throw new IOException();
+        }
     }
 
     public void connexionOK(List<ConnectedUser> c) {
@@ -102,5 +110,11 @@ public class StartSessionController {
 //        } catch (IOException e) {
 //            // TODO: Throw Pop up to indicate connexion HTTP error
 //        }
+    }
+
+    public boolean isUnique (String pseudo) {
+        List<ConnectedUser> m_list = SessionService.getInstance().getConnectedUsers();
+        for (ConnectedUser aux: m_list) {if (pseudo.equals(aux.getPseudo())){return false;}}
+        return true;
     }
 }

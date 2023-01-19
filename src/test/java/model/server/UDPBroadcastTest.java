@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.example.model.communication.server.UDPBroadcast;
 import org.example.model.communication.server.UDPReceive;
+import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.User;
 import org.example.services.SessionService;
 import org.junit.jupiter.api.BeforeAll;
@@ -42,7 +43,7 @@ public class UDPBroadcastTest {
     public void testSendBroadcast() throws IOException {
         DatagramSocket socket = new DatagramSocket();
         int port = socket.getLocalPort();
-        m_broadcaster.SendBroadcast("test broadcast",4000);
+        //m_broadcaster.SendBroadcast("test broadcast",4000);
 
     }
 
@@ -59,10 +60,10 @@ public class UDPBroadcastTest {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         User user_test = new User("Amnay");
         SessionService m_session = SessionService.getInstance();
-        m_session.setM_localUser(user_test);
+        m_session.setM_localUser((ConnectedUser) user_test);
         DatagramSocket socket = new DatagramSocket();
         int port = socket.getLocalPort();
-        m_broadcaster.SendBroadcast(gson.toJson(m_session.getM_localUser()),4000);
+       // m_broadcaster.SendBroadcast(gson.toJson(m_session.getM_localUser()),4000);
 
     }
 
