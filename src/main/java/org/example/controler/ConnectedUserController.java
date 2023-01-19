@@ -24,12 +24,11 @@ public class ConnectedUserController {
                 String url = aux.next().getIP() + "/Send_ping";
                 HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url))
                         .headers("Ping_Request").POST(HttpRequest.BodyPublishers.ofString(String.valueOf(aux.next()))).build();
-                HTTPService.getInstance().sendRequest("Ping sent");
+                HTTPService.getInstance().sendRequest(aux.next().getIP(),url, HTTPService.HTTPMethods.GET,"Ping sent");
                 HTTPService.getInstance().getClient().sendAsync(request, HttpResponse.BodyHandlers.ofString());
                 System.out.println("send HTTP request: to " + aux.next().getPseudo() + " and port " + SessionService.getInstance().getHttp_port() + " with users: " + aux.next());
                 HTTPService.getInstance().getClient().sendAsync(request, HttpResponse.BodyHandlers.ofString())
                         .exceptionally((e) -> {
-                            // TODO log e
                             System.out.println("Removing user from connectedUsers list: " + e);
                             aux.remove();
                             return null;
