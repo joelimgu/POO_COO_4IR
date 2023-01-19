@@ -28,7 +28,7 @@ public class LoginController {
         myStage.close();
     }
 
-    public void validateOK(MouseEvent mouseEvent) throws IOException {
+    public void validateOK(MouseEvent mouseEvent) throws IOException, InterruptedException {
         /* TODO : Verify the username to check if it is used
            if yes : tell to the user to retry
            if no : validate and go to the main frame
@@ -39,7 +39,7 @@ public class LoginController {
         startSession(null);
     }
 
-    public void loginEnter(KeyEvent keyEvent) throws IOException {
+    public void loginEnter(KeyEvent keyEvent) throws IOException, InterruptedException {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
             validateOK(null);
         }

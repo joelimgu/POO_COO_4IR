@@ -30,7 +30,8 @@ import java.util.concurrent.TimeUnit;
 public class StartSessionController {
 
     private CompletableFuture<HTTPEvent> f;
-    public void startSession(String pseudo) throws IOException {
+    private ConnectedUserController m_ping = new ConnectedUserController();
+    public void startSession(String pseudo) throws IOException, InterruptedException {
 
         Gson g = new GsonBuilder().setPrettyPrinting().create();
         UDPBroadcast.broadcastUDP bc = new UDPBroadcast.broadcastUDP();
@@ -47,7 +48,7 @@ public class StartSessionController {
                 addAllnewUsers((ConnectedUsersListReceived) event);
             }
         });
-        if (/*isUnique(pseudo)==true*/true) {
+        if (isUnique(pseudo)==true) {
             System.out.println("Sending to all users: " + SessionService.getInstance().getConnectedUsers());
             s.getRemoteConnectedUsers().forEach((u) -> {
                 String json = g.toJson(s.getConnectedUsers());
@@ -63,12 +64,14 @@ public class StartSessionController {
                             return null;
                         });
             });
-                System.out.println("Pseudo verified");
+            new Thread(m_ping).start();
+            System.out.println("Pseudo verified");
         }
         else{
             System.out.println("Please chose another pseudo, already used !");
             throw new IOException();
         }
+
     }
 
     private static void addAllnewUsers(ConnectedUsersListReceived event) {
@@ -78,7 +81,7 @@ public class StartSessionController {
     }
 
     public boolean isUnique (String pseudo) {
-        List<ConnectedUser> m_list = SessionService.getInstance().getConnectedUsers();
+        List<ConnectedUser> m_list = SessionService.getInstance().getRemoteConnectedUsers();
         for (ConnectedUser aux: m_list) {if (pseudo.equals(aux.getPseudo())){return false;}}
         return true;
     }
