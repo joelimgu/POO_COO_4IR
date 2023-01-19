@@ -74,40 +74,49 @@ public class HelloController {
     Stage myStage;
 
     public void subscribeToObservers() {
-            CompletableFuture<HTTPEvent> cf = new CompletableFuture<>();
-            SessionService.getInstance().getHttpServer().addEventList(cf);
-            cf.thenAccept((ev) -> {
-                        System.out.println("CPF executed");
-                        System.out.println("The type of ev is : " + ev.getClass());
-                        System.out.println("The compared type : " + ConnectedUsersListReceived.class);
-                        if (ev.getClass() == ConnectedUsersListReceived.class) {
-                            ConnectedUsersListReceived culr = (ConnectedUsersListReceived) ev;
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    addConnectedUser(culr.connectedUsers);
-                                }
-                            });
-                        }
-                    }
-                    );
+            resubscribe();
+    }
 
-            CompletableFuture<HTTPEvent> cfDisco = new CompletableFuture<>();
-            SessionService.getInstance().getHttpServer().addEventList(cfDisco);
-            cfDisco.thenAccept((ev) -> {
-                System.out.println("CPF executed");
-                System.out.println("The type of ev is : " + ev.getClass());
-                System.out.println("The compared type : " + ConnectedUsersListReceived.class);
-                if (ev.getClass() == UserDisconnectedEvent.class) {
-                    UserDisconnectedEvent culr = (UserDisconnectedEvent) ev;
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            deleteUser(culr.u);
-                        }
-                    });
+
+    public void resubscribe() {
+        CompletableFuture<HTTPEvent> cf = new CompletableFuture<>();
+        SessionService.getInstance().getHttpServer().addEventList(cf);
+        cf.thenAccept((ev) -> {
+
+                    System.out.println("CPF executed");
+                    System.out.println("The type of ev is : " + ev.getClass());
+                    System.out.println("The compared type : " + ConnectedUsersListReceived.class);
+                    if (ev.getClass() == ConnectedUsersListReceived.class) {
+                        ConnectedUsersListReceived culr = (ConnectedUsersListReceived) ev;
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                addConnectedUser(culr.connectedUsers);
+                            }
+
+                        });
+                        resubscribe();
+                    }
                 }
-            });
+        );
+
+        CompletableFuture<HTTPEvent> cfDisco = new CompletableFuture<>();
+        SessionService.getInstance().getHttpServer().addEventList(cfDisco);
+        cfDisco.thenAccept((ev) -> {
+            System.out.println("---------- YES WE ENTER HERE !!! --------------");
+            System.out.println("The type of ev is : " + ev.getClass());
+            System.out.println("The compared type : " + ConnectedUsersListReceived.class);
+            if (ev.getClass() == UserDisconnectedEvent.class) {
+                UserDisconnectedEvent culr = (UserDisconnectedEvent) ev;
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        deleteUser(culr.u);
+                    }
+                });
+                resubscribe();
+            }
+        });
 
     }
 
@@ -243,9 +252,12 @@ public class HelloController {
     }
 
     synchronized void deleteUser(User u) {
+        System.out.println("We try to delete an user of type : " + u.toString());
         for(int i = 0; i < listPeopleConnected.getChildren().size(); i++) {
             PersonObject po =  (PersonObject) listPeopleConnected.getChildren().get(i);
-            if (po.getUUID() == u.getUuid()) {
+            System.out.println(po.getUUID() + "/" + u.getUuid());
+            if (po.getUUID().equals(u.getUuid())) {
+                System.out.println("GOOD");
                 listPeopleConnected.getChildren().remove(i);
             }
         }
