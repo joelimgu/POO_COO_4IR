@@ -17,7 +17,7 @@ public class SessionService {
     private ArrayList<ConnectedUser> m_list = new ArrayList<ConnectedUser>();
 
     //private List<ConnectedUser> connectedUsers = new ArrayList<>();
-    private HashMap<UUID, ConnectedUser> usersConnected = new HashMap<>();
+    private volatile HashMap<UUID, ConnectedUser> usersConnected = new HashMap<>();
 
     private HTTPServer httpServer;
 
@@ -117,7 +117,7 @@ public class SessionService {
         }
     }
 
-    public List<ConnectedUser> getRemoteConnectedUsers() {
+    public synchronized List<ConnectedUser> getRemoteConnectedUsers() {
         return new ArrayList<>(this.usersConnected.values());
     }
 
