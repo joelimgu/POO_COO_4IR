@@ -13,8 +13,8 @@ public class HTTPRequest {
 
         // create a request
         var request = HttpRequest.newBuilder(
-                        URI.create("http://localhost:8001/test")
-        ).build();
+                        URI.create("http://192.168.43.205:3000/receive_connected_users_list")
+        ).POST(HttpRequest.BodyPublishers.ofString("[]")).build();
 
         // use the client to send the request
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());

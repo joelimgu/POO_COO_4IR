@@ -1,5 +1,8 @@
 package org.example.view;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -26,7 +29,14 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.example.model.CustomObserver;
+import org.example.model.communication.server.HTTPServer;
+import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
+import org.example.model.communication.server.httpEvents.HTTPEvent;
 import org.example.model.conversation.ConnectedUser;
+import org.example.model.conversation.Message;
+import org.example.services.HTTPService;
+import org.example.services.SessionService;
 import org.jetbrains.annotations.Async;
 
 import java.io.FileInputStream;
@@ -36,6 +46,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import static java.lang.Thread.sleep;
 
@@ -52,12 +63,35 @@ public class HelloController {
     @FXML
     BorderPane borderPaneGlobal;
 
+    ConnectedUser selectedConnectedUser = null;
+
 
     private boolean isListened = false;
     private int nbMessages = 0;
 
     Stage myStage;
 
+    public void subscribeToObservers() {
+            CompletableFuture<HTTPEvent> cf = new CompletableFuture<>();
+            SessionService.getInstance().getHttpServer().addEventList(cf);
+            cf.thenAccept((ev) -> {
+                        System.out.println("CPF executed");
+                        System.out.println("The type of ev is : " + ev.getClass());
+                        System.out.println("The compared type : " + ConnectedUsersListReceived.class);
+                        if (ev.getClass() == ConnectedUsersListReceived.class) {
+                            ConnectedUsersListReceived culr = (ConnectedUsersListReceived) ev;
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    addConnectedUser(culr.connectedUsers);
+                                }
+                            });
+                            System.out.println("And now we are in the condition");
+                        }
+                    }
+                    );
+
+    }
 
     public void setStage(Stage s) {
         myStage = s;
@@ -109,14 +143,26 @@ public class HelloController {
 
         MessageObject mo;
 
-        if (nbMessages%2 == 0) {
+       /* if (nbMessages%2 == 0) {
             mo = new MessageObject(messageSendField.getText(), true);
             chatList.getChildren().add(mo);
         } else {
             mo = new MessageObject(messageSendField.getText(), false);
             chatList.getChildren().add(mo);
         }
-        nbMessages++;
+        nbMessages++; */
+        Gson g = new GsonBuilder().setPrettyPrinting().create();
+
+        SessionService ss = SessionService.getInstance();
+        Message m = new Message(ss.getM_localUser(), selectedConnectedUser, messageSendField.getText());
+
+        System.out.println(selectedConnectedUser.getPseudo());
+        HTTPService.getInstance().sendRequest(selectedConnectedUser.getIP(), "/receive_message", HTTPService.HTTPMethods.POST,  g.toJson(m)).exceptionally(err -> {
+            System.out.println("Error while sending the message");
+            err.printStackTrace();
+            return null;
+        });
+
         messageSendField.setText("");
         messageSendField.setPromptText("Write your message here");
 
@@ -125,6 +171,8 @@ public class HelloController {
             chatList.heightProperty().addListener(observable -> scrollChatPane.setVvalue(1D));
             isListened = true;
         }
+
+
     }
 
     public void sendMessageEnter(KeyEvent keyEvent) {
@@ -146,9 +194,13 @@ public class HelloController {
         myStage.setTitle("You are connected as " + name);
     }
 
-    public void addConnectedUser(List<ConnectedUser> users) {
+    synchronized void addConnectedUser(List<ConnectedUser> users) {
+        listPeopleConnected.getChildren().clear();
         for (ConnectedUser user : users) {
+            Gson g = new GsonBuilder().setPrettyPrinting().create();
+            System.out.println("Trying to add connected user" + g.toJson(users));
             PersonObject po = new PersonObject(user);
+            System.out.println("IFJODJSOIFIJOSD" + user.toString());
             TextField p1 = (TextField) po.getChildren().get(0);
             p1.setOnMouseClicked(
                     event -> {
@@ -156,11 +208,17 @@ public class HelloController {
                         UUID uuid = po.getUUID();
                         System.out.println(uuid.toString());
                         chatList.getChildren().clear();
+                        selectedConnectedUser = po.getConnectedUser();
                         // ********************* //
                         // TODO : Find a way to get the messages of a connected user in the front part with his UUID
                     }
             );
+
+            listPeopleConnected.getChildren().add(po);
+
+
         }
     }
+
 
 }
