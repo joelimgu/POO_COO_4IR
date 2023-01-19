@@ -14,6 +14,7 @@ import java.util.Objects;
 import java.net.NetworkInterface;
 
 public class UDPBroadcast {
+    private static final int MAX_UDP_DATAGRAM_LEN = 100;
 
 
     /**
@@ -54,8 +55,11 @@ public class UDPBroadcast {
                     // todo : handler
                     e.printStackTrace();
                 }
-
             }
+            // TODO: 12/12/22 split listener and sender in two differents methods
+//            String lText;
+//            byte[] receivedData = new byte[MAX_UDP_DATAGRAM_LEN];
+
         }
 
 
@@ -112,6 +116,9 @@ public class UDPBroadcast {
             ArrayList<ConnectedUser> m_list = new ArrayList<ConnectedUser>();
             //todo : list of  connected users ;
             return m_list;
+            //écoute sur le port dédié
+            //pour chaque paquet received ajout de l'adresse ajout de (user + adresse ip à la liste
+
         }
     }
 }

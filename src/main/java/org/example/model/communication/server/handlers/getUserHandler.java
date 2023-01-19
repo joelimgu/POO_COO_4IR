@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.example.model.communication.server.HTTPServer;
+import org.example.model.conversation.User;
 import org.example.services.SessionService;
 
 import java.io.IOException;
