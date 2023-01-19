@@ -7,31 +7,35 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.example.model.communication.server.HTTPServer;
 import org.example.model.communication.server.httpEvents.NewMessageEvent;
+import org.example.model.communication.server.httpEvents.UserDisconnectedEvent;
 import org.example.model.conversation.Message;
+import org.example.model.conversation.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-public class ReceiveMessageHandler extends BaseHandler implements HttpHandler {
-    public ReceiveMessageHandler(@NotNull HTTPServer s) {
-        super(s);
+public class DisconnectHandler extends BaseHandler implements HttpHandler {
+    public DisconnectHandler(@NotNull HTTPServer httpServer) {
+        super(httpServer);
     }
 
+    @Override
     public void handle(HttpExchange exchange) throws IOException {
         if ("POST".equals(exchange.getRequestMethod())) {
             Gson g = new GsonBuilder().setPrettyPrinting().create();
             String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
             try {
-                Message m = g.fromJson(body, Message.class);
-                System.out.println("Received message: " + m);
-                this.httpServer.notifyAllSubscribers(new NewMessageEvent(m));
+                User u = g.fromJson(body, User.class);
+                System.out.println("Received disconnection from: " + u);
+                this.httpServer.notifyAllSubscribers(new UserDisconnectedEvent(u));
             } catch (JsonSyntaxException e) {
-                System.out.println("Bad JSON formatting in receve message[]");
+                System.out.println("Bad JSON formatting in disconnect handler");
                 System.out.println(body);
                 e.printStackTrace();
+                // TODO send bad argument error code
             }
-            HTTPServer.sendResponse(exchange, "I'm connected");
+            HTTPServer.sendResponse(exchange, "Ok bye!");
         }
     }
 }

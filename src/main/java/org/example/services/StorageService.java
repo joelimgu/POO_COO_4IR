@@ -172,6 +172,14 @@ public class StorageService {
         return getUserListFromResultSet(rs);
     }
 
+    public List<User> getUserFromPseudo(String pseudo) throws SQLException {
+        String query = "select * from main.users where pseudo==?;";
+        PreparedStatement p = this.dbConnexion.prepareStatement(query);
+        p.setString(1,pseudo);
+        ResultSet rs = p.executeQuery();
+        return getUserListFromResultSet(rs);
+    }
+
     private List<User> getUserListFromResultSet(ResultSet rs) throws SQLException {
         ArrayList<User> users = new ArrayList<>();
         if (rs.isClosed()) {

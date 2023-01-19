@@ -206,7 +206,7 @@ public class HelloController {
                     event -> {
                         // *** ACCESS TO UUID ** ///
                         UUID uuid = po.getUUID();
-                        System.out.println(uuid.toString());
+                        System.out.println("Chating with: " +  po.getConnectedUser());
                         chatList.getChildren().clear();
                         selectedConnectedUser = po.getConnectedUser();
                         // ********************* //

@@ -52,7 +52,10 @@ public class HTTPService {
      * @return response
      * @throws IOException
      */
-    public CompletableFuture<HttpResponse<String>> sendRequest(@NotNull String IP, @NotNull String url, @NotNull HTTPMethods method, @NotNull String requestBody) {
+    public CompletableFuture<HttpResponse<String>> sendRequest(String IP, @NotNull String url, @NotNull HTTPMethods method, @NotNull String requestBody) {
+        if (IP == null) {
+            throw new IllegalArgumentException("IP in httprequest cannot be null");
+        }
         String uri = "http://" + IP + ":" + SessionService.getInstance().getHttp_port() + url;
         var baseRequest = HttpRequest.newBuilder(
                 URI.create(uri)
@@ -63,6 +66,11 @@ public class HTTPService {
         } else if (method == HTTPMethods.POST) {
             request = baseRequest.POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
         }
-        return this.serv.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+        CompletableFuture<HttpResponse<String>> r = this.serv.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+        r.exceptionally((e) -> {
+            System.out.println("Error shile sending HTTP request to: " + IP);
+            return null;
+        });
+        return r;
     }
 }
