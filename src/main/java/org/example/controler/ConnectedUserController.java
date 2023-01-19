@@ -20,7 +20,7 @@ public class ConnectedUserController implements Runnable {
 
     public void sendPing() throws IOException, InterruptedException {
         while (true) {
-            Thread.sleep(Duration.ofSeconds(10));
+            Thread.sleep(Duration.ofSeconds(10).toMillis());
             List<ConnectedUser> m_list = SessionService.getInstance().getRemoteConnectedUsers();
             ListIterator<ConnectedUser> aux = m_list.listIterator();
             while (aux.hasNext()) {
