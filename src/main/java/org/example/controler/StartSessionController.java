@@ -61,24 +61,6 @@ public class StartSessionController {
                         });
             });
                 System.out.println("Pseudo verified");
-
-
-//            String url = u.getIP() + ":3000" + ;
-//            HttpRequest request = HttpRequest.newBuilder()
-//                    .uri(URI.create("http://" + url))
-//                    .POST(HttpRequest.BodyPublishers.ofString(json))
-//                    .build();
-
-//            try {
-//                HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-//            } catch (IOException e) {
-//                System.out.println("IO exception http 2");
-//                System.out.println("error while sending request to: " + url);
-//                e.printStackTrace();
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-            });
         }
         else{
             System.out.println("Please chose another pseudo, already used !");
