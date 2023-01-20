@@ -37,14 +37,20 @@ public class StartSessionController {
             }
         });
         if (isUnique(pseudo)) {
-            String IP = HTTPService.getInstance()
-                    .sendRequest(
-                    s.getRemoteConnectedUsers().get(0).getIP(),
-                            "/get_self_ip",
-                            HTTPService.HTTPMethods.GET,
-                            ""
-            ).join().body();
-            s.setLocalIP(IP);
+            try {
+                String connectedUserIp = s.getRemoteConnectedUsers().get(0).getIP();
+                String IP = HTTPService.getInstance()
+                        .sendRequest(
+                                connectedUserIp,
+                                "/get_self_ip",
+                                HTTPService.HTTPMethods.GET,
+                                ""
+                        ).join().body();
+                s.setLocalIP(IP);
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("I'm alone so I cant get my IP");
+            }
+
             System.out.println("Sending to all users: " + SessionService.getInstance().getConnectedUsers());
             s.getRemoteConnectedUsers().forEach((u) -> {
                 String json = g.toJson(s.getConnectedUsers());

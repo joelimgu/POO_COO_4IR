@@ -74,7 +74,7 @@ public class HTTPServer{
         this.futureEvent.add(new CompletableFuture<HTTPEvent>(o));
     }*/
 
-    public int addEventList(CompletableFuture<?> cf) {
+    synchronized public int addEventList(CompletableFuture<?> cf) {
         this.futureEvent.add((CompletableFuture<HTTPEvent>) cf);
         return this.futureEvent.size() - 1;
     }
