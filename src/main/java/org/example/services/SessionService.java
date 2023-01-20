@@ -32,7 +32,7 @@ public class SessionService {
             throw new RuntimeException("SessionService instanced twice");
         }
     }
-    public static SessionService getInstance(){
+    synchronized public static SessionService getInstance(){
         if (instance == null){
             synchronized(SessionService.class) {
                 if (instance == null) {
@@ -44,26 +44,26 @@ public class SessionService {
     }
 
 
-    public User getM_localUser() {
+    synchronized public User getM_localUser() {
         return m_localUser;
     }
 
-    public void setM_localUser(ConnectedUser m_localUser) {
+    synchronized public void setM_localUser(ConnectedUser m_localUser) {
         this.m_localUser = m_localUser;
     }
 
-    public void  setLocalIP(String IP) {
+    synchronized public void setLocalIP(String IP) {
         this.m_localUser.setIP(IP);
     }
 
-    public void setNb_connectedUser(int x){
+    synchronized public void setNb_connectedUser(int x){
         this.nb_connectedUser = x;
     }
-    public int getNb_connectedUser() {
+    synchronized public int getNb_connectedUser() {
         return nb_connectedUser;
     }
 
-    public void setHttpServer(HTTPServer httpServer) {
+    synchronized public void setHttpServer(HTTPServer httpServer) {
         this.httpServer = httpServer;
     }
 
@@ -75,7 +75,7 @@ public class SessionService {
         this.UDPServer = u;
     }
 
-    public UDPReceive getUDPServer() {
+    synchronized public UDPReceive getUDPServer() {
         return this.UDPServer;
     }
 

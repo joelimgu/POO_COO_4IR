@@ -29,7 +29,7 @@ public class ConnectedUserController implements Runnable {
                 if (ip == null){continue;}
                 var m_request = HTTPService.getInstance().sendRequest(test.getIP(),"/Send_ping", HTTPService.HTTPMethods.GET,"ping sent");
 //                System.out.println("send HTTP request: to " + test.getPseudo() + " and port " + SessionService.getInstance().getHttp_port() + " with users: " + test);
-                m_request.exceptionally((e) -> {
+            m_request.exceptionally((e) -> {
                             System.out.println("Removing user from connectedUsers list: " + test.getPseudo());
                             SessionService.getInstance().deleteConnectedUserByName(test.getPseudo());
                             return null;
