@@ -36,16 +36,19 @@ import org.example.model.communication.server.httpEvents.HTTPEvent;
 import org.example.model.communication.server.httpEvents.NewMessageEvent;
 import org.example.model.communication.server.httpEvents.UserDisconnectedEvent;
 import org.example.model.conversation.ConnectedUser;
+import org.example.model.conversation.Conversation;
 import org.example.model.conversation.Message;
 import org.example.model.conversation.User;
 import org.example.services.HTTPService;
 import org.example.services.SessionService;
+import org.example.services.StorageService;
 import org.jetbrains.annotations.Async;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -117,7 +120,6 @@ public class HelloController {
                     }
 
                 });
-                resubscribe();
             }
             if (ev.getClass() == NewMessageEvent.class) {
                 NewMessageEvent culr = (NewMessageEvent) ev;
@@ -128,7 +130,7 @@ public class HelloController {
                     }
 
                 });
-                resubscribe();
+               // resubscribe();
             }
         });
 
@@ -212,6 +214,12 @@ public class HelloController {
             mo = new MessageObject(m.getText(), false);
             chatList.getChildren().add(mo);
 
+            try {
+                StorageService.getInstance().save(m);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
             messageSendField.setText("");
             messageSendField.setPromptText("Write your message here");
         }
@@ -259,6 +267,19 @@ public class HelloController {
                         System.out.println(uuid.toString() + "/" + po.getConnectedUser().getIP());
                         chatList.getChildren().clear();
                         selectedConnectedUser = po.getConnectedUser();
+                        try {
+                            Conversation c = StorageService.getInstance().getConversation(SessionService.getInstance().getM_localUser(), selectedConnectedUser);
+                            List<Message> messages = c.getMessages();
+                            for (Message m : messages) {
+                                if (m.getSender().getUuid().equals(SessionService.getInstance().getM_localUser().getUuid())) {
+                                    chatList.getChildren().add(new MessageObject(m.getText(), false));
+                                } else {
+                                    chatList.getChildren().add(new MessageObject(m.getText(), true));
+                                }
+                            }
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
                         // ********************* //
                         // TODO : Find a way to get the messages of a connected user in the front part with his UUID
                     }
@@ -283,6 +304,11 @@ public class HelloController {
     synchronized void addNewIncomingMessage(Message m) {
         MessageObject mo = new MessageObject(m.getText(), true);
         chatList.getChildren().add(mo);
+        try {
+            StorageService.getInstance().save(m);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
