@@ -8,4 +8,5 @@ public class NewMessageEvent implements HTTPEvent {
     public NewMessageEvent(Message m) {
         this.m = m;
     }
+    public Message getM() { return m; }
 }

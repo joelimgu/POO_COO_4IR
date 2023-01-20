@@ -33,6 +33,7 @@ import org.example.model.CustomObserver;
 import org.example.model.communication.server.HTTPServer;
 import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
 import org.example.model.communication.server.httpEvents.HTTPEvent;
+import org.example.model.communication.server.httpEvents.NewMessageEvent;
 import org.example.model.communication.server.httpEvents.UserDisconnectedEvent;
 import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.Message;
@@ -86,17 +87,8 @@ public class HelloController {
                     System.out.println("CPF executed");
                     System.out.println("The type of ev is : " + ev.getClass());
                     System.out.println("The compared type : " + ConnectedUsersListReceived.class);
-                    if (ev.getClass() == ConnectedUsersListReceived.class) {
-                        ConnectedUsersListReceived culr = (ConnectedUsersListReceived) ev;
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                addConnectedUser(culr.connectedUsers);
-                            }
 
-                        });
-                        resubscribe();
-                    }
+
                 }
         );
 
@@ -105,7 +97,8 @@ public class HelloController {
         cfDisco.thenAccept((ev) -> {
             System.out.println("---------- YES WE ENTER HERE !!! --------------");
             System.out.println("The type of ev is : " + ev.getClass());
-            System.out.println("The compared type : " + ConnectedUsersListReceived.class);
+            System.out.println("The compared type : " + UserDisconnectedEvent.class);
+            resubscribe();
             if (ev.getClass() == UserDisconnectedEvent.class) {
                 UserDisconnectedEvent culr = (UserDisconnectedEvent) ev;
                 Platform.runLater(new Runnable() {
@@ -114,9 +107,32 @@ public class HelloController {
                         deleteUser(culr.u);
                     }
                 });
+            }
+            if (ev.getClass() == ConnectedUsersListReceived.class) {
+                ConnectedUsersListReceived culr = (ConnectedUsersListReceived) ev;
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        addConnectedUser(culr.connectedUsers);
+                    }
+
+                });
+                resubscribe();
+            }
+            if (ev.getClass() == NewMessageEvent.class) {
+                NewMessageEvent culr = (NewMessageEvent) ev;
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        addNewIncomingMessage(culr.getM());
+                    }
+
+                });
                 resubscribe();
             }
         });
+
+
 
     }
 
@@ -259,13 +275,14 @@ public class HelloController {
             if (po.getUUID().equals(u.getUuid())) {
                 System.out.println("GOOD");
                 listPeopleConnected.getChildren().remove(i);
+                SessionService.getInstance().deleteConnectedUserByName(u.getPseudo());
             }
         }
     }
 
-    @FXML
-    public void exitApplication(ActionEvent event) {
-        Platform.exit();
+    synchronized void addNewIncomingMessage(Message m) {
+        MessageObject mo = new MessageObject(m.getText(), true);
+        chatList.getChildren().add(mo);
     }
 
 }
