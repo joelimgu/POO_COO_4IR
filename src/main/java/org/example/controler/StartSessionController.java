@@ -8,8 +8,10 @@ import org.example.model.communication.server.httpEvents.HTTPEvent;
 import org.example.model.conversation.ConnectedUser;
 import org.example.services.HTTPService;
 import org.example.services.SessionService;
+import org.example.services.StorageService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -49,6 +51,11 @@ public class StartSessionController {
                 s.setLocalIP(IP);
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("I'm alone so I cant get my IP");
+            }
+            try {
+                StorageService.getInstance().save(s.getM_localUser());
+            } catch (SQLException e) {
+                throw new RuntimeException("Couldnt save the user to db", e);
             }
 
             System.out.println("Sending to all users: " + SessionService.getInstance().getConnectedUsers());

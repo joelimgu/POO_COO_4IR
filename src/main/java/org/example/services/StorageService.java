@@ -53,8 +53,10 @@ public class StorageService {
 //        String m = s.executeQuery().getString("uuid");
 //        System.out.println("Query=" + m);
     }
-
-    public static StorageService getInstance(String path) {
+    public static StorageService getInstance() {
+        return StorageService.getInstance("");
+    }
+    synchronized public static StorageService getInstance(String path) {
         if (instance == null){
             synchronized(SessionService.class) {
                 if (instance == null) {

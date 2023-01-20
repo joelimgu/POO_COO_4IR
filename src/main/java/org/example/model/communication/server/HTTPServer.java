@@ -75,6 +75,7 @@ public class HTTPServer{
     }*/
 
     synchronized public int addEventList(CompletableFuture<?> cf) {
+        System.out.println("new subscriber");
         this.futureEvent.add((CompletableFuture<HTTPEvent>) cf);
         return this.futureEvent.size() - 1;
     }
