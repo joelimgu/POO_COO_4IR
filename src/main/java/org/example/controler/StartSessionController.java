@@ -6,6 +6,7 @@ import org.example.model.communication.server.UDPBroadcast;
 import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
 import org.example.model.communication.server.httpEvents.HTTPEvent;
 import org.example.model.conversation.ConnectedUser;
+import org.example.model.conversation.User;
 import org.example.services.HTTPService;
 import org.example.services.SessionService;
 import org.example.services.StorageService;
@@ -24,11 +25,23 @@ public class StartSessionController {
     public void startSession(String pseudo) throws IOException, InterruptedException {
 
         Gson g = new GsonBuilder().setPrettyPrinting().create();
+        StorageService bd = StorageService.getInstance();
+        SessionService s = SessionService.getInstance();
+        try {
+            List<User> lu = bd.getUserFromPseudo(pseudo);
+            if (!lu.isEmpty()) {
+                User u = lu.get(0);
+                s.setM_localUser(new ConnectedUser(u.getPseudo(), u.getUuid(), null));
+            } else {
+                SessionService.getInstance().setM_localUser(new ConnectedUser(pseudo, null));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("Trying to log in with user: " + s.getM_localUser().getPseudo() + " and uuid: " + s.getM_localUser().getUuid());
         UDPBroadcast.broadcastUDP bc = new UDPBroadcast.broadcastUDP();
-        SessionService.getInstance().setM_localUser(new ConnectedUser(pseudo, null));
         this.f = new CompletableFuture<>();
         this.f.completeOnTimeout(new ConnectedUsersListReceived(new ArrayList<>()), 2, TimeUnit.SECONDS);
-        SessionService s = SessionService.getInstance();
         s.getHttpServer().addEventList(f);
         bc.sendBroadcast("coucou", s.getUdp_port());
         this.f.join();

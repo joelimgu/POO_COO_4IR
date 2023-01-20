@@ -9,6 +9,7 @@ import java.lang.reflect.Type;
 import java.net.*;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,12 +35,13 @@ import org.example.services.StorageService;
 import static java.lang.Thread.sleep;
 
 public class Main {
-    public static void main(String[] args) throws UnknownHostException {
-
-            var g = new GsonBuilder().setPrettyPrinting().create();
-            Type listType = new TypeToken<ArrayList<ConnectedUser>>(){}.getType();
-            List<ConnectedUser> connectedUsers = g.fromJson("[]", listType);
-            connectedUsers.forEach(System.out::println);
+    public static void main(String[] args) throws UnknownHostException, SQLException {
+        List<User> u = StorageService.getInstance().getUserFromPseudo("cgjk");
+        System.out.println(u);
+//            var g = new GsonBuilder().setPrettyPrinting().create();
+//            Type listType = new TypeToken<ArrayList<ConnectedUser>>(){}.getType();
+//            List<ConnectedUser> connectedUsers = g.fromJson("[]", listType);
+//            connectedUsers.forEach(System.out::println);
 //            System.out.println();
 //        List<String> ips = new ArrayList<>();
 //        try {

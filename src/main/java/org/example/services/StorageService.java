@@ -174,6 +174,12 @@ public class StorageService {
         return getUserListFromResultSet(rs);
     }
 
+    /**
+     *
+     * @param pseudo
+     * @return a List with all the users found. An empty array if none where found
+     * @throws SQLException
+     */
     public List<User> getUserFromPseudo(String pseudo) throws SQLException {
         String query = "select * from main.users where pseudo==?;";
         PreparedStatement p = this.dbConnexion.prepareStatement(query);
