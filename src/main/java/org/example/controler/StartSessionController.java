@@ -36,7 +36,15 @@ public class StartSessionController {
                 addAllNewUsers((ConnectedUsersListReceived) event);
             }
         });
-        if (isUnique(pseudo)==true) {
+        if (isUnique(pseudo)) {
+            String IP = HTTPService.getInstance()
+                    .sendRequest(
+                    s.getRemoteConnectedUsers().get(0).getIP(),
+                            "/get_self_ip",
+                            HTTPService.HTTPMethods.GET,
+                            ""
+            ).join().body();
+            s.setLocalIP(IP);
             System.out.println("Sending to all users: " + SessionService.getInstance().getConnectedUsers());
             s.getRemoteConnectedUsers().forEach((u) -> {
                 String json = g.toJson(s.getConnectedUsers());
