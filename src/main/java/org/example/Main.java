@@ -13,18 +13,21 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.example.model.conversation.Conversation;
 import org.example.model.conversation.Message;
 import org.example.model.conversation.User;
+import org.example.services.LoggerService;
 import org.example.services.SessionService;
 import org.example.services.StorageService;
 
 import static java.lang.Thread.sleep;
 
 public class Main {
-    public static void main(String[] args) throws IOException, ParseException, InterruptedException {
+    public static void main(String[] args) throws IOException, ParseException, InterruptedException, InstantiationException, IllegalAccessException {
 ////        new HTTPServer(8001);
 //        Dotenv dotenv = Dotenv.configure().load();
 //        // TODO: make it work on windows too ( / vs \ )
@@ -39,5 +42,8 @@ public class Main {
 //        hs.add(new History("05-2021", ms));
 //        Conversation c = new Conversation(new User("Joel"), hs);
 //        storage.save(c);
+        LoggerService loggerService = LoggerService.getInstance();
+        loggerService.setLogger("test");
+        loggerService.log("ceci est un test", Level.SEVERE);
     }
 }
