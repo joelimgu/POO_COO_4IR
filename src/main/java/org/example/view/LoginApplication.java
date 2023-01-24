@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import me.server.HTTPServer;
 import org.example.controler.ListenersInit;
 
 import java.util.Arrays;
@@ -31,11 +32,19 @@ public class LoginApplication extends Application  {
 
     public static void main(String[] args) {
         System.out.println(Arrays.toString(args));
-        ListenersInit.startServers();
         if (Arrays.asList(args).contains("no-gui")) {
             System.out.println("Running with no gui");
+            ListenersInit.startServers();
+            return;
+        } else if(Arrays.asList(args).contains("server")) {
+            try {
+                HTTPServer h = new HTTPServer(2000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return;
         }
+        ListenersInit.startServers();
         launch();
     }
 }
