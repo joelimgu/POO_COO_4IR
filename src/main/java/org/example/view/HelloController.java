@@ -205,7 +205,8 @@ public class HelloController {
             System.out.println("The IP address of the person is null :)");
         } else {
             System.out.println(selectedConnectedUser.getPseudo());
-            HTTPService.getInstance().sendRequest(selectedConnectedUser.getIP(), "/receive_message", HTTPService.HTTPMethods.POST, g.toJson(m)).exceptionally(err -> {
+            HTTPService.getInstance()
+                    .sendRequest(selectedConnectedUser.getIP(), "/receive_message", HTTPService.HTTPMethods.POST, g.toJson(m)).exceptionally(err -> {
                 System.out.println("Error while sending the message");
                 err.printStackTrace();
                 return null;

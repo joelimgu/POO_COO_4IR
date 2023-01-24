@@ -31,7 +31,7 @@ public class ReceiveMessageHandler extends BaseHandler implements HttpHandler {
                 System.out.println(body);
                 e.printStackTrace();
             }
-            HTTPServer.sendResponse(exchange, "I'm connected");
+            HTTPServer.sendResponse(exchange, "I'm connected\n");
         }
     }
 }

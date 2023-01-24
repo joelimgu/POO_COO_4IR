@@ -22,7 +22,7 @@ public class HTTPService {
     private final HttpClient serv;
 
     private HTTPService() {
-        this.serv = HttpClient.newHttpClient();
+        this.serv = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
         if (instance != null) {
             throw new RuntimeException("SessionService instanced twice");
         }
@@ -68,7 +68,7 @@ public class HTTPService {
         }
         CompletableFuture<HttpResponse<String>> r = this.serv.sendAsync(request, HttpResponse.BodyHandlers.ofString());
         r.exceptionally((e) -> {
-            System.out.println("Error shile sending HTTP request to: " + IP);
+            System.out.println("Error shile sending HTTP request to: " + uri);
             return null;
         });
         return r;
