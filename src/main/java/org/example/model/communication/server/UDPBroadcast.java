@@ -32,7 +32,7 @@ public class UDPBroadcast {
         /**
          * Methode pour envoyer un message en broadcast
          *
-         * @param //envoiebroadcast message a envoyer
+         * @param BroadcastMessage //envoiebroadcast message a envoyer
          * @param port              port a utiliser
          * @throws IOException
          */

@@ -45,12 +45,11 @@ public class HTTPService {
 
     /**
      * Send HTTP request using the app default port
-     * @param IP -> domain or IP without / at the start ex: "192.168.0.14"
-     * @param url -> path to ping with slash : "/test"
-     * @param method -> HTTP request method GET or POST or DELETE or PUT
+     * @param IP - domain or IP without / at the start ex: "192.168.0.14"
+     * @param url - path to ping with slash : "/test"
+     * @param method - HTTP request method GET or POST or DELETE or PUT
      * @param requestBody
      * @return response
-     * @throws IOException
      */
     public CompletableFuture<HttpResponse<String>> sendRequest(String IP, @NotNull String url, @NotNull HTTPMethods method, @NotNull String requestBody) {
         if (IP == null) {

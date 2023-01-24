@@ -13,6 +13,7 @@ javafx {
 
 group = "org.example"
 version = "1.0-SNAPSHOT"
+val umlDoclet: Configuration by configurations.creating
 
 application {
     //mainClass.set("org.example.Main")
@@ -32,6 +33,19 @@ dependencies {
     implementation("io.github.cdimascio:dotenv-java:2.2.4")
     implementation("org.jetbrains:annotations-java5:16.0.2")
     implementation("org.xerial:sqlite-jdbc:3.30.1")
+    umlDoclet("nl.talsmasoftware:umldoclet:2.0.15")
+}
+
+configurations {
+    umlDoclet
+}
+
+tasks.javadoc {
+    source = sourceSets.main.get().allJava
+    val docletOptions = options as StandardJavadocDocletOptions
+    docletOptions.docletpath = umlDoclet.files.toList()
+    docletOptions.doclet = "nl.talsmasoftware.umldoclet.UMLDoclet"
+//    docletOptions.addStringOption("additionalParamName", "additionalParamValue")
 }
 
 tasks.getByName<Test>("test") {
