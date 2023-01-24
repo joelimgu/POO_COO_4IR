@@ -1,67 +1,36 @@
 package org.example;
 
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import org.example.model.communication.server.HTTPServer;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.net.*;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.Conversation;
 import org.example.model.conversation.Message;
 import org.example.model.conversation.User;
-import org.example.services.HTTPService;
+import org.example.services.LoggerService;
 import org.example.services.SessionService;
 import org.example.services.StorageService;
 
 import static java.lang.Thread.sleep;
 
 public class Main {
-    public static void main(String[] args) throws UnknownHostException, SQLException {
-        List<User> u = StorageService.getInstance().getUserFromPseudo("cgjk");
-        System.out.println(u);
-//            var g = new GsonBuilder().setPrettyPrinting().create();
-//            Type listType = new TypeToken<ArrayList<ConnectedUser>>(){}.getType();
-//            List<ConnectedUser> connectedUsers = g.fromJson("[]", listType);
-//            connectedUsers.forEach(System.out::println);
-//            System.out.println();
-//        List<String> ips = new ArrayList<>();
-//        try {
-//            Enumeration<NetworkInterface> nics = NetworkInterface
-//                    .getNetworkInterfaces();
-//            while (nics.hasMoreElements()) {
-//                NetworkInterface nic = nics.nextElement();
-//                Enumeration<InetAddress> addrs = nic.getInetAddresses();
-//                while (addrs.hasMoreElements()) {
-//                    InetAddress addr = addrs.nextElement();
-//                    ips.add(addr.getHostAddress());
-//                }
-//            }
-//        } catch (SocketException e) {
-//            e.printStackTrace();
-//        }
-//        String ip = ips.stream().filter((s) -> s.startsWith("10.") || s.contains("192.")).toList().get(0);
-//        System.out.println("IPs: " + ip);
+    public static void main(String[] args) throws IOException, ParseException, InterruptedException, InstantiationException, IllegalAccessException {
 ////        new HTTPServer(8001);
 //        Dotenv dotenv = Dotenv.configure().load();
+//        // TODO: make it work on windows too ( / vs \ )
 //        // Get the directory where data will be stored, either configured on the .env or tmp by default
 //        String dataDirectory = dotenv.get("SAVES_DIR", System.getProperty("java.io.tmpdir")) + "/.clavardage";
 //
@@ -73,5 +42,8 @@ public class Main {
 //        hs.add(new History("05-2021", ms));
 //        Conversation c = new Conversation(new User("Joel"), hs);
 //        storage.save(c);
+        LoggerService loggerService = LoggerService.getInstance();
+        loggerService.setLogger("test");
+        loggerService.log("ceci est un test", Level.SEVERE);
     }
 }
