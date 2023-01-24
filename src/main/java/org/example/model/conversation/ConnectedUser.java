@@ -16,7 +16,7 @@ public class ConnectedUser extends User {
     public void setIP(String IP) {
         this.m_IP = IP;
     }
-    public ConnectedUser (@NotNull String Pseudo, UUID uuid, @NotNull String IP)
+    public ConnectedUser (@NotNull String Pseudo, UUID uuid, String IP)
     {
         super(Pseudo,uuid);
         this.m_IP = IP;

@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import me.server.model.Log;
+import me.server.model.LogFile;
 import me.server.model.LogLine;
 import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
 import org.example.model.conversation.ConnectedUser;
@@ -65,12 +66,14 @@ public class UploadLogs implements HttpHandler {
                 List<String> files = new ArrayList<>();
                 response = "Not logs found";
                 try {
-                    var f = new File(path).listFiles();
+                    File[] f = new File(path).listFiles();
                     if (f != null) {
-                        response = g.toJson(Stream.of(f)
+                        List<LogFile> lf = Stream.of(f)
                                 .filter(file -> !file.isDirectory())
-                                .map(File::getName)
-                                .collect(Collectors.toList()));
+                                .map((file) -> {
+                                    return new LogFile(file.getName(),file.lastModified());
+                                }).collect(Collectors.toList());
+                        response = g.toJson(lf);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

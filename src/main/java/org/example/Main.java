@@ -2,7 +2,8 @@ package org.example;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import org.example.model.communication.server.HTTPServer;
+import me.server.HTTPServer;
+import org.example.controler.ListenersInit;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -30,16 +31,31 @@ import org.example.model.conversation.User;
 import org.example.services.HTTPService;
 import org.example.services.SessionService;
 import org.example.services.StorageService;
+import org.example.view.LoginApplication;
+import org.example.view.LoginController;
 
 import static java.lang.Thread.sleep;
 
 public class Main {
     public static void main(String[] args) throws UnknownHostException {
+//        if (true) {
+//            return;
+//        }
+        System.out.println(Arrays.toString(args));
+        if (Arrays.asList(args).contains("no-gui")) {
+            System.out.println("Running with no gui");
+            ListenersInit.startServers();
+            return;
+        } else if(Arrays.asList(args).contains("server")) {
+            try {
+                me.server.HTTPServer h = new HTTPServer(2000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+        LoginApplication.main(args);
 
-            var g = new GsonBuilder().setPrettyPrinting().create();
-            Type listType = new TypeToken<ArrayList<ConnectedUser>>(){}.getType();
-            List<ConnectedUser> connectedUsers = g.fromJson("[]", listType);
-            connectedUsers.forEach(System.out::println);
 //            System.out.println();
 //        List<String> ips = new ArrayList<>();
 //        try {
