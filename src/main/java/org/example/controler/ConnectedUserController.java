@@ -3,6 +3,8 @@ package org.example.controler;
 import org.example.model.conversation.ConnectedUser;
 import org.example.services.HTTPService;
 import org.example.services.SessionService;
+import org.example.view.HelloApplication;
+import org.example.view.HelloController;
 
 import javax.sql.rowset.Joinable;
 import java.io.IOException;
@@ -32,6 +34,9 @@ public class ConnectedUserController implements Runnable {
             m_request.exceptionally((e) -> {
                             System.out.println("Removing user from connectedUsers list: " + test.getPseudo());
                             SessionService.getInstance().deleteConnectedUserByName(test.getPseudo());
+                            // TODO : Link this to the controller user
+                HelloController hco = HelloApplication.hc;
+                hco.deleteUser(test);
                             return null;
                         });
 

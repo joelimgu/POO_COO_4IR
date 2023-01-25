@@ -18,16 +18,16 @@ public class PersonObject extends BorderPane {
     private ImageView image;
     private ConnectedUser user;
 
-    public PersonObject(ConnectedUser u)  {
+    public PersonObject(ConnectedUser u, boolean status)  {
         user = u;
         Insets i = new Insets(3,3,3,5);
         Insets iImage = new Insets(9,3,3,5);
 
-       /* if (status) {
+        if (status) {
             image = new ImageView(String.valueOf(getClass().getResource("../../../pictures/connected.png")));
-        } else {*/
-            image = new ImageView(String.valueOf(getClass().getResource("../../../pictures/connected.png")));
-        //}
+        } else {
+            image = new ImageView(String.valueOf(getClass().getResource("../../../pictures/disconnected.png")));
+        }
 
         image.setFitHeight(13);
         image.setFitWidth(13);

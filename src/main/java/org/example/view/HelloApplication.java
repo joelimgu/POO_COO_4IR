@@ -15,6 +15,7 @@ import org.example.services.HTTPService;
 import org.example.services.SessionService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 public class HelloApplication extends Application {
 
+    public static HelloController hc = null;
     String userName;
 
     public HelloApplication(String name) {
@@ -36,15 +38,28 @@ public class HelloApplication extends Application {
 
         // ---- Permettre d'avoir accès au stage dans le contrôleur lors du démarrage
         HelloController controller = fxmlLoader.getController();
+        hc = controller;
         controller.subscribeToObservers();
 
-        controller.addConnectedUser(SessionService.getInstance().getConnectedUsers());
+        controller.addConnectedUser(SessionService.getInstance().getRemoteConnectedUsers());
+        if (SessionService.getInstance().getRemoteConnectedUsers().size() == 0) {
+            try {
+                controller.addAllDisconnectedUser();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
         controller.setStage(stage);
         // ---------------------------------------------------------------------------
 
         stage.setResizable(false);
         stage.setTitle("You are connected as " + userName);
         stage.setScene(scene);
+        /*try {
+            controller.addAllDisconnectedUser();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }*/
         System.out.println("AAAH : " + SessionService.getInstance().getConnectedUsers().size());
         stage.show();
 

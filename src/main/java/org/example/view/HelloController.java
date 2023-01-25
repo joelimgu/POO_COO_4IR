@@ -51,6 +51,7 @@ public class HelloController {
 
     ConnectedUser selectedConnectedUser = null;
 
+    private boolean isDisconnectedUserPrinted = false;
 
     private boolean isListened = false;
     private int nbMessages = 0;
@@ -129,7 +130,6 @@ public class HelloController {
     }
     @FXML
     public void addNewMessages(ScrollEvent scrollEvent) {
-        System.out.println(scrollEvent.getDeltaY());
     }
     @FXML
     public void addMessage(MouseEvent mouseEvent) {
@@ -138,7 +138,7 @@ public class HelloController {
     // TODO : delete this function or put a new behaviour (this one is useless)
     public void addNewPerson(MouseEvent mouseEvent) {
 
-        PersonObject po = new PersonObject(new ConnectedUser("re", null));
+        PersonObject po = new PersonObject(new ConnectedUser("re", null), true);
 
         // *****  LISTENER CONFIGURATION *****
 
@@ -233,40 +233,49 @@ public class HelloController {
     synchronized void addConnectedUser(List<ConnectedUser> users) {
         listPeopleConnected.getChildren().clear();
         for (ConnectedUser user : users) {
-            Gson g = new GsonBuilder().setPrettyPrinting().create();
-            System.out.println("Trying to add connected user" + g.toJson(users));
-            PersonObject po = new PersonObject(user);
-            System.out.println("IFJODJSOIFIJOSD" + user.toString());
-            TextField p1 = (TextField) po.getChildren().get(0);
-            p1.setOnMouseClicked(
-                    event -> {
-                        // *** ACCESS TO UUID ** ///
-                        UUID uuid = po.getUUID();
-                        System.out.println(uuid.toString() + "/" + po.getConnectedUser().getIP());
-                        chatList.getChildren().clear();
-                        selectedConnectedUser = po.getConnectedUser();
-                        try {
-                            Conversation c = StorageService.getInstance().getConversation(SessionService.getInstance().getM_localUser(), selectedConnectedUser);
-                            List<Message> messages = c.getMessages();
-                            for (Message m : messages) {
-                                if (m.getSender().getUuid().equals(SessionService.getInstance().getM_localUser().getUuid())) {
-                                    chatList.getChildren().add(new MessageObject(m.getText(), false));
-                                } else {
-                                    chatList.getChildren().add(new MessageObject(m.getText(), true));
+
+            if (!(user.getUuid().equals(SessionService.getInstance().getM_localUser().getUuid()))) {
+                Gson g = new GsonBuilder().setPrettyPrinting().create();
+                System.out.println("Trying to add connected user" + g.toJson(users));
+                PersonObject po = new PersonObject(user, true);
+                System.out.println("IFJODJSOIFIJOSD" + user.toString());
+                TextField p1 = (TextField) po.getChildren().get(0);
+                p1.setOnMouseClicked(
+                        event -> {
+                            // *** ACCESS TO UUID ** ///
+                            UUID uuid = po.getUUID();
+                            System.out.println(uuid.toString() + "/" + po.getConnectedUser().getIP());
+                            chatList.getChildren().clear();
+                            selectedConnectedUser = po.getConnectedUser();
+                            try {
+                                Conversation c = StorageService.getInstance().getConversation(SessionService.getInstance().getM_localUser(), selectedConnectedUser);
+                                List<Message> messages = c.getMessages();
+                                for (Message m : messages) {
+                                    if (m.getSender().getUuid().equals(SessionService.getInstance().getM_localUser().getUuid())) {
+                                        chatList.getChildren().add(new MessageObject(m.getText(), false));
+                                    } else {
+                                        chatList.getChildren().add(new MessageObject(m.getText(), true));
+                                    }
                                 }
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
                             }
-                        } catch (SQLException e) {
-                            throw new RuntimeException(e);
+                            // ********************* //
+                            // TODO : Find a way to get the messages of a connected user in the front part with his UUID
                         }
-                        // ********************* //
-                        // TODO : Find a way to get the messages of a connected user in the front part with his UUID
-                    }
-            );
-            listPeopleConnected.getChildren().add(po);
+                );
+                listPeopleConnected.getChildren().add(po);
+                try {
+                    isDisconnectedUserPrinted = false;
+                    addAllDisconnectedUser();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 
-    synchronized void deleteUser(User u) {
+    synchronized public void deleteUser(User u) {
         System.out.println("We try to delete an user of type : " + u.toString());
         for(int i = 0; i < listPeopleConnected.getChildren().size(); i++) {
             PersonObject po =  (PersonObject) listPeopleConnected.getChildren().get(i);
@@ -288,6 +297,55 @@ public class HelloController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void addAllDisconnectedUser() throws SQLException {
+        if (!isDisconnectedUserPrinted) {
+            StorageService sts = StorageService.getInstance();
+            SessionService ss = SessionService.getInstance();
+            List<User> lu = sts.getAllRegisteredUsers();
+
+
+            for (User u : lu) {
+                Gson g = new GsonBuilder().setPrettyPrinting().create();
+                System.out.println("Trying to add connected user" + g.toJson(lu));
+                PersonObject po = new PersonObject(new ConnectedUser(u.getPseudo(), u.getUuid(), null), false);
+                System.out.println("IFJODJSOIFIJOSD" + u.toString());
+                TextField p1 = (TextField) po.getChildren().get(0);
+
+                chatList.getChildren().clear();
+                selectedConnectedUser = po.getConnectedUser();
+
+
+                p1.setOnMouseClicked(
+                        event -> {
+                            // *** ACCESS TO UUID ** ///
+                            chatList.getChildren().clear();
+                            selectedConnectedUser = po.getConnectedUser();
+                            System.out.println(selectedConnectedUser.getUuid().toString() + "/" + po.getConnectedUser().getIP());
+
+                            try {
+                                Conversation c = StorageService.getInstance().getConversation(SessionService.getInstance().getM_localUser(), selectedConnectedUser);
+                                List<Message> messages = c.getMessages();
+                                chatList.getChildren().clear();
+                                for (Message m : messages) {
+                                    if (m.getSender().getUuid().equals(SessionService.getInstance().getM_localUser().getUuid())) {
+                                        chatList.getChildren().add(new MessageObject(m.getText(), false));
+                                    } else {
+                                        chatList.getChildren().add(new MessageObject(m.getText(), true));
+                                    }
+                                }
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+                            // ********************* //
+                        }
+                );
+                listPeopleConnected.getChildren().add(po);
+
+            }
+        }
+        isDisconnectedUserPrinted = true;
     }
 
 }
