@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":9,"i3":9,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
+var data = {"i0":10,"i1":10,"i2":9,"i3":9,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -206,6 +206,12 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#save(org.example.model.conversation.User)">save</a></span>&#8203;(<a href="../model/conversation/User.html" title="class in org.example.model.conversation">User</a>&nbsp;u)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
+<tr id="i10" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#updatePseudo(org.example.model.conversation.User,java.lang.String)">updatePseudo</a></span>&#8203;(<a href="../model/conversation/User.html" title="class in org.example.model.conversation">User</a>&nbsp;user,
+            java.lang.String&nbsp;newPseudo)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
 </table>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
@@ -359,10 +365,27 @@ extends java.lang.Object</pre>
 <a id="getPath()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getPath</h4>
 <pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getPath()</pre>
+</li>
+</ul>
+<a id="updatePseudo(org.example.model.conversation.User,java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>updatePseudo</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;updatePseudo&#8203;(@NotNull
+                         <a href="../model/conversation/User.html" title="class in org.example.model.conversation">User</a>&nbsp;user,
+                         @NotNull
+                         java.lang.String&nbsp;newPseudo)
+                  throws java.sql.SQLException</pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.sql.SQLException</code></dd>
+</dl>
 </li>
 </ul>
 </li>
