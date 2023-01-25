@@ -3,34 +3,22 @@ package org.example.view;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
+
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
+
 import javafx.stage.Stage;
-import org.example.model.CustomObserver;
-import org.example.model.communication.server.HTTPServer;
+
 import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
 import org.example.model.communication.server.httpEvents.HTTPEvent;
 import org.example.model.communication.server.httpEvents.NewMessageEvent;
@@ -42,19 +30,11 @@ import org.example.model.conversation.User;
 import org.example.services.HTTPService;
 import org.example.services.SessionService;
 import org.example.services.StorageService;
-import org.jetbrains.annotations.Async;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-
-import static java.lang.Thread.sleep;
 
 public class HelloController {
     public VBox listPeopleConnected;
@@ -78,7 +58,8 @@ public class HelloController {
     Stage myStage;
 
     public void subscribeToObservers() {
-            resubscribe();
+        // This function calls a recursive function to subscribe to completable futures to behave to events
+        resubscribe();
     }
 
 
@@ -98,10 +79,11 @@ public class HelloController {
         CompletableFuture<HTTPEvent> cfDisco = new CompletableFuture<>();
         SessionService.getInstance().getHttpServer().addEventList(cfDisco);
         cfDisco.thenAccept((ev) -> {
-            System.out.println("---------- YES WE ENTER HERE !!! --------------");
             System.out.println("The type of ev is : " + ev.getClass());
             System.out.println("The compared type : " + UserDisconnectedEvent.class);
             resubscribe();
+
+            // Case of disconnected user -> delete user from the main frame
             if (ev.getClass() == UserDisconnectedEvent.class) {
                 UserDisconnectedEvent culr = (UserDisconnectedEvent) ev;
                 Platform.runLater(new Runnable() {
@@ -111,6 +93,8 @@ public class HelloController {
                     }
                 });
             }
+
+            // Case of a new user connected -> refreshing connected users frame
             if (ev.getClass() == ConnectedUsersListReceived.class) {
                 ConnectedUsersListReceived culr = (ConnectedUsersListReceived) ev;
                 Platform.runLater(new Runnable() {
@@ -121,6 +105,8 @@ public class HelloController {
 
                 });
             }
+
+            // Case of a new message received -> print it in the frame and save it to the database
             if (ev.getClass() == NewMessageEvent.class) {
                 NewMessageEvent culr = (NewMessageEvent) ev;
                 Platform.runLater(new Runnable() {
@@ -149,15 +135,14 @@ public class HelloController {
     public void addMessage(MouseEvent mouseEvent) {
     }
 
+    // TODO : delete this function or put a new behaviour (this one is useless)
     public void addNewPerson(MouseEvent mouseEvent) {
 
         PersonObject po = new PersonObject(new ConnectedUser("re", null));
-        //PersonObject po2 = new PersonObject("KIKI", true, null);
 
         // *****  LISTENER CONFIGURATION *****
 
         // Here : get(0) in order to get the textField area of the person you want to append
-        //TextField p1 = (TextField) po.getChildren().get(0);
         TextField p1 = (TextField) po.getChildren().get(0);
 
         // Put a listener to the TextField in order to print the conversation linked to this user
@@ -188,14 +173,6 @@ public class HelloController {
 
         MessageObject mo;
 
-       /* if (nbMessages%2 == 0) {
-            mo = new MessageObject(messageSendField.getText(), true);
-            chatList.getChildren().add(mo);
-        } else {
-            mo = new MessageObject(messageSendField.getText(), false);
-            chatList.getChildren().add(mo);
-        }
-        nbMessages++; */
         Gson g = new GsonBuilder().setPrettyPrinting().create();
 
         SessionService ss = SessionService.getInstance();
@@ -297,6 +274,7 @@ public class HelloController {
             if (po.getUUID().equals(u.getUuid())) {
                 System.out.println("GOOD");
                 listPeopleConnected.getChildren().remove(i);
+                // TODO : Maybe try to find a way to delete an user by his UUID (the username can change)
                 SessionService.getInstance().deleteConnectedUserByName(u.getPseudo());
             }
         }

@@ -67,18 +67,13 @@ public class HelloApplication extends Application {
                     return null;
                 });
                 }
+            // Close all the threads which does not depends on the JavaFX frame by a SIGNAL SIGOK at the end of the execution
+            System.exit(0);
 
             // Save file
         });
 
     }
-
-    @Override
-    public void stop(){
-        System.out.println("TEst");
-    }
-
-
 
     public static void main(String[] args) {
         launch();

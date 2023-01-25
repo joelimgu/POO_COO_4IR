@@ -20,7 +20,22 @@ public class ChangeUsernameController {
         parentStage = pStage;
     }
 
-    public void validateOK(MouseEvent mouseEvent) {
+    public void tryStartSession(MouseEvent mouseEvent) {
+        // TODO : Do a completable future to change the username : same behave as first connection maybe
+        // Behave expected :
+        //  Yes -> Change username and go back to main frame
+        //  No -> Create an ErrorDialog frame and print it with message "Error while changing username" + raison erreur (si on peut la trouver)
+
+        // ---- TO DELETE WHILE DOING THE REAL FUNCTION -----
+
+        ErrorDialog ed = new ErrorDialog("Error while changing username, abort.", this.myStage);
+        try {
+            ed.start(new Stage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        // ----------------
         parentStage.setTitle("You are connected as " + usernameChange.getText());
         parentStage.show();
         myStage.close();
@@ -34,7 +49,8 @@ public class ChangeUsernameController {
 
     public void changePseudoEnter(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
-            validateOK(null);
+            tryStartSession(null);
         }
     }
+
 }
