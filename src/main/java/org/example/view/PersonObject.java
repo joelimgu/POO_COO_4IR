@@ -10,6 +10,7 @@ import javafx.scene.text.FontWeight;
 import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.User;
 
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -24,9 +25,9 @@ public class PersonObject extends BorderPane {
         Insets iImage = new Insets(9,3,3,5);
 
         if (status) {
-            image = new ImageView(String.valueOf(getClass().getResource("../../../pictures/connected.png")));
+            image = new ImageView(String.valueOf(Objects.requireNonNull(getClass().getResource("/pictures/connected.png")).toExternalForm()));
         } else {
-            image = new ImageView(String.valueOf(getClass().getResource("../../../pictures/disconnected.png")));
+            image = new ImageView(String.valueOf(Objects.requireNonNull(getClass().getResource("/pictures/disconnected.png")).toExternalForm()));
         }
 
         image.setFitHeight(13);

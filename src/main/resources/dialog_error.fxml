@@ -17,7 +17,7 @@
                <right>
                   <ImageView fitHeight="77.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
-                        <Image url="@../../../build/resources/main/pictures/close.png" />
+                        <Image url="pictures/close.png" />
                      </image>
                   </ImageView>
                </right>
@@ -36,19 +36,9 @@
         </AnchorPane>
     </content>
     <expandableContent>
-        <ImageView fitHeight="77.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-            <image>
-                <Image url="@../../../build/resources/main/pictures/close.png" />
-            </image>
-        </ImageView><ImageView fitHeight="77.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-        <image>
-            <Image url="@../../../build/resources/main/pictures/close.png" />
-        </image>
-    </ImageView><ImageView fitHeight="77.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-        <image>
-            <Image url="@../../../build/resources/main/pictures/close.png" />
-        </image>
-    </ImageView>
+       <ImageView fitHeight="77.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" fx:id="imageCross">
+
+       </ImageView>
     </expandableContent>
    <graphic>
       <Label text="Label" />

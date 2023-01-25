@@ -8,6 +8,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.example.services.SessionService;
+import org.example.services.StorageService;
 
 public class ChangeUsernameController {
 
