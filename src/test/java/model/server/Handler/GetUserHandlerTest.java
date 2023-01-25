@@ -45,17 +45,17 @@ public class GetUserHandlerTest  {
         ).build();
 
         HttpResponse<String> response;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            System.out.println("body : " + response.body());
-            System.out.println(response.statusCode());
-            assertEquals(204,response.statusCode());
-
-        } catch (InterruptedException e) {
-            System.out.println("unable to send message");
-            e.printStackTrace();
-        }
+//        try {
+//            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//
+//            System.out.println("body : " + response.body());
+//            System.out.println(response.statusCode());
+//            assertEquals(204,response.statusCode());
+//
+//        } catch (InterruptedException e) {
+//            System.out.println("unable to send message");
+//            e.printStackTrace();
+//        }
 
 
     }

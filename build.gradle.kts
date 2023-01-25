@@ -20,6 +20,23 @@ application {
     mainClass.set("org.example.Main")
 }
 
+tasks.jar {
+    manifest {
+//        attributes["Class-Path"] = configurations.compile.collect { it.getName() }.join(' ');
+        attributes["Main-Class"] = "org.example.Main"
+//        attributes(mapOf(
+//            "Clavardage-BigSur" to project.name,
+//            "0" to project.version
+//        ),
+////            'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+//        'Main-Class': 'org.example.Main')
+    }
+}
+
+java {
+    withSourcesJar()
+}
+
 repositories {
     mavenCentral()
 }

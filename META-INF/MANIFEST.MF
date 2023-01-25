@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Implementation-Title: Clavardage BigSur
+Implementation-Version: 0.1.0
+Main-Class: org.example.Main
+
