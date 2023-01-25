@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="237.0" prefWidth="480.0" style="-fx-background-color: #f5f6fa;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="237.0" prefWidth="480.0" style="-fx-background-color: #f5f6fa;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.view.ErrorController" >
     <header>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0">
          <children>
@@ -50,9 +50,6 @@
         </image>
     </ImageView>
     </expandableContent>
-   <buttonTypes>
-      <ButtonType fx:constant="CLOSE" />
-   </buttonTypes>
    <graphic>
       <Label text="Label" />
    </graphic>

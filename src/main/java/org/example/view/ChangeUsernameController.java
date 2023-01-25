@@ -31,14 +31,17 @@ public class ChangeUsernameController {
         ErrorDialog ed = new ErrorDialog("Error while changing username, abort.", this.myStage);
         try {
             ed.start(new Stage());
+            myStage.close();
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
         // ----------------
-        parentStage.setTitle("You are connected as " + usernameChange.getText());
+
+        /*parentStage.setTitle("You are connected as " + usernameChange.getText());
         parentStage.show();
-        myStage.close();
+        myStage.close();*/
     }
 
     public void validateCancel(MouseEvent mouseEvent) {

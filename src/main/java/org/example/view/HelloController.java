@@ -179,13 +179,25 @@ public class HelloController {
         Message m = new Message(ss.getM_localUser(), selectedConnectedUser, messageSendField.getText());
 
         if (selectedConnectedUser.getIP() == null) {
+            ErrorDialog ed2 = new ErrorDialog("Error : the IP of the receiver is null", this.myStage);
+            try {
+                ed2.start(new Stage());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             System.out.println("The IP address of the person is null :)");
         } else {
             System.out.println(selectedConnectedUser.getPseudo());
             HTTPService.getInstance()
                     .sendRequest(selectedConnectedUser.getIP(), "/receive_message", HTTPService.HTTPMethods.POST, g.toJson(m)).exceptionally(err -> {
-                System.out.println("Error while sending the message");
-                err.printStackTrace();
+                //System.out.println("Error while sending the message");
+                ErrorDialog ed1 = new ErrorDialog("Error while sending a message", this.myStage);
+                        try {
+                            ed1.start(new Stage());
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        err.printStackTrace();
                 return null;
             });
 

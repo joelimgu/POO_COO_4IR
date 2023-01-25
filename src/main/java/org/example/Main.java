@@ -32,6 +32,7 @@ import org.example.model.conversation.User;
 import org.example.services.HTTPService;
 import org.example.services.SessionService;
 import org.example.services.StorageService;
+import org.example.view.ErrorDialog;
 import org.example.view.LoginApplication;
 import org.example.view.LoginController;
 

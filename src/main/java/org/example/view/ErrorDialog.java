@@ -14,6 +14,7 @@ public class ErrorDialog extends Application {
     public ErrorDialog(String msg, Stage parentStage) {
         errorMessage = msg;
         parentSta = parentStage;
+
     }
 
     @Override
@@ -40,6 +41,9 @@ public class ErrorDialog extends Application {
             parentSta.show();
             stage.close();
         });
+        parentSta.hide();
 
     }
+
+
 }
