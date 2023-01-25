@@ -17,6 +17,7 @@ import org.example.services.SessionService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class HelloApplication extends Application {
@@ -55,18 +56,20 @@ public class HelloApplication extends Application {
 
             SessionService ss = SessionService.getInstance();
 
-            List<ConnectedUser> list = SessionService.getInstance().getConnectedUsers();
+            List<ConnectedUser> list = SessionService.getInstance().getRemoteConnectedUsers();
+            List<CompletableFuture<?>> disconnectFutures = new ArrayList<>();
             for (ConnectedUser cu : list) {
                 System.out.println(cu.getPseudo());
                 if (cu.getIP() == null) {
                     continue;
                 }
-                HTTPService.getInstance().sendRequest(cu.getIP(), "/disconnect", HTTPService.HTTPMethods.POST, g.toJson(ss.getM_localUser())).exceptionally(err -> {
+                disconnectFutures.add(HTTPService.getInstance().sendRequest(cu.getIP(), "/disconnect", HTTPService.HTTPMethods.POST, g.toJson(ss.getM_localUser())).exceptionally(err -> {
                     System.out.println("Error while sending the message");
                     err.printStackTrace();
                     return null;
-                });
+                }));
                 }
+            CompletableFuture.allOf(disconnectFutures.toArray(new CompletableFuture<?>[disconnectFutures.size()])).join();
             // Close all the threads which does not depends on the JavaFX frame by a SIGNAL SIGOK at the end of the execution
             System.exit(0);
 
