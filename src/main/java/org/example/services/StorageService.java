@@ -152,10 +152,8 @@ public class StorageService {
         String query = "select  messages.uuid, messages.sender as sender_uuid, sender.pseudo as sender, messages.receiver as receiver_uuid, receiver.pseudo as receiver, messages.text, sent_at from main.messages\n" +
                 "join users receiver on receiver.uuid=messages.receiver\n" +
                 "join users sender on sender.uuid = messages.sender\n" +
-                "where messages.sender is ?" +
-                "or messages.receiver is ?" +
-                "or messages.sender is ?" +
-                "or messages.receiver is ?" +
+                "where (messages.sender is ? or messages.receiver is ?) and " +
+                "(messages.sender is ? or messages.receiver is ?) " +
                 "order by sent_at";
 
         PreparedStatement p = this.dbConnexion.prepareStatement(query);
