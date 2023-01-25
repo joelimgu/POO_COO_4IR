@@ -10,6 +10,7 @@ import java.lang.reflect.Type;
 import java.net.*;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,6 +55,12 @@ public class Main {
             }
             return;
         }
+//        User user = new User("admin",  UUID.fromString("e6c593ee-cd77-416c-a06e-55edf2597b09"));
+//        try {
+//            StorageService.getInstance().updatePseudo(user, "test");
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
         LoginApplication.main(args);
 
 //            System.out.println();

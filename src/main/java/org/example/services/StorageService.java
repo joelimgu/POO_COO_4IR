@@ -207,4 +207,15 @@ public class StorageService {
     public String getPath() {
         return this.storagePath;
     }
+
+    public void updatePseudo(@NotNull User user, @NotNull String newPseudo) throws SQLException {
+        String query = "UPDATE main.users " +
+                "SET pseudo = ? " +
+                "WHERE uuid==?;";
+        System.out.println("updated user " + user.getPseudo() + " to " + newPseudo);
+        PreparedStatement p = this.dbConnexion.prepareStatement(query);
+        p.setString(1,newPseudo);
+        p.setString(2,user.getUuid().toString());
+        p.executeUpdate();
+    }
 }

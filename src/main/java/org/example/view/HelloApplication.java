@@ -70,7 +70,7 @@ public class HelloApplication extends Application {
                 }));
                 }
             CompletableFuture.allOf(disconnectFutures.toArray(new CompletableFuture<?>[disconnectFutures.size()])).join();
-            // Close all the threads which does not depends on the JavaFX frame by a SIGNAL SIGOK at the end of the execution
+            // Close all the threads which does not depend on the JavaFX frame by a SIGNAL SIGOK at the end of the execution
             System.exit(0);
 
             // Save file
