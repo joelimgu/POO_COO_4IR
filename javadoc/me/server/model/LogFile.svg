@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="116px" preserveAspectRatio="none" style="width:199px;height:116px;background:#FFFFFF;" version="1.1" viewBox="0 0 199 116" width="199px" zoomAndPan="magnify"><defs><filter height="300%" id="fmdwvsxq6s0gt" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[1d73c58c4947b2b770a2ee1a420b030b]
+class me.server.model.LogFile--><a href="LogFile.html" target="_top" title="LogFile.html" xlink:actuate="onRequest" xlink:href="LogFile.html" xlink:show="new" xlink:title="LogFile.html" xlink:type="simple"><rect codeLine="5" fill="#FEFECE" filter="url(#fmdwvsxq6s0gt)" height="84.3516" id="me.server.model.LogFile" style="stroke:#A80036;stroke-width:1.5;" width="157" x="17.5" y="7"/><ellipse cx="51.4" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke:#A80036;stroke-width:1.0;"/><path d="M54.3688,31.6094 Q53.7906,31.9063 53.15,32.0469 Q52.5094,32.2031 51.8063,32.2031 Q49.3063,32.2031 47.9781,30.5625 Q46.6656,28.9063 46.6656,25.7813 Q46.6656,22.6563 47.9781,21 Q49.3063,19.3438 51.8063,19.3438 Q52.5094,19.3438 53.15,19.5 Q53.8063,19.6563 54.3688,19.9531 L54.3688,22.6719 Q53.7438,22.0938 53.15,21.8281 Q52.5563,21.5469 51.9313,21.5469 Q50.5875,21.5469 49.9,22.625 Q49.2125,23.6875 49.2125,25.7813 Q49.2125,27.875 49.9,28.9531 Q50.5875,30.0156 51.9313,30.0156 Q52.5563,30.0156 53.15,29.75 Q53.7438,29.4688 54.3688,28.8906 L54.3688,31.6094 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="48" x="87.1" y="24.9951">LogFile</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="83" x="69.6" y="37.5791">me.server.model</text><line style="stroke:#A80036;stroke-width:1.5;" x1="18.5" x2="173.5" y1="44.9375" y2="44.9375"/><ellipse cx="28.5" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="113" x="37.5" y="59.1479">LogFile(String, long)</text><ellipse cx="28.5" cy="68.7422" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="131" x="37.5" y="71.9526">getLastModified(): Date</text><ellipse cx="28.5" cy="81.5469" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="120" x="37.5" y="84.7573">getFileName(): String</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="192" x="0" y="107.6338">UMLDoclet 2.0.15, PlantUML 1.2021.13</text><!--MD5=[194b8b9ea733567dfa6bf3ce34f40395]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>LogFile\n<size:10>me.server.model" as me.server.model.LogFile [[LogFile.html]] {
+        +LogFile(String, long)
+        +getLastModified(): Date
+        +getFileName(): String
+    }
+
+    center footer UMLDoclet 2.0.15, PlantUML 1.2021.13
+@enduml
+
+PlantUML version 1.2021.13(Mon Nov 01 11:38:45 UTC 2021)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

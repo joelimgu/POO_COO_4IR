@@ -1,0 +1,13 @@
+me.server
+me.server.handlers
+me.server.model
+org.example
+org.example.controler
+org.example.model
+org.example.model.communication.server
+org.example.model.communication.server.handlers
+org.example.model.communication.server.httpEvents
+org.example.model.conversation
+org.example.services
+org.example.services.LogFormatter
+org.example.view

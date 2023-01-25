@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="313px" preserveAspectRatio="none" style="width:1859px;height:313px;background:#FFFFFF;" version="1.1" viewBox="0 0 1859 313" width="1859px" zoomAndPan="magnify"><defs><filter height="300%" id="f1i1ynslbng1ol" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[d987dcae8acb4e937e0c0f6ea6845175]
+class me.server.handlers--><a href="me/server/handlers/package-summary.html" target="_top" title="me/server/handlers/package-summary.html" xlink:actuate="onRequest" xlink:href="me/server/handlers/package-summary.html" xlink:show="new" xlink:title="me/server/handlers/package-summary.html" xlink:type="simple"><rect codeLine="28" fill="#FEFECE" filter="url(#f1i1ynslbng1ol)" height="23.9688" id="me.server.handlers" style="stroke:#A80036;stroke-width:1.5;" width="127" x="168.19" y="91"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="121" x="171.19" y="107.1387">me.server.handlers</text></a><!--MD5=[b57cdc929bf9ddf772c3783d163ab49a]
+class com.sun.net.httpserver--><rect fill="#FEFECE" filter="url(#f1i1ynslbng1ol)" height="23.9688" id="com.sun.net.httpserver" style="stroke:#A80036;stroke-width:1.5;" width="153" x="72.19" y="175"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="147" x="75.19" y="191.1387">com.sun.net.httpserver</text><!--MD5=[15e151e20f60478c6b0b9263cbd1b76c]
+class org.example--><a href="org/example/package-summary.html" target="_top" title="org/example/package-summary.html" xlink:actuate="onRequest" xlink:href="org/example/package-summary.html" xlink:show="new" xlink:title="org/example/package-summary.html" xlink:type="simple"><rect codeLine="30" fill="#FEFECE" filter="url(#f1i1ynslbng1ol)" height="23.9688" id="org.example" style="stroke:#A80036;stroke-width:1.5;" width="83" x="50.19" y="91"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="77" x="53.19" y="107.1387">org.example</text></a><!--MD5=[699a2dc99f90908dc0a73a9fa2e01152]
+class org.example.services--><a href="org/example/services/package-summary.html" target="_top" title="org/example/services/package-summary.html" xlink:actuate="onRequest" xlink:href="org/example/services/package-summary.html" xlink:show="new" xlink:title="org/example/services/package-summary.html" xlink:type="simple"><rect codeLine="32" fill="#FEFECE" filter="url(#f1i1ynslbng1ol)" height="23.9688" id="org.example.services" style="stroke:#A80036;stroke-width:1.5;" width="138" x="577.69" y="7"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="132" x="580.69" y="23.1387">org.example.services</text></a><!--MD5=[872d9b9e4c722d12fb54258481d07f13]
+class org.example.model.conversation--><a href="org/example/model/conversation/package-summary.html" target="_top" title="org/example/model/conversation/package-summary.html" xlink:actuate="onRequest" xlink:href="org/example/model/conversation/package-summary.html" xlink:show="new" xlink:title="org/example/model/conversation/package-summary.html" xlink:type="simple"><rect codeLine="34" fill="#FEFECE" filter="url(#f1i1ynslbng1ol)" height="23.9688" id="org.example.model.conversation" style="stroke:#A80036;stroke-width:1.5;" width="210" x="612.69" y="259"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="204" x="615.69" y="275.1387">org.example.model.conversation</text></a><!--MD5=[a1d3cf8d4848b3001b0b9cc1dd9a8099]
+class org.example.model.communication.server--><a href="org/example/model/communication/server/package-summary.html" target="_top" title="org/example/model/communication/server/package-summary.html" xlink:actuate="onRequest" xlink:href="org/example/model/communication/server/package-summary.html" xlink:show="new" xlink:title="org/example/model/communication/server/package-summary.html" xlink:type="simple"><rect codeLine="36" fill="#FEFECE" filter="url(#f1i1ynslbng1ol)" height="23.9688" id="org.example.model.communication.server" style="stroke:#A80036;stroke-width:1.5;" width="267" x="330.19" y="91"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="261" x="333.19" y="107.1387">org.example.model.communication.server</text></a><!--MD5=[d0f111d7f4b2faf14a785887d4cfc388]
+class org.example.controler--><a href="org/example/controler/package-summary.html" target="_top" title="org/example/controler/package-summary.html" xlink:actuate="onRequest" xlink:href="org/example/controler/package-summary.html" xlink:show="new" xlink:title="org/example/controler/package-summary.html" xlink:type="simple"><rect codeLine="38" fill="#FEFECE" filter="url(#f1i1ynslbng1ol)" height="23.9688" id="org.example.controler" style="stroke:#A80036;stroke-width:1.5;" width="144" x="645.69" y="91"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="138" x="648.69" y="107.1387">org.example.controler</text></a><!--MD5=[4e4e92eb4f83c5fe68c2933a8f91ccd4]
+class org.example.model.communication.server.httpEvents--><a href="org/example/model/communication/server/httpEvents/package-summary.html" target="_top" title="org/example/model/communication/server/httpEvents/package-summary.html" xlink:actuate="onRequest" xlink:href="org/example/model/communication/server/httpEvents/package-summary.html" xlink:show="new" xlink:title="org/example/model/communication/server/httpEvents/package-summary.html" xlink:type="simple"><rect codeLine="40" fill="#FEFECE" filter="url(#f1i1ynslbng1ol)" height="23.9688" id="org.example.model.communication.server.httpEvents" style="stroke:#A80036;stroke-width:1.5;" width="339" x="548.19" y="175"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="333" x="551.19" y="191.1387">org.example.model.communication.server.httpEvents</text></a><!--MD5=[a28d0c0f82cfe51250050ba6eab6461a]
+class org.example.view--><a href="org/example/view/package-summary.html" target="_top" title="org/example/view/package-summary.html" xlink:actuate="onRequest" xlink:href="org/example/view/package-summary.html" xlink:show="new" xlink:title="org/example/view/package-summary.html" xlink:type="simple"><rect codeLine="42" fill="#FEFECE" filter="url(#f1i1ynslbng1ol)" height="23.9688" id="org.example.view" style="stroke:#A80036;stroke-width:1.5;" width="113" x="1217.19" y="175"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="107" x="1220.19" y="191.1387">org.example.view</text></a><!--MD5=[ace0bab5442f7240afa42562f28b4083]
+class javafx.scene.layout--><rect fill="#FEFECE" filter="url(#f1i1ynslbng1ol)" height="23.9688" id="javafx.scene.layout" style="stroke:#A80036;stroke-width:1.5;" width="125" x="1720.19" y="259"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="119" x="1723.19" y="275.1387">javafx.scene.layout</text><!--MD5=[f3fac5395084164b5fd1cd391d283204]
+class javafx.scene.control--><rect fill="#FEFECE" filter="url(#f1i1ynslbng1ol)" height="23.9688" id="javafx.scene.control" style="stroke:#A80036;stroke-width:1.5;" width="131" x="858.19" y="259"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="125" x="861.19" y="275.1387">javafx.scene.control</text><!--MD5=[706cb107120c83b065ef81c03352b3e7]
+class javafx.stage--><rect fill="#FEFECE" filter="url(#f1i1ynslbng1ol)" height="23.9688" id="javafx.stage" style="stroke:#A80036;stroke-width:1.5;" width="81" x="1024.19" y="259"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="75" x="1027.19" y="275.1387">javafx.stage</text><!--MD5=[757901b4585b2052986e083412478a2f]
+class javafx.application--><rect fill="#FEFECE" filter="url(#f1i1ynslbng1ol)" height="23.9688" id="javafx.application" style="stroke:#A80036;stroke-width:1.5;" width="114" x="1140.69" y="259"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="108" x="1143.69" y="275.1387">javafx.application</text><!--MD5=[2f6d9b015fbbbb11ef7c4efdf8a9c49b]
+class javafx.scene.input--><rect fill="#FEFECE" filter="url(#f1i1ynslbng1ol)" height="23.9688" id="javafx.scene.input" style="stroke:#A80036;stroke-width:1.5;" width="119" x="1290.19" y="259"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="113" x="1293.19" y="275.1387">javafx.scene.input</text><!--MD5=[4f97284253b152e706f074f8ecaebdeb]
+class javafx.event--><rect fill="#FEFECE" filter="url(#f1i1ynslbng1ol)" height="23.9688" id="javafx.event" style="stroke:#A80036;stroke-width:1.5;" width="80" x="1444.69" y="259"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="74" x="1447.69" y="275.1387">javafx.event</text><!--MD5=[7ab53c061002d918f07b87dc7b8a8dee]
+class javafx.scene.image--><rect fill="#FEFECE" filter="url(#f1i1ynslbng1ol)" height="23.9688" id="javafx.scene.image" style="stroke:#A80036;stroke-width:1.5;" width="125" x="1560.19" y="259"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="119" x="1563.19" y="275.1387">javafx.scene.image</text><!--MD5=[34756961e15f1611246afaac1bc6cc3b]
+class org.example.model.communication.server.handlers--><a href="org/example/model/communication/server/handlers/package-summary.html" target="_top" title="org/example/model/communication/server/handlers/package-summary.html" xlink:actuate="onRequest" xlink:href="org/example/model/communication/server/handlers/package-summary.html" xlink:show="new" xlink:title="org/example/model/communication/server/handlers/package-summary.html" xlink:type="simple"><rect codeLine="44" fill="#FEFECE" filter="url(#f1i1ynslbng1ol)" height="23.9688" id="org.example.model.communication.server.handlers" style="stroke:#A80036;stroke-width:1.5;" width="326" x="116.69" y="7"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="320" x="119.69" y="23.1387">org.example.model.communication.server.handlers</text></a><!--MD5=[f16b2dbb3aca74c480c8948fea737ce1]
+class org.example.model--><a href="org/example/model/package-summary.html" target="_top" title="org/example/model/package-summary.html" xlink:actuate="onRequest" xlink:href="org/example/model/package-summary.html" xlink:show="new" xlink:title="org/example/model/package-summary.html" xlink:type="simple"><rect codeLine="46" fill="#FEFECE" filter="url(#f1i1ynslbng1ol)" height="23.9688" id="org.example.model" style="stroke:#A80036;stroke-width:1.5;" width="125" x="388.19" y="175"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="119" x="391.19" y="191.1387">org.example.model</text></a><!--MD5=[578368131474f0443cc9259813e0dabb]
+link me.server.handlers to com.sun.net.httpserver--><path codeLine="6" d="M220.49,115.06 C205.89,129.49 180.28,154.79 163.92,170.95 " fill="none" id="me.server.handlers-to-com.sun.net.httpserver" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="159.97,174.85,169.1836,171.3702,163.5269,171.336,163.5612,165.6792,159.97,174.85" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[baef22d5cf1fae75474f9d8e6970e266]
+link org.example to com.sun.net.httpserver--><path codeLine="7" d="M99.37,115.06 C109.32,129.36 126.69,154.36 137.94,170.54 " fill="none" id="org.example-to-com.sun.net.httpserver" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="140.94,174.85,139.0761,165.1791,138.0813,170.7478,132.5126,169.753,140.94,174.85" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[7aac272c59e7dc6c3d6d209b94509fba]
+link org.example.services to org.example.model.conversation--><path codeLine="8" d="M693.65,31.02 C756.89,48.81 865.93,90.74 904.69,175 C926.1,221.57 867.44,245.64 810.28,257.89 " fill="none" id="org.example.services-to-org.example.model.conversation" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="805.11,258.96,814.7398,261.0258,810.0034,257.9328,813.0963,253.1964,805.11,258.96" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[80154e0f8adf5c5df6c45b8a8a965724]
+link org.example.services to org.example.model.communication.server--><path codeLine="9" d="M622.01,31.06 C588.49,46.08 528.66,72.89 492.93,88.9 " fill="none" id="org.example.services-to-org.example.model.communication.server" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="488.27,90.99,498.1188,90.97,492.8349,88.95,494.8549,83.6661,488.27,90.99" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[d14298de7526ed773e457eee82ff4b04]
+link org.example.controler to org.example.model.communication.server.httpEvents--><path codeLine="10" d="M717.69,115.06 C717.69,129.12 717.69,153.51 717.69,169.7 " fill="none" id="org.example.controler-to-org.example.model.communication.server.httpEvents" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="717.69,174.85,721.69,165.85,717.69,169.85,713.69,165.85,717.69,174.85" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[9562a2e05b9c6ad6f26ebb679bc921a5]
+link org.example.view to javafx.scene.layout--><path codeLine="11" d="M1330.59,197.17 C1424.99,212.37 1613.54,242.75 1714.75,259.06 " fill="none" id="org.example.view-to-javafx.scene.layout" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="1719.8,259.87,1711.542,254.503,1714.8624,259.0828,1710.2825,262.4032,1719.8,259.87" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[d5582f467ad645d2851997dd9a454b1e]
+link org.example.view to javafx.scene.control--><path codeLine="12" d="M1226.48,199.06 C1161.2,214.35 1043.74,241.87 975.9,257.77 " fill="none" id="org.example.view-to-javafx.scene.control" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="970.7,258.99,980.3757,260.8286,975.5678,257.848,978.5485,253.0401,970.7,258.99" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[92655af4a97f555b422ea187088785d8]
+link org.example.view to javafx.stage--><path codeLine="13" d="M1245.5,199.06 C1207.06,214.14 1138.34,241.1 1097.59,257.09 " fill="none" id="org.example.view-to-javafx.stage" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="1092.76,258.99,1102.5981,259.4502,1097.4189,257.175,1099.6941,251.9959,1092.76,258.99" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[f416fc15eaa9adaffff083efd1075269]
+link org.example.view to javafx.application--><path codeLine="14" d="M1263.44,199.06 C1250.07,213.49 1226.61,238.79 1211.63,254.95 " fill="none" id="org.example.view-to-javafx.application" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="1208.02,258.85,1217.07,254.9645,1211.4173,255.1815,1211.2004,249.5288,1208.02,258.85" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[118105e286a7f6d850347a730efbc0bb]
+link org.example.view to javafx.scene.input--><path codeLine="15" d="M1283.94,199.06 C1297.31,213.49 1320.76,238.79 1335.74,254.95 " fill="none" id="org.example.view-to-javafx.scene.input" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="1339.36,258.85,1336.1796,249.5288,1335.9627,255.1815,1330.31,254.9645,1339.36,258.85" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[bc5bf7dc808048fe04e3496a16cfca28]
+link org.example.view to org.example.model.conversation--><path codeLine="16" d="M1217.06,196.35 C1117.64,211.01 911.49,241.42 797.61,258.21 " fill="none" id="org.example.view-to-org.example.model.conversation" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="792.59,258.95,802.0771,261.5948,797.5366,258.2209,800.9105,253.6803,792.59,258.95" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[109b9350d03fd5f9639a3c7c5adab033]
+link org.example.view to javafx.event--><path codeLine="17" d="M1302.14,199.06 C1340.95,214.14 1410.33,241.1 1451.47,257.09 " fill="none" id="org.example.view-to-javafx.event" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="1456.35,258.99,1449.4086,252.003,1451.6892,257.1798,1446.5124,259.4604,1456.35,258.99" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[9915bd4acca0c50f66ae243f3cb83cfa]
+link org.example.view to javafx.scene.image--><path codeLine="18" d="M1320.75,199.06 C1385.85,214.35 1502.98,241.87 1570.62,257.77 " fill="none" id="org.example.view-to-javafx.scene.image" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="1575.81,258.99,1567.9615,253.0401,1570.9422,257.848,1566.1343,260.8286,1575.81,258.99" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[5da09896da5b852b751c0b00319b920c]
+link org.example.model.communication.server.httpEvents to org.example.model.conversation--><path codeLine="19" d="M717.69,199.06 C717.69,213.12 717.69,237.51 717.69,253.7 " fill="none" id="org.example.model.communication.server.httpEvents-to-org.example.model.conversation" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="717.69,258.85,721.69,249.85,717.69,253.85,713.69,249.85,717.69,258.85" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[7c3bb6f66b477833aa6fe2d3667bbb99]
+link org.example.model.communication.server.handlers to com.sun.net.httpserver--><path codeLine="20" d="M207.2,31.03 C142.16,42.59 53.79,62.98 32.69,91 C6,126.44 66.26,156.8 109.53,173.13 " fill="none" id="org.example.model.communication.server.handlers-to-com.sun.net.httpserver" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="114.45,174.96,107.4091,168.0734,109.7637,173.2169,104.6201,175.5715,114.45,174.96" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[022ab7b4a77d364a310a05ed48ee521d]
+link org.example.model.communication.server.handlers to org.example.model.communication.server--><path codeLine="21" d="M304.5,31.06 C338.2,46.08 398.36,72.89 434.28,88.9 " fill="none" id="org.example.model.communication.server.handlers-to-org.example.model.communication.server" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="438.97,90.99,432.3851,83.6661,434.4051,88.95,429.1212,90.97,438.97,90.99" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[2a86ec4eac7ed52d35e5457f221a1a2c]
+link org.example.model.communication.server to org.example.model--><path codeLine="22" d="M461.93,115.06 C459.7,129.12 455.84,153.51 453.27,169.7 " fill="none" id="org.example.model.communication.server-to-org.example.model" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="452.45,174.85,457.8133,166.5896,453.2349,169.912,449.9125,165.3336,452.45,174.85" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[50a3be6ee68a493b3768c3a21bab82ae]
+link org.example.model.communication.server to org.example.model.conversation--><path codeLine="23" d="M438.21,115.07 C402.34,132.17 344.13,166.46 370.69,199 C400.26,235.24 517.22,253.48 607.26,262.32 " fill="none" id="org.example.model.communication.server-to-org.example.model.conversation" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="612.34,262.81,603.7703,257.9562,607.3636,262.3252,602.9946,265.9185,612.34,262.81" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[5d1c77c9ed4a4aca79e747a1e3f27c24]
+link org.example.model.communication.server to com.sun.net.httpserver--><path codeLine="24" d="M421.2,115.06 C362.57,130.32 257.16,157.76 196.05,173.67 " fill="none" id="org.example.model.communication.server-to-com.sun.net.httpserver" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="191,174.99,200.7163,176.6003,195.8396,173.7337,198.7062,168.857,191,174.99" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[cbec197da7e4833b5597787581e9f782]
+link org.example.model.communication.server to org.example.model.communication.server.httpEvents--><path codeLine="25" d="M497.94,115.06 C544.94,130.23 629.2,157.43 678.61,173.38 " fill="none" id="org.example.model.communication.server-to-org.example.model.communication.server.httpEvents" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="683.57,174.99,676.243,168.4086,678.8139,173.4475,673.775,176.0183,683.57,174.99" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="192" x="827.095" y="305.251">UMLDoclet 2.0.15, PlantUML 1.2021.13</text><!--MD5=[fa6e9ccadd638517ed0ad22ac7fc7f23]
+@startuml
+    set namespaceSeparator none
+    hide circle
+    hide empty fields
+    hide empty methods
+
+    me.server.handlers - -> com.sun.net.httpserver
+    org.example - -> com.sun.net.httpserver
+    org.example.services - -> org.example.model.conversation
+    org.example.services - -> org.example.model.communication.server
+    org.example.controler - -> org.example.model.communication.server.httpEvents
+    org.example.view - -> javafx.scene.layout
+    org.example.view - -> javafx.scene.control
+    org.example.view - -> javafx.stage
+    org.example.view - -> javafx.application
+    org.example.view - -> javafx.scene.input
+    org.example.view - -> org.example.model.conversation
+    org.example.view - -> javafx.event
+    org.example.view - -> javafx.scene.image
+    org.example.model.communication.server.httpEvents - -> org.example.model.conversation
+    org.example.model.communication.server.handlers - -> com.sun.net.httpserver
+    org.example.model.communication.server.handlers - -> org.example.model.communication.server
+    org.example.model.communication.server - -> org.example.model
+    org.example.model.communication.server - -> org.example.model.conversation
+    org.example.model.communication.server - -> com.sun.net.httpserver
+    org.example.model.communication.server - -> org.example.model.communication.server.httpEvents
+
+    ' Package links
+    class "me.server.handlers" [[me/server/handlers/package-summary.html]] {
+    }
+    class "org.example" [[org/example/package-summary.html]] {
+    }
+    class "org.example.services" [[org/example/services/package-summary.html]] {
+    }
+    class "org.example.model.conversation" [[org/example/model/conversation/package-summary.html]] {
+    }
+    class "org.example.model.communication.server" [[org/example/model/communication/server/package-summary.html]] {
+    }
+    class "org.example.controler" [[org/example/controler/package-summary.html]] {
+    }
+    class "org.example.model.communication.server.httpEvents" [[org/example/model/communication/server/httpEvents/package-summary.html]] {
+    }
+    class "org.example.view" [[org/example/view/package-summary.html]] {
+    }
+    class "org.example.model.communication.server.handlers" [[org/example/model/communication/server/handlers/package-summary.html]] {
+    }
+    class "org.example.model" [[org/example/model/package-summary.html]] {
+    }
+
+    center footer UMLDoclet 2.0.15, PlantUML 1.2021.13
+@enduml
+
+@startuml
+    set namespaceSeparator none
+    hide circle
+    hide empty fields
+    hide empty methods
+
+    me.server.handlers - -> com.sun.net.httpserver
+    org.example - -> com.sun.net.httpserver
+    org.example.services - -> org.example.model.conversation
+    org.example.services - -> org.example.model.communication.server
+    org.example.controler - -> org.example.model.communication.server.httpEvents
+    org.example.view - -> javafx.scene.layout
+    org.example.view - -> javafx.scene.control
+    org.example.view - -> javafx.stage
+    org.example.view - -> javafx.application
+    org.example.view - -> javafx.scene.input
+    org.example.view - -> org.example.model.conversation
+    org.example.view - -> javafx.event
+    org.example.view - -> javafx.scene.image
+    org.example.model.communication.server.httpEvents - -> org.example.model.conversation
+    org.example.model.communication.server.handlers - -> com.sun.net.httpserver
+    org.example.model.communication.server.handlers - -> org.example.model.communication.server
+    org.example.model.communication.server - -> org.example.model
+    org.example.model.communication.server - -> org.example.model.conversation
+    org.example.model.communication.server - -> com.sun.net.httpserver
+    org.example.model.communication.server - -> org.example.model.communication.server.httpEvents
+
+    class "me.server.handlers" [[me/server/handlers/package-summary.html]] {
+    }
+    class "org.example" [[org/example/package-summary.html]] {
+    }
+    class "org.example.services" [[org/example/services/package-summary.html]] {
+    }
+    class "org.example.model.conversation" [[org/example/model/conversation/package-summary.html]] {
+    }
+    class "org.example.model.communication.server" [[org/example/model/communication/server/package-summary.html]] {
+    }
+    class "org.example.controler" [[org/example/controler/package-summary.html]] {
+    }
+    class "org.example.model.communication.server.httpEvents" [[org/example/model/communication/server/httpEvents/package-summary.html]] {
+    }
+    class "org.example.view" [[org/example/view/package-summary.html]] {
+    }
+    class "org.example.model.communication.server.handlers" [[org/example/model/communication/server/handlers/package-summary.html]] {
+    }
+    class "org.example.model" [[org/example/model/package-summary.html]] {
+    }
+
+    center footer UMLDoclet 2.0.15, PlantUML 1.2021.13
+@enduml
+
+PlantUML version 1.2021.13(Mon Nov 01 11:38:45 UTC 2021)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

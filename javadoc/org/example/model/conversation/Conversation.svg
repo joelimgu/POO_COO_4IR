@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="232px" preserveAspectRatio="none" style="width:254px;height:232px;background:#FFFFFF;" version="1.1" viewBox="0 0 254 232" width="254px" zoomAndPan="magnify"><defs><filter height="300%" id="f1a91t6nwx3bzl" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[dec8bf1de4f08de699652902ca0a3d50]
+class org.example.model.conversation.Conversation--><a href="Conversation.html" target="_top" title="Conversation.html" xlink:actuate="onRequest" xlink:href="Conversation.html" xlink:show="new" xlink:title="Conversation.html" xlink:type="simple"><rect codeLine="5" fill="#FEFECE" filter="url(#f1a91t6nwx3bzl)" height="97.1563" id="org.example.model.conversation.Conversation" style="stroke:#A80036;stroke-width:1.5;" width="233" x="7" y="105"/><ellipse cx="40.9" cy="123.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke:#A80036;stroke-width:1.0;"/><path d="M43.8688,129.6094 Q43.2906,129.9063 42.65,130.0469 Q42.0094,130.2031 41.3063,130.2031 Q38.8063,130.2031 37.4781,128.5625 Q36.1656,126.9063 36.1656,123.7813 Q36.1656,120.6563 37.4781,119 Q38.8063,117.3438 41.3063,117.3438 Q42.0094,117.3438 42.65,117.5 Q43.3063,117.6563 43.8688,117.9531 L43.8688,120.6719 Q43.2438,120.0938 42.65,119.8281 Q42.0563,119.5469 41.4313,119.5469 Q40.0875,119.5469 39.4,120.625 Q38.7125,121.6875 38.7125,123.7813 Q38.7125,125.875 39.4,126.9531 Q40.0875,128.0156 41.4313,128.0156 Q42.0563,128.0156 42.65,127.75 Q43.2438,127.4688 43.8688,126.8906 L43.8688,129.6094 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="91" x="93.1" y="122.9951">Conversation</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="159" x="59.1" y="135.5791">org.example.model.conversation</text><line style="stroke:#A80036;stroke-width:1.5;" x1="8" x2="239" y1="142.9375" y2="142.9375"/><ellipse cx="18" cy="153.9375" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="110" x="27" y="157.1479">Conversation(User)</text><ellipse cx="18" cy="166.7422" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="207" x="27" y="169.9526">Conversation(User, List&lt;Message&gt;)</text><ellipse cx="18" cy="179.5469" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="95" x="27" y="182.7573">getUser1(): User</text><ellipse cx="18" cy="192.3516" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="181" x="27" y="195.562">getMessages(): List&lt;Message&gt;</text></a><!--MD5=[5a5af9b0547913863cbe0ddf55a9ab5e]
+class java.io.Serializable--><rect codeLine="12" fill="#FEFECE" filter="url(#f1a91t6nwx3bzl)" height="37.9375" id="java.io.Serializable" style="stroke:#A80036;stroke-width:1.5;" width="108" x="69.5" y="7"/><ellipse cx="84.5" cy="25.9688" fill="#B4A7E5" rx="11" ry="11" style="stroke:#A80036;stroke-width:1.0;"/><path d="M80.4219,21.7344 L80.4219,19.5781 L87.8125,19.5781 L87.8125,21.7344 L85.3438,21.7344 L85.3438,29.8125 L87.8125,29.8125 L87.8125,31.9688 L80.4219,31.9688 L80.4219,29.8125 L82.8906,29.8125 L82.8906,21.7344 L80.4219,21.7344 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="76" x="98.5" y="24.9951">Serializable</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacing" textLength="33" x="120" y="37.5791">java.io</text><!--MD5=[00f0a0aea3e04fff267958a6ff49a5aa]
+reverse link java.io.Serializable to org.example.model.conversation.Conversation--><path codeLine="14" d="M123.5,65.52 C123.5,77.97 123.5,91.93 123.5,104.96 " fill="none" id="java.io.Serializable-backto-org.example.model.conversation.Conversation" style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="116.5,65.25,123.5,45.25,130.5,65.25,116.5,65.25" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="192" x="24.5" y="224.4385">UMLDoclet 2.0.15, PlantUML 1.2021.13</text><!--MD5=[a9f7cc60611d15b474f188305131db11]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>Conversation\n<size:10>org.example.model.conversation" as org.example.model.conversation.Conversation [[Conversation.html]] {
+        +Conversation(User)
+        +Conversation(User, List<Message>)
+        +getUser1(): User
+        +getMessages(): List<Message>
+    }
+
+    interface "<size:14>Serializable\n<size:10>java.io" as java.io.Serializable
+
+    java.io.Serializable <|.. org.example.model.conversation.Conversation
+
+    center footer UMLDoclet 2.0.15, PlantUML 1.2021.13
+@enduml
+
+PlantUML version 1.2021.13(Mon Nov 01 11:38:45 UTC 2021)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

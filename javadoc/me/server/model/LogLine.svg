@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="116px" preserveAspectRatio="none" style="width:199px;height:116px;background:#FFFFFF;" version="1.1" viewBox="0 0 199 116" width="199px" zoomAndPan="magnify"><defs><filter height="300%" id="f5ag2v66uhc7m" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[aa5bcf5277ce3936db73ced20a258ce5]
+class me.server.model.LogLine--><a href="LogLine.html" target="_top" title="LogLine.html" xlink:actuate="onRequest" xlink:href="LogLine.html" xlink:show="new" xlink:title="LogLine.html" xlink:type="simple"><rect codeLine="5" fill="#FEFECE" filter="url(#f5ag2v66uhc7m)" height="84.3516" id="me.server.model.LogLine" style="stroke:#A80036;stroke-width:1.5;" width="146" x="23" y="7"/><ellipse cx="51.95" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke:#A80036;stroke-width:1.0;"/><path d="M54.9188,31.6094 Q54.3406,31.9063 53.7,32.0469 Q53.0594,32.2031 52.3563,32.2031 Q49.8563,32.2031 48.5281,30.5625 Q47.2156,28.9063 47.2156,25.7813 Q47.2156,22.6563 48.5281,21 Q49.8563,19.3438 52.3563,19.3438 Q53.0594,19.3438 53.7,19.5 Q54.3563,19.6563 54.9188,19.9531 L54.9188,22.6719 Q54.2938,22.0938 53.7,21.8281 Q53.1063,21.5469 52.4813,21.5469 Q51.1375,21.5469 50.45,22.625 Q49.7625,23.6875 49.7625,25.7813 Q49.7625,27.875 50.45,28.9531 Q51.1375,30.0156 52.4813,30.0156 Q53.1063,30.0156 53.7,29.75 Q54.2938,29.4688 54.9188,28.8906 L54.9188,31.6094 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="53" x="84.05" y="24.9951">LogLine</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="83" x="69.05" y="37.5791">me.server.model</text><line style="stroke:#A80036;stroke-width:1.5;" x1="24" x2="168" y1="44.9375" y2="44.9375"/><ellipse cx="34" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="120" x="43" y="59.1479">LogLine(UUID, String)</text><ellipse cx="34" cy="68.7422" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="86" x="43" y="71.9526">getUuid(): UUID</text><ellipse cx="34" cy="81.5469" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="111" x="43" y="84.7573">getLogLine(): String</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="192" x="0" y="107.6338">UMLDoclet 2.0.15, PlantUML 1.2021.13</text><!--MD5=[eead7e3544a8dce24b9142578b7a6801]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>LogLine\n<size:10>me.server.model" as me.server.model.LogLine [[LogLine.html]] {
+        +LogLine(UUID, String)
+        +getUuid(): UUID
+        +getLogLine(): String
+    }
+
+    center footer UMLDoclet 2.0.15, PlantUML 1.2021.13
+@enduml
+
+PlantUML version 1.2021.13(Mon Nov 01 11:38:45 UTC 2021)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

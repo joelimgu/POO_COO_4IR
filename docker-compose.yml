@@ -1,9 +1,0 @@
-version: "3.9"
-services:
-  node1:
-    container_name: logs
-    build: . // you can also use joelimgu/projet-java:latest
-    volumes:
-      - ./logs:/usr/src/POO_COO_4IR
-    ports:
-      - "2000:2000"

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="205px" preserveAspectRatio="none" style="width:279px;height:205px;background:#FFFFFF;" version="1.1" viewBox="0 0 279 205" width="279px" zoomAndPan="magnify"><defs><filter height="300%" id="f1o29k6y5qptub" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[ced112636b2f2da9416c129dc4461526]
+class org.example.model.conversation.Message--><a href="Message.html" target="_top" title="Message.html" xlink:actuate="onRequest" xlink:href="Message.html" xlink:show="new" xlink:title="Message.html" xlink:type="simple"><rect codeLine="5" fill="#FEFECE" filter="url(#f1o29k6y5qptub)" height="173.9844" id="org.example.model.conversation.Message" style="stroke:#A80036;stroke-width:1.5;" width="258" x="7" y="7"/><ellipse cx="52.25" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke:#A80036;stroke-width:1.0;"/><path d="M55.2188,31.6094 Q54.6406,31.9063 54,32.0469 Q53.3594,32.2031 52.6563,32.2031 Q50.1563,32.2031 48.8281,30.5625 Q47.5156,28.9063 47.5156,25.7813 Q47.5156,22.6563 48.8281,21 Q50.1563,19.3438 52.6563,19.3438 Q53.3594,19.3438 54,19.5 Q54.6563,19.6563 55.2188,19.9531 L55.2188,22.6719 Q54.5938,22.0938 54,21.8281 Q53.4063,21.5469 52.7813,21.5469 Q51.4375,21.5469 50.75,22.625 Q50.0625,23.6875 50.0625,25.7813 Q50.0625,27.875 50.75,28.9531 Q51.4375,30.0156 52.7813,30.0156 Q53.4063,30.0156 54,29.75 Q54.5938,29.4688 55.2188,28.8906 L55.2188,31.6094 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63" x="120.75" y="24.9951">Message</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="159" x="72.75" y="37.5791">org.example.model.conversation</text><line style="stroke:#A80036;stroke-width:1.5;" x1="8" x2="264" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="232" x="27" y="59.1479">Message(UUID, User, User, String, Date)</text><ellipse cx="18" cy="68.7422" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="163" x="27" y="71.9526">Message(User, User, String)</text><ellipse cx="18" cy="81.5469" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="117" x="27" y="84.7573">getSendTime(): Date</text><ellipse cx="18" cy="94.3516" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="92" x="27" y="97.562">getText(): String</text><ellipse cx="18" cy="107.1563" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="115" x="27" y="110.3667">setText(String): void</text><ellipse cx="18" cy="119.9609" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="102" x="27" y="123.1714">getSender(): User</text><ellipse cx="18" cy="132.7656" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="125" x="27" y="135.9761">setSender(User): void</text><ellipse cx="18" cy="145.5703" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="109" x="27" y="148.7808">getReceiver(): User</text><ellipse cx="18" cy="158.375" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="132" x="27" y="161.5854">setReceiver(User): void</text><ellipse cx="18" cy="171.1797" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="86" x="27" y="174.3901">getUuid(): UUID</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="192" x="40" y="197.2666">UMLDoclet 2.0.15, PlantUML 1.2021.13</text><!--MD5=[47b4d1c8c7b60eb9fe7674e96a102dea]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>Message\n<size:10>org.example.model.conversation" as org.example.model.conversation.Message [[Message.html]] {
+        +Message(UUID, User, User, String, Date)
+        +Message(User, User, String)
+        +getSendTime(): Date
+        +getText(): String
+        +setText(String): void
+        +getSender(): User
+        +setSender(User): void
+        +getReceiver(): User
+        +setReceiver(User): void
+        +getUuid(): UUID
+    }
+
+    center footer UMLDoclet 2.0.15, PlantUML 1.2021.13
+@enduml
+
+PlantUML version 1.2021.13(Mon Nov 01 11:38:45 UTC 2021)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
