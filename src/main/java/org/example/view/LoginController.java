@@ -28,14 +28,24 @@ public class LoginController {
         myStage.close();
     }
 
-    public void validateOK(MouseEvent mouseEvent) throws IOException, InterruptedException {
+    public void validateOK(MouseEvent mouseEvent) throws IOException {
         /* TODO : Verify the username to check if it is used
            if yes : tell to the user to retry
            if no : validate and go to the main frame
          */
         StartSessionController s = new StartSessionController();
         String username = loginText.getText();
-        s.startSession(username);
+        try {
+            s.startSession(username);
+        } catch (InterruptedException | IOException e) {
+            ErrorDialog ed = new ErrorDialog("Error : the username is already used", this.myStage);
+            try {
+                ed.start(new Stage());
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        }
         startSession(null);
     }
 
