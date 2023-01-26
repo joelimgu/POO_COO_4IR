@@ -8,8 +8,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.example.model.conversation.ConnectedUser;
+import org.example.model.conversation.User;
 import org.example.services.SessionService;
 import org.example.services.StorageService;
+
+import java.sql.SQLException;
+import java.util.List;
 
 public class ChangeUsernameController {
 
@@ -30,20 +35,40 @@ public class ChangeUsernameController {
 
         // ---- TO DELETE WHILE DOING THE REAL FUNCTION -----
 
-        ErrorDialog ed = new ErrorDialog("Error while changing username, abort.", this.myStage);
-        try {
-            ed.start(new Stage());
-            myStage.close();
+        String username = usernameChange.getText();
+        boolean isUsedUsername = false;
+        List<ConnectedUser> lu = SessionService.getInstance().getConnectedUsers();
+        for (User u : lu) {
+            if (u.getPseudo().equals(username)) {
+                isUsedUsername = true;
+            }
+        }
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if (!isUsedUsername) {
+            try {
+                StorageService.getInstance().updatePseudo(SessionService.getInstance().getM_localUser(), username);
+                parentStage.setTitle("You are connected as " + usernameChange.getText());
+                parentStage.show();
+                myStage.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+
+            ErrorDialog ed = new ErrorDialog("Error while changing username, abort.", this.myStage);
+            try {
+                ed.start(new Stage());
+                myStage.close();
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
 
         // ----------------
 
-        /*parentStage.setTitle("You are connected as " + usernameChange.getText());
-        parentStage.show();
-        myStage.close();*/
+
+
     }
 
     public void validateCancel(MouseEvent mouseEvent) {
