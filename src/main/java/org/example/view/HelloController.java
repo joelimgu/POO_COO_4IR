@@ -20,10 +20,7 @@ import javafx.scene.layout.*;
 
 import javafx.stage.Stage;
 
-import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
-import org.example.model.communication.server.httpEvents.HTTPEvent;
-import org.example.model.communication.server.httpEvents.NewMessageEvent;
-import org.example.model.communication.server.httpEvents.UserDisconnectedEvent;
+import org.example.model.communication.server.httpEvents.*;
 import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.Conversation;
 import org.example.model.conversation.Message;
@@ -120,10 +117,32 @@ public class HelloController {
                 });
                // resubscribe();
             }
+
+            if (ev.getClass() == ChangedPseudoEvent.class) {
+                ChangedPseudoEvent culr = (ChangedPseudoEvent) ev;
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        updatePseudoUsername(culr.updatedUser);
+                    }
+
+                });
+                // resubscribe();
+            }
+
         });
 
 
 
+    }
+
+    public void updatePseudoUsername(User u) {
+        for (int i = 0; i < listPeopleConnected.getChildren().size(); i++) {
+            PersonObject po = (PersonObject) listPeopleConnected.getChildren().get(i);
+            if (po.getUUID().equals(u.getUuid())) {
+                po.setNewUsername(u.getPseudo());
+            }
+        }
     }
 
     public void setStage(Stage s) {
@@ -138,44 +157,12 @@ public class HelloController {
 
     // TODO : delete this function or put a new behaviour (this one is useless)
     public void addNewPerson(MouseEvent mouseEvent) {
-
-      /* PersonObject po = new PersonObject(new ConnectedUser("re", null), true);
-
-        // *****  LISTENER CONFIGURATION *****
-
-        // Here : get(0) in order to get the textField area of the person you want to append
-        TextField p1 = (TextField) po.getChildren().get(0);
-
-        // Put a listener to the TextField in order to print the conversation linked to this user
-        p1.setOnMouseClicked(
-                event -> {
-                    // *** ACCESS TO UUID ** ///
-                    UUID uuid = po.getUUID();
-                    System.out.println(uuid.toString());
-                    chatList.getChildren().clear();
-                    chatList.getChildren().add(new MessageObject("This is a conversation with " + po.getUsername(), true));
-                    chatList.getChildren().add(new MessageObject("Yes we currently talk with " + po.getUsername() + " !", false));
-                    chatList.getChildren().add(new MessageObject("And here a second message with " + po.getUsername() + " !", false));
-
-                    // ********************* //
-                }
-        );
-
-        // ***** END OF LISTENER CONFIGURATION *****
-
-
-        // Add to the main frame
-        listPeopleConnected.getChildren().add(po);*
-
-       */
+        System.out.println("You have clicked on the chat VBOX ! :)");
 
     }
 
 
     public void sendMessageClick(MouseEvent mouseEvent) {
-
-
-
 
         MessageObject mo;
 
