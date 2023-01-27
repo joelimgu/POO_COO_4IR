@@ -85,64 +85,41 @@ public class HelloController {
             // Case of disconnected user -> delete user from the main frame
             if (ev.getClass() == UserDisconnectedEvent.class) {
                 UserDisconnectedEvent culr = (UserDisconnectedEvent) ev;
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        deleteUser(culr.u);
-                    }
-                });
+                Platform.runLater(() -> deleteUser(culr.u));
             }
 
             // Case of a new user connected -> refreshing connected users frame
             if (ev.getClass() == ConnectedUsersListReceived.class) {
                 ConnectedUsersListReceived culr = (ConnectedUsersListReceived) ev;
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        addConnectedUser(culr.connectedUsers);
-                    }
-
-                });
+                Platform.runLater(() -> addConnectedUser(culr.connectedUsers));
             }
 
             // Case of a new message received -> print it in the frame and save it to the database
             if (ev.getClass() == NewMessageEvent.class) {
                 NewMessageEvent culr = (NewMessageEvent) ev;
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        addNewIncomingMessage(culr.getM());
-                    }
-
-                });
-               // resubscribe();
+                Platform.runLater(() -> addNewIncomingMessage(culr.getM()));
             }
 
             if (ev.getClass() == ChangedPseudoEvent.class) {
                 ChangedPseudoEvent culr = (ChangedPseudoEvent) ev;
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        updatePseudoUsername(culr.updatedUser);
-                    }
-
-                });
-                // resubscribe();
+                Platform.runLater(() -> updatePseudoUsername(culr.updatedUser));
             }
 
         });
 
-
-
     }
 
     public void updatePseudoUsername(User u) {
-        System.out.println("----- TTTEEESSSTTT ---------");
         for (int i = 0; i < listPeopleConnected.getChildren().size(); i++) {
             PersonObject po = (PersonObject) listPeopleConnected.getChildren().get(i);
             if (po.getUUID().equals(u.getUuid())) {
                 po.setNewUsername(u.getPseudo());
                 SessionService.getInstance().updatePseudo(po.getConnectedUser(), u.getPseudo());
+                try {
+                    StorageService.getInstance().updatePseudo(po.getConnectedUser(), u.getPseudo());
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
