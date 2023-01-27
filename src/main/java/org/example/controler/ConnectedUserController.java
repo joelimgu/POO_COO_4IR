@@ -36,8 +36,8 @@ public class ConnectedUserController implements Runnable {
                             System.out.println("Removing user from connectedUsers list: " + test.getPseudo());
                             SessionService.getInstance().deleteConnectedUserByName(test.getPseudo());
                             // TODO : Link this to the controller user
-                HelloController hco = HelloApplication.hc;
-                Platform.runLater(() -> {hco.deleteUser(test);});
+                            HelloController hco = HelloApplication.hc;
+                            Platform.runLater(() -> {hco.deleteUser(test);});
                             return null;
                         });
 
