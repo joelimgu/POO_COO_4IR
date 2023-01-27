@@ -64,7 +64,12 @@ public class HTTPService {
             request = baseRequest.GET().build();
         } else if (method == HTTPMethods.POST) {
             request = baseRequest.POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
+        } else if (method == HTTPMethods.PUT) {
+            request = baseRequest.PUT(HttpRequest.BodyPublishers.ofString(requestBody)).build();
+        } else if (method == HTTPMethods.DELETE) {
+            request = baseRequest.DELETE().build();
         }
+
         CompletableFuture<HttpResponse<String>> r = this.serv.sendAsync(request, HttpResponse.BodyHandlers.ofString());
         r.exceptionally((e) -> {
             System.out.println("Error shile sending HTTP request to: " + uri);
