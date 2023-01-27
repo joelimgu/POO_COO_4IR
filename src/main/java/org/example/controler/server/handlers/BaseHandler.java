@@ -1,6 +1,6 @@
-package org.example.model.communication.server.handlers;
+package org.example.controler.server.handlers;
 
-import org.example.model.communication.server.HTTPServer;
+import org.example.controler.server.HTTPServer;
 import org.jetbrains.annotations.NotNull;
 
 public class BaseHandler {

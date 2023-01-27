@@ -1,8 +1,6 @@
-package org.example.model.communication.server;
+package org.example.controler.server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import org.example.HTTPRequest;
 import org.example.model.CustomObservable;
 import org.example.model.CustomObserver;
 import org.example.model.conversation.ConnectedUser;
@@ -11,12 +9,8 @@ import org.example.services.HTTPService;
 import org.example.services.SessionService;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.net.*;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.net.http.HttpTimeoutException;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 

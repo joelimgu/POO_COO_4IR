@@ -2,9 +2,9 @@ package org.example.controler;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.example.model.communication.server.UDPBroadcast;
-import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
-import org.example.model.communication.server.httpEvents.HTTPEvent;
+import org.example.controler.server.UDPBroadcast;
+import org.example.model.communication.httpEvents.ConnectedUsersListReceived;
+import org.example.model.communication.httpEvents.HTTPEvent;
 import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.User;
 import org.example.services.HTTPService;
