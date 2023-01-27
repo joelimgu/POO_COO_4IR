@@ -72,7 +72,7 @@ public class HTTPService {
 
         CompletableFuture<HttpResponse<String>> r = this.serv.sendAsync(request, HttpResponse.BodyHandlers.ofString());
         r.exceptionally((e) -> {
-            System.out.println("Error shile sending HTTP request to: " + uri);
+            System.out.println("Error while sending HTTP request to: " + uri);
             return null;
         });
         return r;

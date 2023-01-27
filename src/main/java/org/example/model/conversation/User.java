@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class User {
-    private final String pseudo;
+    private String pseudo;
     private final UUID uuid;
 
     public User(@NotNull String pseudo) {
@@ -30,7 +30,9 @@ public class User {
     public String getPseudo() {
         return pseudo;
     }
-
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
     public UUID getUuid() {
         return uuid;
     }

@@ -123,12 +123,12 @@ public class SessionService {
         return new ArrayList<>(this.usersConnected.values());
     }
 
+    public synchronized void updatePseudo(User u, String newPseudo) {
+        this.usersConnected.get(u.getUuid()).setPseudo(newPseudo);
+    }
+
     synchronized public ConnectedUser deleteConnectedUserByName(String pseudo) {
-        /*ConnectedUser u = this.connectedUsers.stream().filter((c) -> c.getPseudo().equals(pseudo))
-                .collect(Collectors.toList()).get(0);
-        this.connectedUsers.remove(u);
-        return u;*/
-        
+
         AtomicReference<ConnectedUser> u = new AtomicReference<>();
 
         usersConnected.forEach(
