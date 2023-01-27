@@ -18,6 +18,7 @@ public class PersonObject extends BorderPane {
 
     private ImageView image;
     private ConnectedUser user;
+    TextField textPersonConnect;
 
     public PersonObject(ConnectedUser u, boolean status)  {
         user = u;
@@ -33,7 +34,7 @@ public class PersonObject extends BorderPane {
         image.setFitHeight(13);
         image.setFitWidth(13);
         image.setStyle("-fx-alignment: center");
-        TextField textPersonConnect = new TextField(u.getPseudo());
+        textPersonConnect = new TextField(u.getPseudo());
         textPersonConnect.setFont(Font.font("Liberation Mono", FontWeight.NORMAL, 12));
         textPersonConnect.setBackground(Background.EMPTY);
         textPersonConnect.setPrefSize(130,20);
@@ -53,6 +54,10 @@ public class PersonObject extends BorderPane {
 
     public String getUsername() {
         return user.getPseudo();
+    }
+
+    public void setNewUsername(String s) {
+        textPersonConnect.setText(s);
     }
 
     public UUID getUUID() {
