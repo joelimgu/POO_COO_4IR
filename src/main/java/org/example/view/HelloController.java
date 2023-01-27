@@ -137,15 +137,11 @@ public class HelloController {
     }
 
     public void updatePseudoUsername(User u) {
+        System.out.println("----- TTTEEESSSTTT ---------");
         for (int i = 0; i < listPeopleConnected.getChildren().size(); i++) {
             PersonObject po = (PersonObject) listPeopleConnected.getChildren().get(i);
             if (po.getUUID().equals(u.getUuid())) {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        po.setNewUsername(u.getPseudo());
-                    }
-                });
+                po.setNewUsername(u.getPseudo());
             }
         }
     }
