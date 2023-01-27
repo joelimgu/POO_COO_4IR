@@ -1,5 +1,6 @@
 package org.example.controler;
 
+import javafx.application.Platform;
 import org.example.model.conversation.ConnectedUser;
 import org.example.services.HTTPService;
 import org.example.services.SessionService;
@@ -36,7 +37,7 @@ public class ConnectedUserController implements Runnable {
                             SessionService.getInstance().deleteConnectedUserByName(test.getPseudo());
                             // TODO : Link this to the controller user
                 HelloController hco = HelloApplication.hc;
-                hco.deleteUser(test);
+                Platform.runLater(() -> {hco.deleteUser(test);});
                             return null;
                         });
 

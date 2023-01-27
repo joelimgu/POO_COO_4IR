@@ -142,6 +142,7 @@ public class HelloController {
             PersonObject po = (PersonObject) listPeopleConnected.getChildren().get(i);
             if (po.getUUID().equals(u.getUuid())) {
                 po.setNewUsername(u.getPseudo());
+                SessionService.getInstance().updatePseudo(po.getConnectedUser(), u.getPseudo());
             }
         }
     }
