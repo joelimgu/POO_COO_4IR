@@ -64,8 +64,9 @@ public class ChangeUsernameController {
         if (!isUsedUsername) {
             try {
                 Gson g = new GsonBuilder().setPrettyPrinting().create();
+                User localUser = SessionService.getInstance().getM_localUser();
                 SessionService.getInstance().getRemoteConnectedUsers().forEach((u) -> {
-                    HTTPService.getInstance().sendRequest(u.getIP(),"/update_pseudo", HTTPService.HTTPMethods.PUT, g.toJson(u));
+                    HTTPService.getInstance().sendRequest(u.getIP(),"/update_pseudo", HTTPService.HTTPMethods.PUT, g.toJson(localUser));
                 });
                 StorageService.getInstance().updatePseudo(SessionService.getInstance().getM_localUser(), username);
                 parentStage.setTitle("You are connected as " + usernameChange.getText());
