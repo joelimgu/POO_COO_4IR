@@ -24,6 +24,9 @@ public class ChangeUsenameApplication extends Application {
         controller.setStage(stage, parentStage);
         // ---------------------------------------------------------------------------
 
+        stage.setOnCloseRequest(event -> {
+            parentStage.show();
+        });
         //stage.setResizable(false);
         stage.setTitle("Change your username");
         stage.setScene(scene);

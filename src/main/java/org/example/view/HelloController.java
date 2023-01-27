@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -138,7 +139,7 @@ public class HelloController {
     // TODO : delete this function or put a new behaviour (this one is useless)
     public void addNewPerson(MouseEvent mouseEvent) {
 
-        PersonObject po = new PersonObject(new ConnectedUser("re", null), true);
+      /* PersonObject po = new PersonObject(new ConnectedUser("re", null), true);
 
         // *****  LISTENER CONFIGURATION *****
 
@@ -164,22 +165,17 @@ public class HelloController {
 
 
         // Add to the main frame
-        listPeopleConnected.getChildren().add(po);
+        listPeopleConnected.getChildren().add(po);*
+
+       */
 
     }
 
 
     public void sendMessageClick(MouseEvent mouseEvent) {
 
-        if (selectedConnectedUser == null) {
-            ErrorDialog ed3 = new ErrorDialog("Error : You need to select a conversation before", this.myStage);
-            try {
-                ed3.start(new Stage());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
 
-        }
+
 
         MessageObject mo;
 
@@ -301,23 +297,53 @@ public class HelloController {
         System.out.println("We try to delete an user of type : " + u.toString());
         for(int i = 0; i < listPeopleConnected.getChildren().size(); i++) {
             PersonObject po =  (PersonObject) listPeopleConnected.getChildren().get(i);
+            ConnectedUser name = po.getConnectedUser();
             System.out.println(po.getUUID() + "/" + u.getUuid());
             if (po.getUUID().equals(u.getUuid())) {
                 System.out.println("GOOD");
                 listPeopleConnected.getChildren().remove(i);
                 // TODO : Maybe try to find a way to delete an user by his UUID (the username can change)
                 SessionService.getInstance().deleteConnectedUserByName(u.getPseudo());
+                PersonObject po2 = new PersonObject(new ConnectedUser(name.getPseudo(), name.getUuid(), null), false);
+
+                TextField p1 = (TextField) po2.getChildren().get(0);
+                p1.setOnMouseClicked( event -> {
+                    // *** ACCESS TO UUID ** ///
+                    chatList.getChildren().clear();
+                    selectedConnectedUser = po2.getConnectedUser();
+                    System.out.println(selectedConnectedUser.getUuid().toString() + "/" + po2.getConnectedUser().getIP());
+
+                    try {
+                        Conversation c = StorageService.getInstance().getConversation(SessionService.getInstance().getM_localUser(), selectedConnectedUser);
+                        List<Message> messages = c.getMessages();
+                        chatList.getChildren().clear();
+                        for (Message m : messages) {
+                            if (m.getSender().getUuid().equals(SessionService.getInstance().getM_localUser().getUuid())) {
+                                chatList.getChildren().add(new MessageObject(m.getText(), false));
+                            } else {
+                                chatList.getChildren().add(new MessageObject(m.getText(), true));
+                            }
+                        }
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+                listPeopleConnected.getChildren().add(po2);
             }
         }
+
     }
 
     synchronized void addNewIncomingMessage(Message m) {
         MessageObject mo = new MessageObject(m.getText(), true);
-        chatList.getChildren().add(mo);
-        try {
-            StorageService.getInstance().save(m);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        if (selectedConnectedUser != null) {
+            chatList.getChildren().add(mo);
+            try {
+                StorageService.getInstance().save(m);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -329,42 +355,55 @@ public class HelloController {
 
 
             for (User u : lu) {
-                Gson g = new GsonBuilder().setPrettyPrinting().create();
-                System.out.println("Trying to add connected user" + g.toJson(lu));
-                PersonObject po = new PersonObject(new ConnectedUser(u.getPseudo(), u.getUuid(), null), false);
-                System.out.println("IFJODJSOIFIJOSD" + u.toString());
-                TextField p1 = (TextField) po.getChildren().get(0);
 
-                chatList.getChildren().clear();
-                selectedConnectedUser = po.getConnectedUser();
+                boolean isAlreadyPut = false;
 
+                // Check if the UUID of the user is already in the list
 
-                p1.setOnMouseClicked(
-                        event -> {
-                            // *** ACCESS TO UUID ** ///
-                            chatList.getChildren().clear();
-                            selectedConnectedUser = po.getConnectedUser();
-                            System.out.println(selectedConnectedUser.getUuid().toString() + "/" + po.getConnectedUser().getIP());
+                for (int i = 0; i < listPeopleConnected.getChildren().size(); i++) {
+                    PersonObject poo = (PersonObject) listPeopleConnected.getChildren().get(i);
+                    if (u.getUuid().equals(poo.getUUID())) {
+                        isAlreadyPut = true;
+                    }
+                }
 
-                            try {
-                                Conversation c = StorageService.getInstance().getConversation(SessionService.getInstance().getM_localUser(), selectedConnectedUser);
-                                List<Message> messages = c.getMessages();
+                if (!(u.getUuid().equals(ss.getM_localUser().getUuid())) && !isAlreadyPut) {
+                    Gson g = new GsonBuilder().setPrettyPrinting().create();
+                    System.out.println("Trying to add connected user" + g.toJson(lu));
+                    PersonObject po = new PersonObject(new ConnectedUser(u.getPseudo(), u.getUuid(), null), false);
+                    System.out.println("IFJODJSOIFIJOSD" + u.toString());
+                    TextField p1 = (TextField) po.getChildren().get(0);
+
+                    chatList.getChildren().clear();
+                    selectedConnectedUser = po.getConnectedUser();
+
+                    p1.setOnMouseClicked(
+                            event -> {
+                                // *** ACCESS TO UUID ** ///
                                 chatList.getChildren().clear();
-                                for (Message m : messages) {
-                                    if (m.getSender().getUuid().equals(SessionService.getInstance().getM_localUser().getUuid())) {
-                                        chatList.getChildren().add(new MessageObject(m.getText(), false));
-                                    } else {
-                                        chatList.getChildren().add(new MessageObject(m.getText(), true));
-                                    }
-                                }
-                            } catch (SQLException e) {
-                                throw new RuntimeException(e);
-                            }
-                            // ********************* //
-                        }
-                );
-                listPeopleConnected.getChildren().add(po);
+                                selectedConnectedUser = po.getConnectedUser();
+                                System.out.println(selectedConnectedUser.getUuid().toString() + "/" + po.getConnectedUser().getIP());
 
+                                try {
+                                    Conversation c = StorageService.getInstance().getConversation(SessionService.getInstance().getM_localUser(), selectedConnectedUser);
+                                    List<Message> messages = c.getMessages();
+                                    chatList.getChildren().clear();
+                                    for (Message m : messages) {
+                                        if (m.getSender().getUuid().equals(SessionService.getInstance().getM_localUser().getUuid())) {
+                                            chatList.getChildren().add(new MessageObject(m.getText(), false));
+                                        } else {
+                                            chatList.getChildren().add(new MessageObject(m.getText(), true));
+                                        }
+                                    }
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                // ********************* //
+                            }
+                    );
+                    listPeopleConnected.getChildren().add(po);
+
+                }
             }
         }
         isDisconnectedUserPrinted = true;

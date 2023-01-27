@@ -40,6 +40,19 @@ public class ChangeUsernameController {
         // ---- TO DELETE WHILE DOING THE REAL FUNCTION -----
 
         String username = usernameChange.getText();
+
+        if (username.length() == 0) {
+            ErrorDialog ed = new ErrorDialog("Your username is too short", this.myStage);
+            try {
+                ed.start(new Stage());
+                myStage.close();
+                return;
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         boolean isUsedUsername = false;
         List<ConnectedUser> lu = SessionService.getInstance().getConnectedUsers();
         for (User u : lu) {
