@@ -1,5 +1,7 @@
 package org.example.view;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -8,8 +10,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.example.model.communication.server.HTTPServer;
 import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.User;
+import org.example.services.HTTPService;
 import org.example.services.SessionService;
 import org.example.services.StorageService;
 
@@ -46,6 +50,10 @@ public class ChangeUsernameController {
 
         if (!isUsedUsername) {
             try {
+                Gson g = new GsonBuilder().setPrettyPrinting().create();
+                SessionService.getInstance().getRemoteConnectedUsers().forEach((u) -> {
+                    HTTPService.getInstance().sendRequest(u.getIP(),"/update_pseudo", HTTPService.HTTPMethods.PUT, g.toJson(u));
+                });
                 StorageService.getInstance().updatePseudo(SessionService.getInstance().getM_localUser(), username);
                 parentStage.setTitle("You are connected as " + usernameChange.getText());
                 parentStage.show();

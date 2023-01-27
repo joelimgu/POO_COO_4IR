@@ -35,6 +35,7 @@ public class HTTPServer{
         server.createContext("/receive_connected_users_list",new receiveConnectedUsersHandler(this));
         server.createContext("/get_self_ip",new getIPHandler(this));
         server.createContext("/disconnect",new DisconnectHandler(this));
+        server.createContext("/update_pseudo", new UpdatePseudoHandler(this));
 
         ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
         server.setExecutor(threadPoolExecutor);
