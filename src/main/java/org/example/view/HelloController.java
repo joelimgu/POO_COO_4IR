@@ -222,7 +222,6 @@ public class HelloController {
                 Gson g = new GsonBuilder().setPrettyPrinting().create();
                 System.out.println("Trying to add connected user" + g.toJson(users));
                 PersonObject po = new PersonObject(user, true);
-                System.out.println("IFJODJSOIFIJOSD" + user.toString());
                 TextField p1 = (TextField) po.getChildren().get(0);
                 p1.setOnMouseClicked(
                         event -> {
@@ -264,9 +263,7 @@ public class HelloController {
         for(int i = 0; i < listPeopleConnected.getChildren().size(); i++) {
             PersonObject po =  (PersonObject) listPeopleConnected.getChildren().get(i);
             ConnectedUser name = po.getConnectedUser();
-            System.out.println(po.getUUID() + "/" + u.getUuid());
             if (po.getUUID().equals(u.getUuid())) {
-                System.out.println("GOOD");
                 listPeopleConnected.getChildren().remove(i);
                 // TODO : Maybe try to find a way to delete an user by his UUID (the username can change)
                 SessionService.getInstance().deleteConnectedUserByName(u.getPseudo());
@@ -277,7 +274,6 @@ public class HelloController {
                     // *** ACCESS TO UUID ** ///
                     chatList.getChildren().clear();
                     selectedConnectedUser = po2.getConnectedUser();
-                    System.out.println(selectedConnectedUser.getUuid().toString() + "/" + po2.getConnectedUser().getIP());
 
                     try {
                         Conversation c = StorageService.getInstance().getConversation(SessionService.getInstance().getM_localUser(), selectedConnectedUser);
@@ -337,7 +333,6 @@ public class HelloController {
                     Gson g = new GsonBuilder().setPrettyPrinting().create();
                     System.out.println("Trying to add connected user" + g.toJson(lu));
                     PersonObject po = new PersonObject(new ConnectedUser(u.getPseudo(), u.getUuid(), null), false);
-                    System.out.println("IFJODJSOIFIJOSD" + u.toString());
                     TextField p1 = (TextField) po.getChildren().get(0);
 
                     chatList.getChildren().clear();
@@ -348,7 +343,6 @@ public class HelloController {
                                 // *** ACCESS TO UUID ** ///
                                 chatList.getChildren().clear();
                                 selectedConnectedUser = po.getConnectedUser();
-                                System.out.println(selectedConnectedUser.getUuid().toString() + "/" + po.getConnectedUser().getIP());
 
                                 try {
                                     Conversation c = StorageService.getInstance().getConversation(SessionService.getInstance().getM_localUser(), selectedConnectedUser);

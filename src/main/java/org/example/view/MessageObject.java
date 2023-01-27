@@ -35,7 +35,6 @@ public class MessageObject extends BorderPane {
         // Configure the width of the text area to put the background
         if (message.length() < 73) {
             widthConfiguration = (message.length())* (500.0/72) + 15;
-           System.out.println(widthConfiguration);
         } else {
             widthConfiguration = 515;
         }
