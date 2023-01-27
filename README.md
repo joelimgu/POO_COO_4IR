@@ -5,12 +5,16 @@ Group composed of :
 - Asmun Kanane
 - Killian Gonet
 
-# DOC
-## Reactive programming:
-https://www.appsdeveloperblog.com/reactive-programming-creating-publishers-and-subscribers-in-java/
-https://medium.com/javarevisited/completablefuture-usage-and-best-practises-4285c4ceaad4
+# C'est quoi?
 
-You can start the application with no gui with ```gradle run --args='-no-gui'``` to only start the servers.
+# Comment installer?
+
+# Comment on s'en sert?
+
+# Comment developer?
+- git clone
+- JVM 17
+- gradle run ( ou ./gradlew run if gradle is not installed )
 
 # DOC
 You can find the doc of this project in: https://joelimgu.github.io/POO_COO_4IR/javadoc/
