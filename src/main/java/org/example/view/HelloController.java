@@ -171,6 +171,16 @@ public class HelloController {
 
     public void sendMessageClick(MouseEvent mouseEvent) {
 
+        if (selectedConnectedUser == null) {
+            ErrorDialog ed3 = new ErrorDialog("Error : You need to select a conversation before", this.myStage);
+            try {
+                ed3.start(new Stage());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
         MessageObject mo;
 
         Gson g = new GsonBuilder().setPrettyPrinting().create();

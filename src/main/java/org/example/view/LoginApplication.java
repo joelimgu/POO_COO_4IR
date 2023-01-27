@@ -24,6 +24,11 @@ public class LoginApplication extends Application  {
         LoginController controller = fxmlLoader.getController();
         // ---------------------------------------------------------------------------
         controller.setStage(stage);
+
+        stage.setOnCloseRequest(event -> {
+            System.exit(0);
+        });
+
         stage.setResizable(false);
         stage.setTitle("Connexion page");
         stage.setScene(scene);
