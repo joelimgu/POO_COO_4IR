@@ -140,7 +140,12 @@ public class HelloController {
         for (int i = 0; i < listPeopleConnected.getChildren().size(); i++) {
             PersonObject po = (PersonObject) listPeopleConnected.getChildren().get(i);
             if (po.getUUID().equals(u.getUuid())) {
-                po.setNewUsername(u.getPseudo());
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        po.setNewUsername(u.getPseudo());
+                    }
+                });
             }
         }
     }
