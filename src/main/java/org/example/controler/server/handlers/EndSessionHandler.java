@@ -1,16 +1,15 @@
-package org.example.model.communication.server.handlers;
+package org.example.controler.server.handlers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.example.model.communication.server.HTTPServer;
-import org.example.model.communication.server.httpEvents.NewMessageEvent;
+import org.example.controler.server.HTTPServer;
+import org.example.model.communication.httpEvents.NewMessageEvent;
 import org.example.model.conversation.Message;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 public class EndSessionHandler extends BaseHandler implements HttpHandler {
     public EndSessionHandler(@NotNull HTTPServer s){super(s);}

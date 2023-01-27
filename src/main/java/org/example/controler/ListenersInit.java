@@ -1,8 +1,7 @@
 package org.example.controler;
 
-import org.example.model.communication.server.HTTPServer;
-import org.example.model.communication.server.UDPReceive;
-import org.example.services.HTTPService;
+import org.example.controler.server.HTTPServer;
+import org.example.controler.server.UDPReceive;
 import org.example.services.SessionService;
 
 import java.io.IOException;

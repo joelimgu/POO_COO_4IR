@@ -2,18 +2,13 @@ package me.server.handlers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import me.server.model.Log;
 import me.server.model.LogFile;
 import me.server.model.LogLine;
-import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
-import org.example.model.conversation.ConnectedUser;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;

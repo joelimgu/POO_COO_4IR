@@ -1,8 +1,6 @@
 package model.server.Handler;
 
-import org.example.model.communication.server.HTTPServer;
-import org.example.model.conversation.ConnectedUser;
-import org.example.model.conversation.User;
+import org.example.controler.server.HTTPServer;
 import org.example.services.SessionService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

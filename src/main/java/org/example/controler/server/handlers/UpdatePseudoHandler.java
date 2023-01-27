@@ -1,12 +1,12 @@
-package org.example.model.communication.server.handlers;
+package org.example.controler.server.handlers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.example.model.communication.server.HTTPServer;
-import org.example.model.communication.server.httpEvents.ChangedPseudoEvent;
+import org.example.model.communication.httpEvents.ChangedPseudoEvent;
+import org.example.controler.server.HTTPServer;
 import org.example.model.conversation.User;
 import org.jetbrains.annotations.NotNull;
 

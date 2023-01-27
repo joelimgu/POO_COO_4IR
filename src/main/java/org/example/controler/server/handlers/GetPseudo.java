@@ -1,8 +1,8 @@
-package org.example.model.communication.server.handlers;
+package org.example.controler.server.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.example.model.communication.server.HTTPServer;
+import org.example.controler.server.HTTPServer;
 
 import java.io.IOException;
 

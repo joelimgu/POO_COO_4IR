@@ -2,7 +2,6 @@ package me.server;
 
 import com.sun.net.httpserver.HttpServer;
 import me.server.handlers.UploadLogs;
-import org.example.model.communication.server.handlers.*;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

@@ -1,4 +1,4 @@
-package org.example.model.communication.server.handlers;
+package org.example.controler.server.handlers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -6,11 +6,9 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.example.model.communication.server.HTTPServer;
-import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
-import org.example.model.communication.server.httpEvents.NewMessageEvent;
+import org.example.controler.server.HTTPServer;
+import org.example.model.communication.httpEvents.ConnectedUsersListReceived;
 import org.example.model.conversation.ConnectedUser;
-import org.example.model.conversation.Message;
 import org.example.services.SessionService;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,7 +16,6 @@ import java.lang.reflect.Type;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class receiveConnectedUsersHandler extends BaseHandler implements HttpHandler {

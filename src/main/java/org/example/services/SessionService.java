@@ -1,7 +1,7 @@
 package org.example.services;
 
-import org.example.model.communication.server.HTTPServer;
-import org.example.model.communication.server.UDPReceive;
+import org.example.controler.server.HTTPServer;
+import org.example.controler.server.UDPReceive;
 import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.User;
 

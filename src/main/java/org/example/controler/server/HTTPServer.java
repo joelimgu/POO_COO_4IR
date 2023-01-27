@@ -1,12 +1,9 @@
-package org.example.model.communication.server;
+package org.example.controler.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
-import org.example.model.communication.server.handlers.*;
-import org.example.model.CustomObservable;
-import org.example.model.CustomObserver;
-import org.example.model.communication.server.httpEvents.ConnectedUsersListReceived;
-import org.example.model.communication.server.httpEvents.HTTPEvent;
+import org.example.controler.server.handlers.*;
+import org.example.model.communication.httpEvents.HTTPEvent;
 
 import java.io.IOException;
 import java.io.OutputStream;

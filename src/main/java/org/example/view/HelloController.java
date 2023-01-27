@@ -7,7 +7,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -20,7 +19,7 @@ import javafx.scene.layout.*;
 
 import javafx.stage.Stage;
 
-import org.example.model.communication.server.httpEvents.*;
+import org.example.model.communication.httpEvents.*;
 import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.Conversation;
 import org.example.model.conversation.Message;

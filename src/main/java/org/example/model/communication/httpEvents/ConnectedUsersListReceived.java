@@ -1,4 +1,4 @@
-package org.example.model.communication.server.httpEvents;
+package org.example.model.communication.httpEvents;
 
 import org.example.model.conversation.ConnectedUser;
 

@@ -1,4 +1,4 @@
-package org.example.model.communication.server;
+package org.example.controler.server;
 
 import org.example.model.conversation.ConnectedUser;
 

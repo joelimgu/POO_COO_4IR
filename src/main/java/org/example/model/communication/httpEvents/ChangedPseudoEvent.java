@@ -1,8 +1,6 @@
-package org.example.model.communication.server.httpEvents;
+package org.example.model.communication.httpEvents;
 
 import org.example.model.conversation.User;
-
-import java.util.UUID;
 
 public class ChangedPseudoEvent implements HTTPEvent {
     public User updatedUser;
