@@ -2,6 +2,7 @@ package org.example;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.example.services.LoggerService;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -10,7 +11,7 @@ public class MyHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        System.out.println("Request received");
+        LoggerService.getInstance().log("Request received");
         String requestParamValue = null;
         if ("GET".equals(httpExchange.getRequestMethod())) {
             this.handleResponse(httpExchange, requestParamValue);

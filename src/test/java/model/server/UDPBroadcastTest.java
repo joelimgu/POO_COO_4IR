@@ -22,7 +22,7 @@ public class UDPBroadcastTest {
     @BeforeAll
 
     public void m_listener() throws IOException {
-        // System.out.println("Thread is listening");
+        // LoggerService.getInstance().log("Thread is listening");
         UDPReceive listener = new UDPReceive();
         listener.start();
 
@@ -38,10 +38,10 @@ public class UDPBroadcastTest {
 
 //    @Test
 //    public void testNetworkInterface() throws SocketException, UnknownHostException {
-//        System.out.println("printing network interface");
-//        System.out.println("mon local host" + InetAddress.getLocalHost());
+//        LoggerService.getInstance().log("printing network interface");
+//        LoggerService.getInstance().log("mon local host" + InetAddress.getLocalHost());
 //        List<InetAddress> m_list = this.m_broadcaster.listAllBroadcastAddresses();
-//        System.out.println(m_list);
+//        LoggerService.getInstance().log(m_list);
 //
 //    }
     @Test

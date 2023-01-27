@@ -2,6 +2,7 @@ package me.server;
 
 import com.sun.net.httpserver.HttpServer;
 import me.server.handlers.UploadLogs;
+import org.example.services.LoggerService;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -20,7 +21,7 @@ public class HTTPServer {
         server.setExecutor(threadPoolExecutor);
         server.start();
 
-        System.out.println(" Server started on port " + port);
+        LoggerService.getInstance().log(" Server started on port " + port);
     }
 
     public int getPort() {

@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.Message;
 import org.example.services.HTTPService;
+import org.example.services.LoggerService;
 import org.example.services.SessionService;
 
 import java.io.IOException;
@@ -60,13 +61,13 @@ public class HelloApplication extends Application {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }*/
-        System.out.println("AAAH : " + SessionService.getInstance().getConnectedUsers().size());
+        LoggerService.getInstance().log("AAAH : " + SessionService.getInstance().getConnectedUsers().size());
         stage.show();
 
         // SET BEHAVIOUR WHILE CLOSING
         stage.setOnCloseRequest(event -> {
 
-            System.out.println("Stage is closing");
+            LoggerService.getInstance().log("Stage is closing");
             Gson g = new GsonBuilder().setPrettyPrinting().create();
 
             SessionService ss = SessionService.getInstance();
@@ -74,12 +75,12 @@ public class HelloApplication extends Application {
             List<ConnectedUser> list = SessionService.getInstance().getRemoteConnectedUsers();
             List<CompletableFuture<?>> disconnectFutures = new ArrayList<>();
             for (ConnectedUser cu : list) {
-                System.out.println(cu.getPseudo());
+                LoggerService.getInstance().log(cu.getPseudo());
                 if (cu.getIP() == null) {
                     continue;
                 }
                 disconnectFutures.add(HTTPService.getInstance().sendRequest(cu.getIP(), "/disconnect", HTTPService.HTTPMethods.POST, g.toJson(ss.getM_localUser())).exceptionally(err -> {
-                    System.out.println("Error while sending the message");
+                    LoggerService.getInstance().log("Error while sending the message");
                     err.printStackTrace();
                     return null;
                 }));

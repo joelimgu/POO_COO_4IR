@@ -22,7 +22,7 @@ public class GetUserHandlerTest  {
         try {
             GetUserHandlerTest.m_server = new HTTPServer(port);
         } catch (IOException e) {
-            System.out.println("unable to start HTTPServer");
+            LoggerService.getInstance().log("unable to start HTTPServer");
             e.printStackTrace();
         }
     }
@@ -31,7 +31,7 @@ public class GetUserHandlerTest  {
     public void TestUserNull() throws IOException {
   /*      int port = 12345;
         HTTPServer m_server = new HTTPServer(port);
-        System.out.println("Server created at " + port);
+        LoggerService.getInstance().log("Server created at " + port);
         */
 
         SessionService m_session = SessionService.getInstance();
@@ -46,12 +46,12 @@ public class GetUserHandlerTest  {
 //        try {
 //            response = client.send(request, HttpResponse.BodyHandlers.ofString());
 //
-//            System.out.println("body : " + response.body());
-//            System.out.println(response.statusCode());
+//            LoggerService.getInstance().log("body : " + response.body());
+//            LoggerService.getInstance().log(response.statusCode());
 //            assertEquals(204,response.statusCode());
 //
 //        } catch (InterruptedException e) {
-//            System.out.println("unable to send message");
+//            LoggerService.getInstance().log("unable to send message");
 //            e.printStackTrace();
 //        }
 
@@ -63,7 +63,7 @@ public class GetUserHandlerTest  {
 //    public void testUserNotnull() throws IOException,InterruptedException{
 //        /*int port = 1234;
 //        HTTPServer m_server = new HTTPServer(port);
-//        System.out.println("Server created at " + port);*/
+//        LoggerService.getInstance().log("Server created at " + port);*/
 //
 //        User test_user = new User("Asmun");
 //
@@ -77,8 +77,8 @@ public class GetUserHandlerTest  {
 //        ).build();
 //
 //        var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-//        System.out.println("body : " + response.body());
-//        System.out.println(response.statusCode());
+//        LoggerService.getInstance().log("body : " + response.body());
+//        LoggerService.getInstance().log(response.statusCode());
 //    }
 
 }

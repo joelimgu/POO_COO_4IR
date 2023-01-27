@@ -96,7 +96,7 @@ public class SessionService {
     }
 
     synchronized public void addConnectedUser(ConnectedUser u) {
-        System.out.println("New user added : " + u.getPseudo());
+        LoggerService.getInstance().log("New user added : " + u.getPseudo());
 
         AtomicBoolean isInConnectedUsersList = new AtomicBoolean(false);
        /* for (ConnectedUser cu : usersConnected) {

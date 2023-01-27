@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 import org.example.controler.server.handlers.*;
 import org.example.model.communication.httpEvents.HTTPEvent;
+import org.example.services.LoggerService;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -38,7 +39,7 @@ public class HTTPServer{
         server.setExecutor(threadPoolExecutor);
         server.start();
 
-        System.out.println(" Server started on port " + port);
+        LoggerService.getInstance().log(" Server started on port " + port);
     }
 
     /**
@@ -55,10 +56,10 @@ public class HTTPServer{
     }
 
     public void notifyAllSubscribers(HTTPEvent c) {
-        System.out.println("Notifying everyone HTTP");
+        LoggerService.getInstance().log("Notifying everyone HTTP");
         int currentIndex = futureEvent.size() - 1;
         while(futureEvent.size() != 0) {
-            System.out.println("Notified: " + futureEvent.get(currentIndex) );
+            LoggerService.getInstance().log("Notified: " + futureEvent.get(currentIndex) );
             futureEvent.get(currentIndex).complete(c);
             futureEvent.remove(currentIndex);
             currentIndex--;
@@ -73,7 +74,7 @@ public class HTTPServer{
     }*/
 
     synchronized public int addEventList(CompletableFuture<?> cf) {
-        System.out.println("new subscriber");
+        LoggerService.getInstance().log("new subscriber");
         this.futureEvent.add((CompletableFuture<HTTPEvent>) cf);
         return this.futureEvent.size() - 1;
     }

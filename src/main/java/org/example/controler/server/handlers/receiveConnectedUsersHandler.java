@@ -9,6 +9,7 @@ import com.sun.net.httpserver.HttpHandler;
 import org.example.controler.server.HTTPServer;
 import org.example.model.communication.httpEvents.ConnectedUsersListReceived;
 import org.example.model.conversation.ConnectedUser;
+import org.example.services.LoggerService;
 import org.example.services.SessionService;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,17 +27,17 @@ public class receiveConnectedUsersHandler extends BaseHandler implements HttpHan
         if ("POST".equals(httpExchange.getRequestMethod())) {
 //            byte [] response = "thanks".getBytes();
             String body = new String(httpExchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
-            System.out.println("received ConnectedUsers: " + body);
+            LoggerService.getInstance().log("received ConnectedUsers: " + body);
             Gson g = new GsonBuilder().setPrettyPrinting().create();
             Type listType = new TypeToken<ArrayList<ConnectedUser>>(){}.getType();
             try {
                 List<ConnectedUser> connectedUsers = g.fromJson(body, listType);
                 connectedUsers.forEach(s::addConnectedUser);
-                System.out.println("calling notify");
+                LoggerService.getInstance().log("calling notify");
                 this.httpServer.notifyAllSubscribers(new ConnectedUsersListReceived(connectedUsers));
             } catch (JsonSyntaxException e) {
-                System.out.println("Bad JSON formatting in connectedusers[]");
-                System.out.println(body);
+                LoggerService.getInstance().log("Bad JSON formatting in connectedusers[]");
+                LoggerService.getInstance().log(body);
                 e.printStackTrace();
             }
             // TODO: send another error code

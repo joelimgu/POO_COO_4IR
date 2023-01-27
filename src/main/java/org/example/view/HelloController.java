@@ -25,6 +25,7 @@ import org.example.model.conversation.Conversation;
 import org.example.model.conversation.Message;
 import org.example.model.conversation.User;
 import org.example.services.HTTPService;
+import org.example.services.LoggerService;
 import org.example.services.SessionService;
 import org.example.services.StorageService;
 
@@ -66,9 +67,9 @@ public class HelloController {
         SessionService.getInstance().getHttpServer().addEventList(cf);
         cf.thenAccept((ev) -> {
 
-                    System.out.println("CPF executed");
-                    System.out.println("The type of ev is : " + ev.getClass());
-                    System.out.println("The compared type : " + ConnectedUsersListReceived.class);
+                    LoggerService.getInstance().log("CPF executed");
+                    LoggerService.getInstance().log("The type of ev is : " + ev.getClass());
+                    LoggerService.getInstance().log("The compared type : " + ConnectedUsersListReceived.class);
 
 
                 }
@@ -77,8 +78,8 @@ public class HelloController {
         CompletableFuture<HTTPEvent> cfDisco = new CompletableFuture<>();
         SessionService.getInstance().getHttpServer().addEventList(cfDisco);
         cfDisco.thenAccept((ev) -> {
-            System.out.println("The type of ev is : " + ev.getClass());
-            System.out.println("The compared type : " + UserDisconnectedEvent.class);
+            LoggerService.getInstance().log("The type of ev is : " + ev.getClass());
+            LoggerService.getInstance().log("The compared type : " + UserDisconnectedEvent.class);
             resubscribe();
 
             // Case of disconnected user -> delete user from the main frame
@@ -135,7 +136,7 @@ public class HelloController {
 
     // TODO : delete this function or put a new behaviour (this one is useless)
     public void addNewPerson(MouseEvent mouseEvent) {
-        System.out.println("You have clicked on the chat VBOX ! :)");
+        LoggerService.getInstance().log("You have clicked on the chat VBOX ! :)");
 
     }
 
@@ -156,12 +157,12 @@ public class HelloController {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            System.out.println("The IP address of the person is null :)");
+            LoggerService.getInstance().log("The IP address of the person is null :)");
         } else {
-            System.out.println(selectedConnectedUser.getPseudo());
+            LoggerService.getInstance().log(selectedConnectedUser.getPseudo());
             HTTPService.getInstance()
                     .sendRequest(selectedConnectedUser.getIP(), "/receive_message", HTTPService.HTTPMethods.POST, g.toJson(m)).exceptionally(err -> {
-                //System.out.println("Error while sending the message");
+                //LoggerService.getInstance().log("Error while sending the message");
                 ErrorDialog ed1 = new ErrorDialog("Error while sending a message", this.myStage);
                         try {
                             ed1.start(new Stage());
@@ -219,15 +220,15 @@ public class HelloController {
 
             if (!(user.getUuid().equals(SessionService.getInstance().getM_localUser().getUuid()))) {
                 Gson g = new GsonBuilder().setPrettyPrinting().create();
-                System.out.println("Trying to add connected user" + g.toJson(users));
+                LoggerService.getInstance().log("Trying to add connected user" + g.toJson(users));
                 PersonObject po = new PersonObject(user, true);
-                System.out.println("IFJODJSOIFIJOSD" + user.toString());
+                LoggerService.getInstance().log("IFJODJSOIFIJOSD" + user.toString());
                 TextField p1 = (TextField) po.getChildren().get(0);
                 p1.setOnMouseClicked(
                         event -> {
                             // *** ACCESS TO UUID ** ///
                             UUID uuid = po.getUUID();
-                            System.out.println(uuid.toString() + "/" + po.getConnectedUser().getIP());
+                            LoggerService.getInstance().log(uuid.toString() + "/" + po.getConnectedUser().getIP());
                             chatList.getChildren().clear();
                             selectedConnectedUser = po.getConnectedUser();
                             try {
@@ -259,13 +260,13 @@ public class HelloController {
     }
 
     synchronized public void deleteUser(User u) {
-        System.out.println("We try to delete an user of type : " + u.toString());
+        LoggerService.getInstance().log("We try to delete an user of type : " + u.toString());
         for(int i = 0; i < listPeopleConnected.getChildren().size(); i++) {
             PersonObject po =  (PersonObject) listPeopleConnected.getChildren().get(i);
             ConnectedUser name = po.getConnectedUser();
-            System.out.println(po.getUUID() + "/" + u.getUuid());
+            LoggerService.getInstance().log(po.getUUID() + "/" + u.getUuid());
             if (po.getUUID().equals(u.getUuid())) {
-                System.out.println("GOOD");
+                LoggerService.getInstance().log("GOOD");
                 listPeopleConnected.getChildren().remove(i);
                 // TODO : Maybe try to find a way to delete an user by his UUID (the username can change)
                 SessionService.getInstance().deleteConnectedUserByName(u.getPseudo());
@@ -276,7 +277,7 @@ public class HelloController {
                     // *** ACCESS TO UUID ** ///
                     chatList.getChildren().clear();
                     selectedConnectedUser = po2.getConnectedUser();
-                    System.out.println(selectedConnectedUser.getUuid().toString() + "/" + po2.getConnectedUser().getIP());
+                    LoggerService.getInstance().log(selectedConnectedUser.getUuid().toString() + "/" + po2.getConnectedUser().getIP());
 
                     try {
                         Conversation c = StorageService.getInstance().getConversation(SessionService.getInstance().getM_localUser(), selectedConnectedUser);
@@ -334,9 +335,9 @@ public class HelloController {
 
                 if (!(u.getUuid().equals(ss.getM_localUser().getUuid())) && !isAlreadyPut) {
                     Gson g = new GsonBuilder().setPrettyPrinting().create();
-                    System.out.println("Trying to add connected user" + g.toJson(lu));
+                    LoggerService.getInstance().log("Trying to add connected user" + g.toJson(lu));
                     PersonObject po = new PersonObject(new ConnectedUser(u.getPseudo(), u.getUuid(), null), false);
-                    System.out.println("IFJODJSOIFIJOSD" + u.toString());
+                    LoggerService.getInstance().log("IFJODJSOIFIJOSD" + u.toString());
                     TextField p1 = (TextField) po.getChildren().get(0);
 
                     chatList.getChildren().clear();
@@ -347,7 +348,7 @@ public class HelloController {
                                 // *** ACCESS TO UUID ** ///
                                 chatList.getChildren().clear();
                                 selectedConnectedUser = po.getConnectedUser();
-                                System.out.println(selectedConnectedUser.getUuid().toString() + "/" + po.getConnectedUser().getIP());
+                                LoggerService.getInstance().log(selectedConnectedUser.getUuid().toString() + "/" + po.getConnectedUser().getIP());
 
                                 try {
                                     Conversation c = StorageService.getInstance().getConversation(SessionService.getInstance().getM_localUser(), selectedConnectedUser);

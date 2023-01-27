@@ -6,6 +6,7 @@ import org.example.model.CustomObserver;
 import org.example.model.conversation.ConnectedUser;
 import org.example.model.conversation.User;
 import org.example.services.HTTPService;
+import org.example.services.LoggerService;
 import org.example.services.SessionService;
 
 import java.io.IOException;
@@ -54,7 +55,8 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
     /* --------------------------------------------------------------------------*/
     public void run() {
         int port = SessionService.getInstance().getUdp_port();
-        System.out.println("UDP Server started on port: " + port);
+
+        LoggerService.getInstance().log("UDP Server started on port: " + port);
         String lText;
         byte[] lMsg = new byte[MAX_UDP_DATAGRAM_LEN];
         DatagramPacket dp = new DatagramPacket(lMsg, lMsg.length);
@@ -68,7 +70,7 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
                 while (true) {
                     ds.receive(dp);
                     lText = new String(dp.getData());
-                    System.out.println("UDP packet received of len: " + lText.length() + " | " + lText);
+                    LoggerService.getInstance().log("UDP packet received of len: " + lText.length() + " | " + lText);
                     if (s.getM_localUser() == null) {
                         continue;
                     }
@@ -81,19 +83,19 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
                     if (remoteIp.equals(localIp)) {
                         continue;
                     }
-                    System.out.println("received IP: " + localIp);
+                    LoggerService.getInstance().log("received IP: " + localIp);
                     SessionService.getInstance().setLocalIP(localIp);
                     // we include ourselves
                     String connectedUsers = g.toJson(SessionService.getInstance().getConnectedUsers());
                     HTTPService.getInstance()
                             .sendRequest(remoteIp, "/receive_connected_users_list", HTTPService.HTTPMethods.POST, connectedUsers)
-                                    .thenAccept((r) -> System.out.println("Sent http from UDP recv correctly"))
+                                    .thenAccept((r) -> LoggerService.getInstance().log("Sent http from UDP recv correctly"))
                                     .exceptionally((e) -> {
-                                        System.out.println("UDPRECV error: " + e);
-                                        System.out.println("When trying to send HTTP request: " + dp.getAddress() + " and port " + SessionService.getInstance().getHttp_port());
+                                        LoggerService.getInstance().log("UDPRECV error: " + e);
+                                        LoggerService.getInstance().log("When trying to send HTTP request: " + dp.getAddress() + " and port " + SessionService.getInstance().getHttp_port());
                                         return null;
                                     });
-                    System.out.println("send HTTP request from UDP: to " + dp.getAddress() + " and port " + SessionService.getInstance().getHttp_port() + " with users: " + connectedUsers);
+                    LoggerService.getInstance().log("send HTTP request from UDP: to " + dp.getAddress() + " and port " + SessionService.getInstance().getHttp_port() + " with users: " + connectedUsers);
                 }
             } catch (HttpTimeoutException e) {
                 // TODO: log
@@ -113,7 +115,7 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
         byte[] receive = new byte[10000];
         DatagramPacket m_packet = null;
      /*   while (true){
-            System.out.println("listening");
+            LoggerService.getInstance().log("listening");
             m_packet = new DatagramPacket(receive, receive.length);
             m_socket.receive(m_packet);
 
@@ -127,7 +129,7 @@ public class UDPReceive extends Thread implements Runnable, CustomObservable<Lis
         UDPReceive m_runnable = new UDPReceive();
         Thread t1 = new Thread(m_runnable);
         t1.start();
-        System.out.println("I'm the main");
+        LoggerService.getInstance().log("I'm the main");
     }
 
     public void notifyAllSubscribers(List<ConnectedUser> c) {

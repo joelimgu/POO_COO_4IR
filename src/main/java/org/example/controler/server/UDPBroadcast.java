@@ -1,6 +1,7 @@
 package org.example.controler.server;
 
 import org.example.model.conversation.ConnectedUser;
+import org.example.services.LoggerService;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -44,10 +45,10 @@ public class UDPBroadcast {
                     socket.setBroadcast(true);
                     byte[] buffer = BroadcastMessage.getBytes();
                     DatagramPacket packet = new DatagramPacket(buffer, buffer.length, AddrBroadcast, port);
-                    System.out.println("Send BC: " + buffer.length + "en broadcast to" + AddrBroadcast);
+                    LoggerService.getInstance().log("Send BC: " + buffer.length + "en broadcast to" + AddrBroadcast);
 
                     //DatagramPacket packet = new DatagramPacket(buffer,buffer.length,AddrBroadcast,port);
-                    //System.out.println("Envoie du message en broadcast to" + AddrBroadcast );
+                    //LoggerService.getInstance().log("Envoie du message en broadcast to" + AddrBroadcast );
 
                     socket.send(packet);
                     socket.close();
@@ -104,7 +105,7 @@ public class UDPBroadcast {
             DatagramPacket packet;
             try {
                 packet = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(laddr), port);
-                System.out.println("Envoie msg");
+                LoggerService.getInstance().log("Envoie msg");
                 socket.send(packet);
                 socket.close();
             } catch (IOException e) {

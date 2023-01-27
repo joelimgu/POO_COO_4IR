@@ -8,6 +8,7 @@ import com.sun.net.httpserver.HttpHandler;
 import org.example.controler.server.HTTPServer;
 import org.example.model.communication.httpEvents.NewMessageEvent;
 import org.example.model.conversation.Message;
+import org.example.services.LoggerService;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -24,11 +25,11 @@ public class ReceiveMessageHandler extends BaseHandler implements HttpHandler {
             String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
             try {
                 Message m = g.fromJson(body, Message.class);
-                System.out.println("Received message: " + m);
+                LoggerService.getInstance().log("Received message: " + m);
                 this.httpServer.notifyAllSubscribers(new NewMessageEvent(m));
             } catch (JsonSyntaxException e) {
-                System.out.println("Bad JSON formatting in receve message[]");
-                System.out.println(body);
+                LoggerService.getInstance().log("Bad JSON formatting in receve message[]");
+                LoggerService.getInstance().log(body);
                 e.printStackTrace();
             }
             HTTPServer.sendResponse(exchange, "I'm connected\n");

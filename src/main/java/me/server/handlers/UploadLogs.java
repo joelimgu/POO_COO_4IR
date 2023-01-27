@@ -7,6 +7,7 @@ import com.sun.net.httpserver.HttpHandler;
 import me.server.model.Log;
 import me.server.model.LogFile;
 import me.server.model.LogLine;
+import org.example.services.LoggerService;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -23,22 +24,22 @@ public class UploadLogs implements HttpHandler {
         Gson g = new GsonBuilder().setPrettyPrinting().create();
         if (exchange.getRequestMethod().equals("PUT")) {
             String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
-            System.out.println("received logs: " + body);
+            LoggerService.getInstance().log("received logs: " + body);
             try {
                 LogLine lg = g.fromJson(body, LogLine.class);
                 // save the body string to a file named "logs.txt"
                 FileWriter fw = new FileWriter(path + "/" + lg.getUuid() + ".txt", true);
-                System.out.println("writing " + lg.getLogLine() + " to " + lg.getUuid() + ".txt");
+                LoggerService.getInstance().log("writing " + lg.getLogLine() + " to " + lg.getUuid() + ".txt");
                 fw.write(lg.getLogLine());
                 fw.close();
             } catch (Exception e) {
-                System.out.println("Error saving the logs");
+                LoggerService.getInstance().log("Error saving the logs");
                 e.printStackTrace();
             }
             response = "Updated";
         } else if (exchange.getRequestMethod().equals("POST")) {
             String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
-            System.out.println("received log: " + body);
+            LoggerService.getInstance().log("received log: " + body);
             try {
                 Log lg = g.fromJson(body, Log.class);
                 // save the body string to a file named "logs.txt"
@@ -46,7 +47,7 @@ public class UploadLogs implements HttpHandler {
                 fw.write(lg.getLog());
                 fw.close();
             } catch (Exception e) {
-                System.out.println("Error saving the logs");
+                LoggerService.getInstance().log("Error saving the logs");
                 e.printStackTrace();
             }
             response = "Uploaded";
@@ -54,7 +55,7 @@ public class UploadLogs implements HttpHandler {
         else if (exchange.getRequestMethod().equals("GET")) {
             String uri = exchange.getRequestURI().toString();
             String option = uri.split("/")[uri.split("/").length - 1];
-            System.out.println(option);
+            LoggerService.getInstance().log(option);
 
             if (option.equals("list")) {
                 // list all files in a directory
@@ -77,7 +78,7 @@ public class UploadLogs implements HttpHandler {
                 // if you send a uuid you gent a log in return
                 String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
                 try {
-                    System.out.println("tring to get: " + body);
+                    LoggerService.getInstance().log("tring to get: " + body);
                     FileReader fr = new FileReader(path + "/" + option + ".txt");
                     StringBuilder sb = new StringBuilder();
                     int c;

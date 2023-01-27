@@ -51,7 +51,7 @@ public class StorageService {
 //        );
 //        s.setString(1,"Joel");
 //        String m = s.executeQuery().getString("uuid");
-//        System.out.println("Query=" + m);
+//        LoggerService.getInstance().log("Query=" + m);
     }
     public static StorageService getInstance() {
         return StorageService.getInstance("");
@@ -81,7 +81,7 @@ public class StorageService {
     }
 
     public void save(@NotNull Message m) throws SQLException {
-//        System.out.println(m);
+//        LoggerService.getInstance().log(m);
         this.save(m.getSender());
         this.save(m.getReceiver());
         PreparedStatement p = this.dbConnexion.prepareStatement(
@@ -142,7 +142,7 @@ public class StorageService {
         } catch (ParseException e) {
             String colorRed = "\u001B[31m";
             String colorReset = "\u001B[0m";
-            System.out.println(colorRed + "[ERROR] " + e + colorReset );
+            LoggerService.getInstance().log(colorRed + "[ERROR] " + e + colorReset );
             d = new Date();
         }
         return new Message(UUID.fromString(rs.getString("uuid")), sender, receiver, rs.getString("text"), d);
@@ -210,7 +210,7 @@ public class StorageService {
         String query = "UPDATE main.users " +
                 "SET pseudo = ? " +
                 "WHERE uuid==?;";
-        System.out.println("updated user " + user.getPseudo() + " to " + newPseudo);
+        LoggerService.getInstance().log("updated user " + user.getPseudo() + " to " + newPseudo);
         PreparedStatement p = this.dbConnexion.prepareStatement(query);
         p.setString(1,newPseudo);
         p.setString(2,user.getUuid().toString());

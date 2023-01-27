@@ -30,6 +30,7 @@ import org.example.model.conversation.Conversation;
 import org.example.model.conversation.Message;
 import org.example.model.conversation.User;
 import org.example.services.HTTPService;
+import org.example.services.LoggerService;
 import org.example.services.SessionService;
 import org.example.services.StorageService;
 import org.example.view.ErrorDialog;
@@ -43,9 +44,9 @@ public class Main {
 //        if (true) {
 //            return;
 //        }
-        System.out.println(Arrays.toString(args));
+        LoggerService.getInstance().log(Arrays.toString(args));
         if (Arrays.asList(args).contains("no-gui")) {
-            System.out.println("Running with no gui");
+            LoggerService.getInstance().log("Running with no gui");
             ListenersInit.startServers();
             return;
         } else if(Arrays.asList(args).contains("server")) {
@@ -64,7 +65,7 @@ public class Main {
 //        }
         LoginApplication.main(args);
 
-//            System.out.println();
+//            LoggerService.getInstance().log();
 //        List<String> ips = new ArrayList<>();
 //        try {
 //            Enumeration<NetworkInterface> nics = NetworkInterface
@@ -81,7 +82,7 @@ public class Main {
 //            e.printStackTrace();
 //        }
 //        String ip = ips.stream().filter((s) -> s.startsWith("10.") || s.contains("192.")).toList().get(0);
-//        System.out.println("IPs: " + ip);
+//        LoggerService.getInstance().log("IPs: " + ip);
 ////        new HTTPServer(8001);
 //        Dotenv dotenv = Dotenv.configure().load();
 //        // Get the directory where data will be stored, either configured on the .env or tmp by default

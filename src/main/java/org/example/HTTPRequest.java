@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.services.LoggerService;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -20,7 +22,7 @@ public class HTTPRequest {
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         // the response:
-        System.out.println(response.body());
+        LoggerService.getInstance().log(response.body());
 //        System.out.printf(response.statusCode());
     }
     

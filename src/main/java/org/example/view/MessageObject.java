@@ -8,6 +8,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import org.example.services.LoggerService;
 
 public class MessageObject extends BorderPane {
 
@@ -35,7 +36,7 @@ public class MessageObject extends BorderPane {
         // Configure the width of the text area to put the background
         if (message.length() < 73) {
             widthConfiguration = (message.length())* (500.0/72) + 15;
-           System.out.println(widthConfiguration);
+           LoggerService.getInstance().log(String.valueOf(widthConfiguration));
         } else {
             widthConfiguration = 515;
         }
