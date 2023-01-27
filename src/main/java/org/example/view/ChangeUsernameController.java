@@ -65,6 +65,7 @@ public class ChangeUsernameController {
             try {
                 Gson g = new GsonBuilder().setPrettyPrinting().create();
                 User localUser = SessionService.getInstance().getM_localUser();
+                SessionService.getInstance().getM_localUser().setPseudo(username);
                 SessionService.getInstance().getRemoteConnectedUsers().forEach((u) -> {
                     HTTPService.getInstance().sendRequest(u.getIP(),"/update_pseudo", HTTPService.HTTPMethods.PUT, g.toJson(localUser));
                 });
