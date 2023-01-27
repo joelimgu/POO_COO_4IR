@@ -35,6 +35,17 @@ public class LoginController {
          */
         StartSessionController s = new StartSessionController();
         String username = loginText.getText();
+
+        if (username.length() == 0) {
+            ErrorDialog ed = new ErrorDialog("Error : the username is too short", this.myStage);
+            try {
+                ed.start(new Stage());
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+            return;
+        }
+
         try {
             s.startSession(username);
         } catch (InterruptedException | IOException e) {
@@ -54,6 +65,4 @@ public class LoginController {
             validateOK(null);
         }
     }
-
-
 }

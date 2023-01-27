@@ -151,7 +151,7 @@ public class HelloController {
         Message m = new Message(ss.getM_localUser(), selectedConnectedUser, messageSendField.getText());
 
         if (selectedConnectedUser.getIP() == null) {
-            ErrorDialog ed2 = new ErrorDialog("Error : the IP of the receiver is null", this.myStage);
+            ErrorDialog ed2 = new ErrorDialog("Error : the user is not connected", this.myStage);
             try {
                 ed2.start(new Stage());
             } catch (Exception e) {
